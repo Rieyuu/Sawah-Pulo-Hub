@@ -14,5 +14,14 @@ class Facility extends Model
         'slug',
         'description',
         'image_path',
+        'user_id',
     ];
+
+    /**
+     * Relasi ke User (admin pembuat/pengubah fasilitas)
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
