@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_purchases', function (Blueprint $table) {
+        Schema::create('ticket_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('total_price', 10, 2);
-            $table->string('status')->default('pending'); // e.g. pending, paid, cancelled
+            $table->string('proof_of_payment')->nullable();
+            $table->enum('status', ['pending_payment', 'pending', 'success', 'failed'])->default('pending_payment');
+            $table->boolean('is_used')->default(false);
+            $table->timestamp('used_at')->nullable();
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_purchases');
+        Schema::dropIfExists('ticket_orders');
     }
 };

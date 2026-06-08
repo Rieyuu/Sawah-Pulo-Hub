@@ -13,7 +13,16 @@ class SiteSetting extends Model
         'key',
         'value',
         'type',
+        'user_id',
     ];
+
+    /**
+     * Relasi ke User (admin pengubah setting)
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Static helper untuk mengambil nilai setting secara langsung
@@ -31,7 +40,11 @@ class SiteSetting extends Model
     {
         return self::updateOrCreate(
             ['key' => $key],
-            ['value' => $value, 'type' => $type]
+            [
+                'value' => $value, 
+                'type' => $type,
+                'user_id' => auth()->check() ? auth()->id() : null
+            ]
         );
     }
 }
