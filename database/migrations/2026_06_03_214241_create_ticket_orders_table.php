@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('total_price', 10, 2);
+            $table->string('ticket_code')->unique();
             $table->string('proof_of_payment')->nullable();
             $table->enum('status', ['pending_payment', 'pending', 'success', 'failed'])->default('pending_payment');
             $table->boolean('is_used')->default(false);

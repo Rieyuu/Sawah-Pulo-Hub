@@ -14,6 +14,7 @@ class TicketOrder extends Model
         'ticket_id',
         'quantity',
         'total_price',
+        'ticket_code',
         'proof_of_payment',
         'status',
         'is_used',
