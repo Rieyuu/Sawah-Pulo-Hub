@@ -16,6 +16,7 @@ class Ticket extends Model
         'stock',
         'image_path',
         'is_active',
+        'user_id',
     ];
 
     protected $casts = [
@@ -24,10 +25,18 @@ class Ticket extends Model
     ];
 
     /**
-     * Relasi ke Ticket Purchases
+     * Relasi ke User (admin pembuat/pengubah tiket)
      */
-    public function ticketPurchases()
+    public function user()
     {
-        return $this->hasMany(TicketPurchase::class);
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relasi ke Ticket Orders
+     */
+    public function ticketOrders()
+    {
+        return $this->hasMany(TicketOrder::class);
     }
 }

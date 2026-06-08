@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TicketPurchase extends Model
+class TicketOrder extends Model
 {
     use HasFactory;
 
@@ -14,11 +14,22 @@ class TicketPurchase extends Model
         'ticket_id',
         'quantity',
         'total_price',
+        'proof_of_payment',
         'status',
+        'is_used',
+        'used_at',
+        'expired_at',
+    ];
+
+    protected $casts = [
+        'total_price' => 'decimal:2',
+        'is_used' => 'boolean',
+        'used_at' => 'datetime',
+        'expired_at' => 'datetime',
     ];
 
     /**
-     * Relasi ke User
+     * Relasi ke User (pembeli)
      */
     public function user()
     {
@@ -26,7 +37,7 @@ class TicketPurchase extends Model
     }
 
     /**
-     * Relasi ke Ticket
+     * Relasi ke Ticket (tiket yang dipesan)
      */
     public function ticket()
     {

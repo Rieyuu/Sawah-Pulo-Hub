@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('image_path')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }
