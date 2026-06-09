@@ -80,11 +80,13 @@
             <!-- Sidebar Footer / Admin Profile -->
             <div class="p-4 border-t border-slate-800">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white font-bold flex items-center justify-center" x-text="userInitials"></div>
-                    <div class="flex-grow min-w-0">
-                        <p class="text-sm font-semibold text-slate-200 truncate" x-text="userName"></p>
-                        <p class="text-xs text-slate-500 truncate">Administrator</p>
-                    </div>
+                    <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 flex-grow min-w-0 group hover:opacity-90">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-600 group-hover:bg-emerald-500 text-white font-bold flex items-center justify-center transition-colors" x-text="userInitials"></div>
+                        <div class="flex-grow min-w-0">
+                            <p class="text-sm font-semibold text-slate-200 truncate group-hover:text-emerald-400 transition-colors" x-text="userName"></p>
+                            <p class="text-xs text-slate-500 truncate">Administrator</p>
+                        </div>
+                    </a>
                     <button @click="logout" class="p-1.5 text-slate-500 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     </button>

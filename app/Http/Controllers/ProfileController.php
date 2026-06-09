@@ -26,6 +26,7 @@ class ProfileController extends Controller
                     'email' => $user->email,
                     'whatsapp' => $user->whatsapp,
                     'is_active' => $user->is_active,
+                    'is_using_default_password' => $user->is_using_default_password,
                 ]
             ]
         ], 200);
@@ -82,6 +83,7 @@ class ProfileController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'whatsapp' => $user->whatsapp,
+                    'is_using_default_password' => $user->is_using_default_password,
                 ]
             ]
         ], 200);

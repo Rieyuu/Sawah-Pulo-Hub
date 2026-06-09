@@ -1,6 +1,20 @@
 <x-admin-layout activeRoute="dashboard" header="Ringkasan Dashboard">
     <div class="space-y-8 animate-fade-in" x-data="adminDashboardController()" x-init="initDashboard()">
         
+        <!-- Peringatan Keamanan Kata Sandi Bawaan -->
+        <div x-show="reports.is_using_default_password" class="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-red-850 dark:text-red-400" x-cloak>
+            <div class="flex items-center gap-3">
+                <span class="text-2xl animate-pulse">⚠️</span>
+                <div class="text-left">
+                    <h4 class="font-bold text-sm">Peringatan Keamanan Kata Sandi</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Anda masih menggunakan kata sandi bawaan seeder. Demi keamanan data wisata, silakan segera ubah kata sandi Anda.</p>
+                </div>
+            </div>
+            <a href="{{ route('admin.profile') }}" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-red-500/10">
+                Ubah Kata Sandi Sekarang
+            </a>
+        </div>
+
         <!-- Welcome Card -->
         <div class="relative bg-gradient-to-r from-emerald-600 to-teal-500 rounded-3xl p-6 sm:p-8 text-white overflow-hidden shadow-xl shadow-emerald-500/10">
             <div class="absolute right-0 bottom-0 top-0 opacity-10 pointer-events-none">

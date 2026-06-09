@@ -38,6 +38,19 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
+    protected $appends = [
+        'is_using_default_password',
+    ];
+
+    /**
+     * Cek apakah user menggunakan password bawaan 'password'
+     */
+    public function getIsUsingDefaultPasswordAttribute(): bool
+    {
+        return \Illuminate\Support\Facades\Hash::check('password', $this->password);
+    }
+
+
     /**
      * Get the attributes that should be cast.
      *

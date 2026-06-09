@@ -121,6 +121,7 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'whatsapp' => $user->whatsapp,
                     'roles' => $user->roles->pluck('slug')->toArray(),
+                    'is_using_default_password' => $user->is_using_default_password,
                 ],
                 'access_token' => $accessToken,
                 'refresh_token' => $refreshToken,
