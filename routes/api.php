@@ -17,6 +17,13 @@ use App\Http\Controllers\AdminSettingController;
 // Guest (Unauthenticated) Routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/categories', function () {
+    return response()->json([
+        'status' => 200,
+        'message' => 'Categories retrieved successfully',
+        'data' => \App\Models\Category::all()
+    ]);
+});
 
 // Authenticated Routes (Protected by Custom Stateful JWT Middleware)
 Route::middleware('jwt')->group(function () {
