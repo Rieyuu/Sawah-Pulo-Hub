@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminSettingController;
 use App\Http\Controllers\TicketOrderController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminScanController;
+use App\Http\Controllers\AdminReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +90,9 @@ Route::middleware('jwt')->group(function () {
         Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
         Route::post('/orders/{id}/approve', [AdminOrderController::class, 'approve']);
         Route::post('/orders/{id}/reject', [AdminOrderController::class, 'reject']);
+
+        // Reports
+        Route::get('/reports/dashboard', [AdminReportController::class, 'dashboardStats']);
     });
 });
 
