@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminSettingController;
 use App\Http\Controllers\TicketOrderController;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\AdminScanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::middleware('jwt')->group(function () {
         // Tickets CRUD
         Route::get('/tickets', [AdminTicketController::class, 'index']);
         Route::post('/tickets', [AdminTicketController::class, 'store']);
+        Route::post('/tickets/scan', [AdminScanController::class, 'scan']);
         Route::get('/tickets/{id}', [AdminTicketController::class, 'show']);
         Route::put('/tickets/{id}', [AdminTicketController::class, 'update']);
         Route::post('/tickets/{id}', [AdminTicketController::class, 'update']);
