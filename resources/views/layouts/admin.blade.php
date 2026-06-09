@@ -66,6 +66,11 @@
                     Verifikasi Pembayaran
                 </a>
 
+                <a href="{{ route('admin.scan') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all" :class="activeRoute === 'scan' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/10' : 'hover:bg-slate-800 hover:text-slate-200'">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m0 14v1m8-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M9 9h6v6H9V9z"></path></svg>
+                    Scan Tiket Masuk
+                </a>
+
                 <a href="{{ route('admin.settings') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all" :class="activeRoute === 'settings' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/10' : 'hover:bg-slate-800 hover:text-slate-200'">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     Pengaturan Global
