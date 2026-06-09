@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminSettingController;
+use App\Http\Controllers\TicketOrderController;
+use App\Http\Controllers\AdminOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,12 @@ Route::middleware('jwt')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile', [ProfileController::class, 'destroy']);
+
+    // Ticket Orders (Tourist)
+    Route::post('/orders', [TicketOrderController::class, 'store']);
+    Route::post('/orders/{id}/upload-payment', [TicketOrderController::class, 'uploadPayment']);
+    Route::get('/orders/history', [TicketOrderController::class, 'history']);
+    Route::get('/orders/{id}', [TicketOrderController::class, 'show']);
 
     // Admin Master Data Routes
     Route::middleware('jwt:admin')->prefix('admin')->group(function () {
@@ -66,6 +74,13 @@ Route::middleware('jwt')->group(function () {
         // Settings
         Route::get('/settings', [AdminSettingController::class, 'index']);
         Route::post('/settings', [AdminSettingController::class, 'update']);
+
+        // Ticket Orders Management
+        Route::get('/orders', [AdminOrderController::class, 'index']);
+        Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
+        Route::post('/orders/{id}/approve', [AdminOrderController::class, 'approve']);
+        Route::post('/orders/{id}/reject', [AdminOrderController::class, 'reject']);
     });
 });
+
 
