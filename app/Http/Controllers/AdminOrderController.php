@@ -12,6 +12,8 @@ class AdminOrderController extends Controller
      */
     public function index(Request $request)
     {
+        TicketOrder::checkAndCancelExpired();
+
         $query = TicketOrder::with(['user:id,name,email,whatsapp', 'ticket']);
 
         if ($request->has('status')) {

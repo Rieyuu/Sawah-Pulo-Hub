@@ -14,6 +14,20 @@
             <span class="font-medium">Gagal!</span> <span x-text="errorMessage"></span>
         </div>
 
+        <!-- Countdown Timer -->
+        <div x-show="!loading && order" class="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-amber-800 dark:text-amber-400" x-cloak>
+            <div class="flex items-center gap-3">
+                <span class="text-2xl animate-pulse">⏰</span>
+                <div>
+                    <h4 class="font-bold text-sm">Selesaikan Pembayaran Sebelum Waktu Habis</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Pesanan Anda akan dibatalkan otomatis jika bukti transfer belum dikirim.</p>
+                </div>
+            </div>
+            <div class="text-2xl font-mono font-black tracking-widest bg-amber-500 text-white dark:bg-amber-400 dark:text-slate-950 py-1.5 px-4 rounded-xl shadow-md" x-text="countdownText">
+                00:00:00
+            </div>
+        </div>
+
         <!-- Loading -->
         <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
@@ -26,12 +40,28 @@
             <div class="md:col-span-2 space-y-6">
                 <!-- Bank Info -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-                    <h3 class="font-bold text-slate-900 dark:text-white">Tujuan Transfer Bank</h3>
+                    <h3 class="font-bold text-slate-900 dark:text-white">Pilihan Metode Pembayaran</h3>
                     
+                    <!-- QRIS -->
+                    <div class="flex flex-col items-center justify-center p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-4">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Opsi 1: Scan QRIS Resmi</span>
+                        <div class="p-3 bg-white rounded-xl shadow-inner border border-slate-100">
+                            <img :src="order.payment_qris_image" alt="QRIS Pembayaran Resmi" class="w-48 h-48 object-contain" />
+                        </div>
+                        <p class="text-[10px] text-slate-400 text-center max-w-xs">Mendukung semua aplikasi e-wallet (Gopay, OVO, Dana, LinkAja) & M-Banking.</p>
+                    </div>
+
+                    <div class="relative flex py-2 items-center">
+                        <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                        <span class="flex-shrink mx-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Atau Transfer Bank</span>
+                        <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                    </div>
+
+                    <!-- Bank Transfer -->
                     <div class="space-y-4">
                         <div class="p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-between">
                             <div class="space-y-1">
-                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Bank Mandiri</span>
+                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Opsi 2: Bank Mandiri</span>
                                 <h4 class="text-lg font-black text-slate-800 dark:text-slate-200">142-0017-8899-23</h4>
                                 <p class="text-xs text-slate-400">a.n. BUMDes Wisata Sawah Pulo</p>
                             </div>
@@ -53,7 +83,7 @@
                     
                     <form @submit.prevent="submitPayment()" class="space-y-4">
                         <div>
-                            <input type="file" @change="handleFileUpload($event)" accept="image/jpeg,image/png,image/jpg" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
+                            <input type="file" @change="handleFileUpload($event)" accept="image/jpeg,image/png,image/jpg" required :disabled="timerExpired" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer disabled:opacity-50" />
                             <p class="text-[10px] text-slate-400 mt-2">Format yang diizinkan: JPG, JPEG, PNG (Maksimal 2MB).</p>
                             <p x-show="errors.proof_of_payment" x-text="errors.proof_of_payment[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
@@ -65,7 +95,7 @@
                             </div>
                         </template>
 
-                        <button type="submit" :disabled="submitting || !imageFile" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all duration-200">
+                        <button type="submit" :disabled="submitting || !imageFile || timerExpired" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all duration-200">
                             <span x-show="submitting" class="inline-block animate-spin mr-1">&#9696;</span>
                             Unggah Bukti Transfer
                         </button>
@@ -114,6 +144,9 @@
                 imageFile: null,
                 imagePreview: null,
                 errors: {},
+                countdownText: '00:00:00',
+                timerExpired: false,
+                timerInterval: null,
                 fetchOrder() {
                     const token = localStorage.getItem('access_token');
                     
@@ -128,11 +161,41 @@
                         if (this.order.status !== 'pending_payment') {
                             window.location.href = '/profile/history';
                         }
+
+                        // Mulai hitung mundur
+                        this.startTimer(this.order.payment_deadline);
                     })
                     .catch(err => {
                         this.loading = false;
                         this.errorMessage = 'Gagal memuat detail pesanan.';
                     });
+                },
+                startTimer(deadlineStr) {
+                    if (!deadlineStr) return;
+                    const deadline = new Date(deadlineStr).getTime();
+
+                    const updateTimer = () => {
+                        const now = new Date().getTime();
+                        const diff = deadline - now;
+
+                        if (diff <= 0) {
+                            clearInterval(this.timerInterval);
+                            this.countdownText = '00:00:00';
+                            this.timerExpired = true;
+                            this.errorMessage = 'Batas waktu pembayaran telah habis. Pesanan dibatalkan otomatis.';
+                            return;
+                        }
+
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        const pad = (num) => String(num).padStart(2, '0');
+                        this.countdownText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+                    };
+
+                    updateTimer();
+                    this.timerInterval = setInterval(updateTimer, 1000);
                 },
                 handleFileUpload(e) {
                     if (e.target.files.length > 0) {

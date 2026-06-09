@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\AdminArticleController;
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminSettingController;
 use App\Http\Controllers\TicketOrderController;
 use App\Http\Controllers\AdminOrderController;
@@ -70,6 +71,12 @@ Route::middleware('jwt')->group(function () {
         Route::post('/articles/{id}', [AdminArticleController::class, 'update']);
         Route::delete('/articles/{id}', [AdminArticleController::class, 'destroy']);
         Route::post('/articles/{id}/restore', [AdminArticleController::class, 'restore']);
+
+        // Categories CRUD
+        Route::get('/categories', [AdminCategoryController::class, 'index']);
+        Route::post('/categories', [AdminCategoryController::class, 'store']);
+        Route::put('/categories/{id}', [AdminCategoryController::class, 'update']);
+        Route::delete('/categories/{id}', [AdminCategoryController::class, 'destroy']);
 
         // Settings
         Route::get('/settings', [AdminSettingController::class, 'index']);
