@@ -9,6 +9,11 @@
                     Tulis Artikel Baru
                 </button>
                 
+                <button @click="openCategoryModal()" class="inline-flex items-center gap-2 px-5 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-2xl transition-all duration-200">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                    Kelola Kategori
+                </button>
+                
                 <label class="flex items-center gap-2 cursor-pointer bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 rounded-2xl text-xs font-semibold select-none">
                     <input type="checkbox" x-model="withTrashed" @change="fetchArticles()" class="rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
                     Tampilkan Artikel Terhapus (Archive)
@@ -166,6 +171,62 @@
             </div>
         </div>
 
+        <!-- Category Management Modal -->
+        <div x-show="categoryModal.open" class="fixed inset-0 z-50 overflow-y-auto" x-cloak>
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 transition-opacity bg-slate-900/60 backdrop-blur-sm" @click="categoryModal.open = false"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+
+                <div x-show="categoryModal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100 dark:border-slate-800">
+                    <div class="p-6 sm:p-8 space-y-6">
+                        <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Kelola Kategori Artikel</h3>
+                            <button @click="categoryModal.open = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">&times;</button>
+                        </div>
+
+                        <form @submit.prevent="saveCategory" class="space-y-4 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100/80 dark:border-slate-800/50">
+                            <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200" x-text="categoryModal.isEdit ? 'Ubah Nama Kategori' : 'Tambah Kategori Baru'"></h4>
+                            <div class="flex gap-2">
+                                <input type="text" x-model="categoryModal.form.name" required class="flex-grow rounded-xl border-slate-200 dark:border-slate-800 dark:bg-slate-900 focus:border-emerald-500 focus:ring-emerald-500 text-xs py-2.5 px-3" placeholder="Nama Kategori (misal: Hidroponik)" />
+                                <button type="submit" :disabled="categoryModal.submitting" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10">
+                                    Simpan
+                                </button>
+                                <button type="button" x-show="categoryModal.isEdit" @click="resetCategoryForm()" class="px-3 py-2.5 bg-slate-200 hover:bg-slate-350 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
+                                    Batal
+                                </button>
+                            </div>
+                            <p x-show="categoryModal.error" x-text="categoryModal.error" class="text-[10px] text-red-650 mt-1" x-cloak></p>
+                        </form>
+
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Daftar Kategori</h4>
+                            <div class="max-h-60 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-950/40">
+                                <template x-for="cat in categories" :key="cat.id">
+                                    <div class="p-3.5 flex items-center justify-between gap-4">
+                                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-300" x-text="cat.name"></span>
+                                        <div class="flex items-center gap-1.5">
+                                            <button @click="editCategory(cat)" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-semibold rounded-lg transition-all">
+                                                Edit
+                                            </button>
+                                            <button @click="deleteCategory(cat.id)" class="px-2.5 py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] font-semibold rounded-lg transition-all">
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                            <button type="button" @click="categoryModal.open = false" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -192,6 +253,16 @@
                     },
                     imageFile: null,
                     errors: {}
+                },
+                categoryModal: {
+                    open: false,
+                    isEdit: false,
+                    submitting: false,
+                    editId: null,
+                    form: {
+                        name: ''
+                    },
+                    error: ''
                 },
                 initData() {
                     this.fetchCategories();
@@ -315,6 +386,67 @@
                     })
                     .catch(err => {
                         this.showAlert('danger', 'Gagal memulihkan artikel.');
+                    });
+                },
+                openCategoryModal() {
+                    this.categoryModal.open = true;
+                    this.resetCategoryForm();
+                },
+                resetCategoryForm() {
+                    this.categoryModal.isEdit = false;
+                    this.categoryModal.editId = null;
+                    this.categoryModal.form.name = '';
+                    this.categoryModal.error = '';
+                },
+                editCategory(cat) {
+                    this.categoryModal.isEdit = true;
+                    this.categoryModal.editId = cat.id;
+                    this.categoryModal.form.name = cat.name;
+                    this.categoryModal.error = '';
+                },
+                saveCategory() {
+                    this.categoryModal.submitting = true;
+                    this.categoryModal.error = '';
+                    const token = localStorage.getItem('access_token');
+
+                    const isEdit = this.categoryModal.isEdit;
+                    const url = isEdit ? `/api/admin/categories/${this.categoryModal.editId}` : '/api/admin/categories';
+                    const method = isEdit ? 'put' : 'post';
+
+                    axios[method](url, {
+                        name: this.categoryModal.form.name
+                    }, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    .then(res => {
+                        this.categoryModal.submitting = false;
+                        this.resetCategoryForm();
+                        this.fetchCategories();
+                        this.showAlert('success', isEdit ? 'Nama kategori berhasil diubah.' : 'Kategori baru berhasil ditambahkan.');
+                    })
+                    .catch(err => {
+                        this.categoryModal.submitting = false;
+                        if (err.response && err.response.data && err.response.data.errors) {
+                            this.categoryModal.error = err.response.data.errors.name[0];
+                        } else {
+                            this.categoryModal.error = 'Gagal menyimpan kategori.';
+                        }
+                    });
+                },
+                deleteCategory(id) {
+                    if (!confirm('PERINGATAN: Menghapus kategori ini juga akan menghapus secara permanen semua artikel yang berada dalam kategori ini! Apakah Anda yakin?')) return;
+                    const token = localStorage.getItem('access_token');
+
+                    axios.delete(`/api/admin/categories/${id}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    .then(res => {
+                        this.fetchCategories();
+                        this.fetchArticles();
+                        this.showAlert('success', 'Kategori dan seluruh artikel terkait berhasil dihapus.');
+                    })
+                    .catch(err => {
+                        alert('Gagal menghapus kategori.');
                     });
                 },
                 showAlert(type, message) {

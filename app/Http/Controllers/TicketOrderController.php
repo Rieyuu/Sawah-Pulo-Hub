@@ -99,6 +99,18 @@ class TicketOrderController extends Controller
             ], 400);
         }
 
+        // Jalankan check expired untuk order ini
+        $timeoutHours = (int) \App\Models\SiteSetting::getValue('payment_timeout_hours', 2);
+        if ($order->created_at->addHours($timeoutHours)->isPast()) {
+            $order->status = 'failed';
+            $order->save();
+            return response()->json([
+                'status' => 400,
+                'message' => 'The payment window for this ticket order has expired. Please place a new order.',
+                'data' => null
+            ], 400);
+        }
+
         $validator = Validator::make($request->all(), [
             'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -137,6 +149,8 @@ class TicketOrderController extends Controller
      */
     public function history()
     {
+        TicketOrder::checkAndCancelExpired(auth()->id());
+
         $orders = TicketOrder::where('user_id', auth()->id())
             ->with('ticket')
             ->orderBy('created_at', 'desc')
@@ -154,6 +168,8 @@ class TicketOrderController extends Controller
      */
     public function show($id)
     {
+        TicketOrder::checkAndCancelExpired(auth()->id());
+
         $order = TicketOrder::where('id', $id)
             ->where('user_id', auth()->id())
             ->with('ticket')

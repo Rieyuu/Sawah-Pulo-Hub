@@ -224,4 +224,64 @@ class TicketOrderTransactionTest extends TestCase
         ]);
         $approveResponse->assertStatus(403);
     }
+
+    /** @test */
+    public function order_cancelled_after_payment_timeout()
+    {
+        \App\Models\SiteSetting::setValue('payment_timeout_hours', '2');
+
+        $order = TicketOrder::create([
+            'user_id' => $this->user->id,
+            'ticket_id' => $this->ticket->id,
+            'quantity' => 1,
+            'total_price' => 15000,
+            'ticket_code' => 'SWP-EXPIRED-TEST',
+            'status' => 'pending_payment',
+        ]);
+        // Force update created_at to bypass timestamps auto-set
+        $order->created_at = now()->subHours(3);
+        $order->save();
+
+        $response = $this->getJson('/api/orders/history', [
+            'Authorization' => "Bearer {$this->userToken}"
+        ]);
+
+        $response->assertStatus(200);
+        $order->refresh();
+        $this->assertEquals('failed', $order->status);
+    }
+
+    /** @test */
+    public function tourist_cannot_upload_proof_after_payment_timeout()
+    {
+        \App\Models\SiteSetting::setValue('payment_timeout_hours', '2');
+
+        $order = TicketOrder::create([
+            'user_id' => $this->user->id,
+            'ticket_id' => $this->ticket->id,
+            'quantity' => 1,
+            'total_price' => 15000,
+            'ticket_code' => 'SWP-EXPIRED-UPLOAD',
+            'status' => 'pending_payment',
+        ]);
+        $order->created_at = now()->subHours(3);
+        $order->save();
+
+        $file = UploadedFile::fake()->image('proof.jpg');
+
+        $response = $this->postJson("/api/orders/{$order->id}/upload-payment", [
+            'proof_of_payment' => $file
+        ], [
+            'Authorization' => "Bearer {$this->userToken}"
+        ]);
+
+        $response->assertStatus(400)
+            ->assertJson([
+                'status' => 400,
+                'message' => 'The payment window for this ticket order has expired. Please place a new order.'
+            ]);
+
+        $order->refresh();
+        $this->assertEquals('failed', $order->status);
+    }
 }
