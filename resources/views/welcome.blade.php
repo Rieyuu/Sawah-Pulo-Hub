@@ -69,6 +69,12 @@
                             <div class="text-xs text-slate-500 leading-relaxed whitespace-pre-line">{{ \App\Models\SiteSetting::getValue('about_mission', "1. Edukasi masyarakat tentang pertanian modern.\n2. Mengembangkan pariwisata ramah lingkungan.") }}</div>
                         </div>
                     </div>
+                    <div class="pt-6">
+                        <a href="{{ route('about') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-2xl shadow-md transition-all">
+                            Lihat Profil Selengkapnya
+                            <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Structure Image -->
@@ -103,8 +109,9 @@
                         </p>
                         
                         <div class="pt-2">
-                            <a href="#hubungi" class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-2xl shadow-md transition-all">
-                                Lihat Rincian Alamat & Lokasi
+                            <a href="{{ route('facilities') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-2xl shadow-md transition-all">
+                                Buka Peta & Rincian Fasilitas
+                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
@@ -185,6 +192,12 @@
                         @endforeach
                     </div>
                 @endif
+                <div class="flex justify-center pt-10">
+                    <a href="{{ route('facilities') }}" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-semibold rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-200">
+                        Lihat Semua Fasilitas Wisata
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -239,6 +252,13 @@
                     @endforeach
                 </div>
             @endif
+                <div class="flex justify-center pt-12">
+                    <a href="{{ route('tickets.index') }}" class="inline-flex items-center gap-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all duration-200">
+                        Lihat Semua Tiket Wisata
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -300,6 +320,13 @@
                     @endforeach
                 </div>
             @endif
+                <div class="flex justify-center pt-12">
+                    <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-semibold rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-200">
+                        Lihat Semua Artikel & Berita
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
