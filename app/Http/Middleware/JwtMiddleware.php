@@ -60,6 +60,8 @@ class JwtMiddleware
             return $user;
         });
 
+        auth()->setUser($user);
+
         return $next($request);
     }
 }
