@@ -356,16 +356,12 @@
             return {
                 buyTicket(ticketId) {
                     const token = localStorage.getItem('access_token');
+                    const target = `/tickets/checkout/${ticketId}`;
                     if (!token) {
-                        // Simpan target url di session storage sebelum dialihkan ke login
-                        sessionStorage.setItem('redirect_to_checkout', `/profile/history`);
-                        sessionStorage.setItem('pending_checkout_ticket_id', ticketId);
-                        
-                        // Dialihkan ke login
+                        localStorage.setItem('redirect_target', target);
                         window.location.href = '/login';
                     } else {
-                        // Jika sudah login, nanti langsung ke halaman transaksi (Langkah 9)
-                        window.location.href = `/profile/history?checkout_ticket_id=${ticketId}`;
+                        window.location.href = target;
                     }
                 }
             }
