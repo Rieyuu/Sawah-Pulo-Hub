@@ -22,6 +22,30 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
+// Tourist Pages (Public Informational)
+Route::get('/profil-wisata', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/facilities', function () {
+    return view('facilities');
+})->name('facilities');
+
+Route::get('/tickets', function () {
+    $tickets = \App\Models\Ticket::where('is_active', true)->paginate(6);
+    return view('tickets.index', compact('tickets'));
+})->name('tickets.index');
+
+Route::get('/articles', function () {
+    $articles = \App\Models\Article::latest()->paginate(6);
+    return view('articles.index', compact('articles'));
+})->name('articles.index');
+
+Route::get('/articles/{id}', function ($id) {
+    $article = \App\Models\Article::with('category')->findOrFail($id);
+    return view('articles.show', compact('article'));
+})->name('articles.show');
+
 // Protected pages (Handled client-side via JWT check in AlpineJS)
 Route::get('/profile/settings', function () {
     return view('profile.settings');
