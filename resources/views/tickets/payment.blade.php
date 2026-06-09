@@ -48,6 +48,10 @@
                         <div class="p-3 bg-white rounded-xl shadow-inner border border-slate-100">
                             <img :src="order.payment_qris_image" alt="QRIS Pembayaran Resmi" class="w-48 h-48 object-contain" />
                         </div>
+                        <a :href="order.payment_qris_image" download="QRIS_Sawah_Pulo.png" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10 hover:scale-[1.02]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Unduh Gambar QRIS
+                        </a>
                         <p class="text-[10px] text-slate-400 text-center max-w-xs">Mendukung semua aplikasi e-wallet (Gopay, OVO, Dana, LinkAja) & M-Banking.</p>
                     </div>
 
