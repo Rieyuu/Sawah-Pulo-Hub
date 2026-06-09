@@ -1,20 +1,32 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// Homepage
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Guest pages (Authentication)
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
 
-require __DIR__.'/auth.php';
+// Protected pages (Handled client-side via JWT check in AlpineJS)
+Route::get('/profile/settings', function () {
+    return view('profile.settings');
+})->name('profile.settings');
+
+Route::get('/profile/history', function () {
+    return view('profile.history');
+})->name('profile.history');
