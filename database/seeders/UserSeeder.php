@@ -20,10 +20,10 @@ class UserSeeder extends Seeder
 
         // Seed Admin User
         $admin = User::updateOrCreate(
-            ['whatsapp' => '081111111111'],
+            ['email' => 'admin@sawahpulohub.com'],
             [
                 'name' => 'Admin Sawah Pulo Hub',
-                'email' => 'admin@sawahpulohub.com',
+                'whatsapp' => '081111111111',
                 'password' => Hash::make('password'),
             ]
         );
@@ -34,10 +34,10 @@ class UserSeeder extends Seeder
 
         // Seed Visitor User
         $visitor = User::updateOrCreate(
-            ['whatsapp' => '082222222222'],
+            ['email' => 'wisatawan@sawahpulohub.com'],
             [
                 'name' => 'Wisatawan Contoh',
-                'email' => 'wisatawan@sawahpulohub.com',
+                'whatsapp' => '082222222222',
                 'password' => Hash::make('password'),
             ]
         );
