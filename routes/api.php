@@ -44,6 +44,23 @@ Route::middleware('jwt')->group(function () {
     Route::post('/orders/{id}/upload-payment', [TicketOrderController::class, 'uploadPayment']);
     Route::get('/orders/history', [TicketOrderController::class, 'history']);
     Route::get('/orders/{id}', [TicketOrderController::class, 'show']);
+    
+    // Ticket Details (Tourist/Authenticated Users)
+    Route::get('/tickets/{id}', function ($id) {
+        $ticket = \App\Models\Ticket::where('is_active', true)->find($id);
+        if (!$ticket) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Ticket not found or inactive',
+                'data' => null
+            ], 404);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Ticket retrieved successfully',
+            'data' => $ticket
+        ], 200);
+    });
 
     // Admin Master Data Routes
     Route::middleware('jwt:admin')->prefix('admin')->group(function () {

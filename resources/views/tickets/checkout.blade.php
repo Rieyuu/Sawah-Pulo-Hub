@@ -110,7 +110,7 @@
                         return;
                     }
 
-                    axios.get(`/api/admin/tickets/${this.ticketId}`, {
+                    axios.get(`/api/tickets/${this.ticketId}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     })
                     .then(res => {
