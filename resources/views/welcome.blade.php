@@ -110,8 +110,19 @@
                     </div>
 
                     <!-- Image Preview (3 cols) -->
-                    <div class="lg:col-span-3 bg-slate-50 dark:bg-slate-950 p-2 rounded-2xl border border-slate-100 dark:border-slate-800">
-                        <img src="{{ \App\Models\SiteSetting::getValue('site_plan_image', 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') }}" alt="2D Site Plan Sawah Pulo" class="w-full h-auto rounded-xl shadow-inner object-cover" />
+                    <div class="lg:col-span-3 bg-slate-50 dark:bg-slate-950 p-2 rounded-2xl border border-slate-100 dark:border-slate-800 cursor-zoom-in" x-data="{ showSitePlanFull: false }">
+                        <img @click="showSitePlanFull = true" src="{{ \App\Models\SiteSetting::getValue('site_plan_image', 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') }}" alt="2D Site Plan Sawah Pulo" class="w-full h-auto rounded-xl shadow-inner object-cover hover:opacity-95 transition-opacity" />
+
+                        <!-- Full Screen Image Modal -->
+                        <div x-show="showSitePlanFull" class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm" x-cloak>
+                            <div class="relative max-w-5xl w-full" @click.away="showSitePlanFull = false">
+                                <button @click="showSitePlanFull = false" class="absolute -top-12 right-0 text-white hover:text-slate-300 text-sm font-semibold flex items-center gap-1">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    Tutup Denah
+                                </button>
+                                <img src="{{ \App\Models\SiteSetting::getValue('site_plan_image', 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') }}" alt="2D Site Plan Sawah Pulo Full" class="w-full h-auto rounded-2xl shadow-2xl max-h-[80vh] object-contain mx-auto" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
