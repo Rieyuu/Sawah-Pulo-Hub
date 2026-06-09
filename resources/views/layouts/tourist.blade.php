@@ -41,10 +41,10 @@
                     <!-- Navigation Links (Desktop) -->
                     <nav class="hidden md:flex items-center gap-6">
                         <a href="{{ route('home') }}" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Beranda</a>
-                        <a href="/profile/settings#wisata" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Profil Wisata</a>
-                        <a href="/profile/settings#fasilitas" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Fasilitas</a>
-                        <a href="/profile/settings#tiket" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Tiket</a>
-                        <a href="/profile/settings#artikel" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Artikel</a>
+                        <a href="{{ route('home') }}#wisata" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Profil Wisata</a>
+                        <a href="{{ route('home') }}#fasilitas" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Fasilitas</a>
+                        <a href="{{ route('home') }}#tiket" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Tiket</a>
+                        <a href="{{ route('home') }}#artikel" class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Artikel</a>
                     </nav>
 
                     <!-- User Actions (Desktop) -->
@@ -101,10 +101,10 @@
             <!-- Mobile Menu -->
             <div x-show="openMenu" x-transition class="md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-4 pt-2 pb-4 space-y-2">
                 <a href="{{ route('home') }}" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Beranda</a>
-                <a href="/profile/settings#wisata" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Profil Wisata</a>
-                <a href="/profile/settings#fasilitas" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Fasilitas</a>
-                <a href="/profile/settings#tiket" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Tiket</a>
-                <a href="/profile/settings#artikel" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Artikel</a>
+                <a href="{{ route('home') }}#wisata" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Profil Wisata</a>
+                <a href="{{ route('home') }}#fasilitas" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Fasilitas</a>
+                <a href="{{ route('home') }}#tiket" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Tiket</a>
+                <a href="{{ route('home') }}#artikel" class="block px-3 py-2 text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Artikel</a>
                 
                 <hr class="border-slate-100 dark:border-slate-800 my-2">
                 
@@ -145,10 +145,10 @@
                     <div class="space-y-4">
                         <h4 class="text-white font-semibold">Tautan Cepat</h4>
                         <ul class="space-y-2 text-sm">
-                            <li><a href="/profile/settings#wisata" class="hover:text-white transition-colors">Profil Wisata</a></li>
-                            <li><a href="/profile/settings#fasilitas" class="hover:text-white transition-colors">Fasilitas & Denah</a></li>
-                            <li><a href="/profile/settings#tiket" class="hover:text-white transition-colors">Tiket Wisata</a></li>
-                            <li><a href="/profile/settings#artikel" class="hover:text-white transition-colors">Artikel & Berita</a></li>
+                            <li><a href="{{ route('home') }}#wisata" class="hover:text-white transition-colors">Profil Wisata</a></li>
+                            <li><a href="{{ route('home') }}#fasilitas" class="hover:text-white transition-colors">Fasilitas & Denah</a></li>
+                            <li><a href="{{ route('home') }}#tiket" class="hover:text-white transition-colors">Tiket Wisata</a></li>
+                            <li><a href="{{ route('home') }}#artikel" class="hover:text-white transition-colors">Artikel & Berita</a></li>
                         </ul>
                     </div>
 

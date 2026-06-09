@@ -284,4 +284,41 @@ class TicketOrderTransactionTest extends TestCase
         $order->refresh();
         $this->assertEquals('failed', $order->status);
     }
+
+    /** @test */
+    public function tourist_can_get_active_ticket_details()
+    {
+        $response = $this->getJson("/api/tickets/{$this->ticket->id}", [
+            'Authorization' => "Bearer {$this->userToken}"
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 200,
+                'message' => 'Ticket retrieved successfully',
+                'data' => [
+                    'id' => $this->ticket->id,
+                    'title' => $this->ticket->title,
+                    'price' => $this->ticket->price,
+                ]
+            ]);
+    }
+
+    /** @test */
+    public function tourist_cannot_get_inactive_ticket_details()
+    {
+        $inactiveTicket = Ticket::create([
+            'title' => 'Tiket Inaktif',
+            'description' => 'Tidak aktif',
+            'price' => 5000,
+            'stock' => 5,
+            'is_active' => false
+        ]);
+
+        $response = $this->getJson("/api/tickets/{$inactiveTicket->id}", [
+            'Authorization' => "Bearer {$this->userToken}"
+        ]);
+
+        $response->assertStatus(404);
+    }
 }
