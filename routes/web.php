@@ -73,4 +73,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/scan', function () {
         return view('admin.scan');
     })->name('admin.scan');
+
+    Route::get('/profile', function () {
+        return view('admin.profile');
+    })->name('admin.profile');
 });

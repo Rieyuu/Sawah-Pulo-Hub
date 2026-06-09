@@ -90,7 +90,8 @@ class AdminReportController extends Controller
                 'total_visitors' => $totalVisitors,
                 'chart_data' => $chartData,
                 'popular_tickets' => $popularTicketsFormatted,
-                'recent_orders' => $recentOrders
+                'recent_orders' => $recentOrders,
+                'is_using_default_password' => auth()->user() ? auth()->user()->is_using_default_password : false,
             ]
         ], 200);
     }
