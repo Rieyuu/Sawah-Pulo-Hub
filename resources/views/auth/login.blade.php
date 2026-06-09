@@ -74,7 +74,13 @@
                                 window.axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.access_token}`;
 
                                 // Redirect
-                                window.location.href = '/';
+                                const redirectTarget = localStorage.getItem('redirect_target');
+                                if (redirectTarget) {
+                                    localStorage.removeItem('redirect_target');
+                                    window.location.href = redirectTarget;
+                                } else {
+                                    window.location.href = '/';
+                                }
                             }
                         })
                         .catch(error => {
