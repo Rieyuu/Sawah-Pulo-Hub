@@ -51,7 +51,7 @@
             <template x-for="article in articles" :key="article.id">
                 <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm flex flex-col group relative" :class="article.deleted_at ? 'opacity-60 grayscale' : ''">
                     <!-- Image -->
-                    <div class="h-48 bg-slate-100 dark:bg-slate-850 relative overflow-hidden">
+                    <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
                         <template x-if="article.image_path">
                             <img :src="article.image_path" alt="Article Image" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" />
                         </template>
@@ -191,7 +191,7 @@
                                 <button type="submit" :disabled="categoryModal.submitting" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10">
                                     Simpan
                                 </button>
-                                <button type="button" x-show="categoryModal.isEdit" @click="resetCategoryForm()" class="px-3 py-2.5 bg-slate-200 hover:bg-slate-350 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
+                                <button type="button" x-show="categoryModal.isEdit" @click="resetCategoryForm()" class="px-3 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
                                     Batal
                                 </button>
                             </div>

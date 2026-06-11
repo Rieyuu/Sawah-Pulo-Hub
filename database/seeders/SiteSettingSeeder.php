@@ -15,7 +15,7 @@ class SiteSettingSeeder extends Seeder
         // Tentang Kami Settings
         SiteSetting::setValue(
             'about_history',
-            'Sawah-Pulo-Hub didirikan pada tahun 2024 sebagai inisiatif eduwisata ramah lingkungan yang memadukan pertanian tradisional dengan inovasi modern. Terletak di kawasan asri, objek wisata ini bertujuan mengedukasi generasi muda mengenai pentingnya kedaulatan pangan, bercocok tanam secara hidroponik dan organik, serta budidaya hewan ternak secara sehat.',
+            'Sawah Pulo Farm didirikan pada tahun 2024 sebagai inisiatif eduwisata ramah lingkungan yang memadukan pertanian tradisional dengan inovasi modern. Terletak di kawasan asri, objek wisata ini bertujuan mengedukasi generasi muda mengenai pentingnya kedaulatan pangan, bercocok tanam secara hidroponik dan organik, serta budidaya hewan ternak secara sehat.',
             'textarea'
         );
 
@@ -112,6 +112,55 @@ class SiteSettingSeeder extends Seeder
             'payment_timeout_hours',
             '2',
             'text'
+        );
+
+        // Customizable Text, Hero, and Payment settings
+        SiteSetting::setValue(
+            'hero_title',
+            'Keindahan Alam Pedesaan & Edukasi Pertanian',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'hero_subtitle',
+            'Rasakan pengalaman edukatif bercocok tanam hidroponik, budidaya ternak, dan keindahan panorama sawah hijau yang menenangkan jiwa.',
+            'textarea'
+        );
+
+        SiteSetting::setValue(
+            'hero_bg_image',
+            '/images/sawah_pulo_background.png',
+            'image'
+        );
+
+        SiteSetting::setValue(
+            'footer_description',
+            'Destinasi wisata alam pedesaan yang menyajikan keindahan alam persawahan dengan berbagai fasilitas menarik, nyaman, dan edukatif.',
+            'textarea'
+        );
+
+        SiteSetting::setValue(
+            'payment_bank_name',
+            'Bank Mandiri',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'payment_bank_account',
+            '1420012345678',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'payment_bank_recipient',
+            'BUMDes Sawah Pulo',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'about_image',
+            '/images/sawah_pulo_background.png',
+            'image'
         );
     }
 }

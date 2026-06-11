@@ -16,6 +16,15 @@ class TicketOrderController extends Controller
      */
     public function store(Request $request)
     {
+        // Rintangi akun admin melakukan checkout tiket wisata
+        if (auth()->user() && auth()->user()->isAdmin()) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Akun administrator tidak diperkenankan untuk melakukan pemesanan tiket wisata. Silakan gunakan akun wisatawan biasa.',
+                'data' => null
+            ], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'ticket_id' => 'required|exists:tickets,id',
             'quantity' => 'required|integer|min:1',
@@ -187,6 +196,42 @@ class TicketOrderController extends Controller
             'status' => 200,
             'message' => 'Ticket order details retrieved successfully.',
             'data' => $order
+        ], 200);
+    }
+
+    /**
+     * Batalkan Pesanan Tiket (Cancel Order)
+     */
+    public function cancel($id)
+    {
+        $order = TicketOrder::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$order) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Ticket order not found.',
+                'data' => null
+            ], 404);
+        }
+
+        // Hanya izinkan pembatalan jika status masih pending_payment
+        if ($order->status !== 'pending_payment') {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Hanya pesanan yang belum dibayar yang dapat dibatalkan.',
+                'data' => null
+            ], 400);
+        }
+
+        $order->status = 'failed';
+        $order->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Pesanan tiket berhasil dibatalkan.',
+            'data' => $order->load('ticket')
         ], 200);
     }
 }

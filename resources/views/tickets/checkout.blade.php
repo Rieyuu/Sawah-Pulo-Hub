@@ -83,7 +83,7 @@
                         </div>
                     </div>
 
-                    <button @click="submitOrder()" :disabled="submitting || quantity < 1 || quantity > ticket.stock" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all duration-200">
+                    <button @click="submitOrder()" :disabled="submitting || quantity < 1 || quantity > ticket.stock || isAdmin" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all duration-200">
                         <span x-show="submitting" class="inline-block animate-spin mr-1">&#9696;</span>
                         Lanjut ke Pembayaran
                     </button>
@@ -102,12 +102,25 @@
                 loading: true,
                 submitting: false,
                 errorMessage: '',
+                isAdmin: false,
                 fetchTicket() {
                     const token = localStorage.getItem('access_token');
                     if (!token) {
                         localStorage.setItem('redirect_target', window.location.pathname);
                         window.location.href = '/login';
                         return;
+                    }
+
+                    // Proteksi akun admin
+                    const profileStr = localStorage.getItem('user_profile');
+                    if (profileStr) {
+                        const profile = JSON.parse(profileStr);
+                        const roles = profile.roles || [];
+                        const isAdm = roles.some(role => role === 'admin' || (role && role.slug === 'admin'));
+                        if (isAdm) {
+                            this.isAdmin = true;
+                            this.errorMessage = 'Akun administrator tidak diperkenankan untuk melakukan pemesanan tiket wisata. Silakan gunakan akun wisatawan biasa.';
+                        }
                     }
 
                     axios.get(`/api/tickets/${this.ticketId}`, {

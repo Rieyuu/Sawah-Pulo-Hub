@@ -37,13 +37,13 @@
                 
                 <!-- Main Image -->
                 @if($article->image_path)
-                    <div class="w-full h-80 sm:h-96 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-850">
+                    <div class="w-full h-80 sm:h-96 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
                         <img src="{{ $article->image_path }}" alt="{{ $article->title }}" class="w-full h-full object-cover" />
                     </div>
                 @endif
 
                 <!-- Content Text -->
-                <article class="prose max-w-none text-slate-700 dark:text-slate-350 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+                <article class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base whitespace-pre-line">
                     {!! nl2br(e($article->content)) !!}
                 </article>
 

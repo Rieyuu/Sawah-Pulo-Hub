@@ -4,12 +4,12 @@
     <!-- Header Section -->
     <section class="relative bg-slate-900 text-white overflow-hidden py-20">
         <div class="absolute inset-0 opacity-30">
-            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=1920&q=80" alt="Artikel Sawah Pulo" class="w-full h-full object-cover object-center" />
+            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Artikel Sawah Pulo" class="w-full h-full object-cover object-center" />
             <div class="absolute inset-0 bg-slate-950"></div>
         </div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Artikel & Berita Terbaru</h1>
-            <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">Wawasan seputar pertanian hidroponik, budidaya tanaman organik, dan informasi agenda di Sawah Pulo Hub.</p>
+            <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">Wawasan seputar pertanian hidroponik, budidaya tanaman organik, dan informasi agenda di Sawah Pulo Farm.</p>
         </div>
     </section>
 

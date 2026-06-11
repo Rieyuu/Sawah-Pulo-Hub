@@ -46,7 +46,7 @@
             <template x-for="ticket in tickets" :key="ticket.id">
                 <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm flex flex-col group relative" :class="ticket.deleted_at ? 'opacity-60 grayscale' : ''">
                     <!-- Image -->
-                    <div class="h-48 bg-slate-100 dark:bg-slate-850 relative overflow-hidden">
+                    <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
                         <template x-if="ticket.image_path">
                             <img :src="ticket.image_path" alt="Ticket Image" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" />
                         </template>
