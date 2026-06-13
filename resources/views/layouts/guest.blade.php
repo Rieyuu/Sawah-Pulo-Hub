@@ -16,9 +16,13 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            <div class="flex flex-col items-center gap-2">
+                <a href="/" class="flex flex-col items-center group">
+                    <x-application-logo class="w-20 h-20 shadow-lg shadow-emerald-500/10 rounded-3xl p-2 bg-white dark:bg-slate-900 transition-transform group-hover:scale-105" />
+                    <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent mt-3 uppercase">
+                        Sawah Pulo
+                    </span>
+                    <span class="text-xs px-2.5 py-0.5 font-semibold bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 rounded-full mt-1">HUB</span>
                 </a>
             </div>
 

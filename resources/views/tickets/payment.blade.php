@@ -65,9 +65,9 @@
                     <div class="space-y-4">
                         <div class="p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-between">
                             <div class="space-y-1">
-                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Opsi 2: Bank Mandiri</span>
-                                <h4 class="text-lg font-black text-slate-800 dark:text-slate-200">142-0017-8899-23</h4>
-                                <p class="text-xs text-slate-400">a.n. BUMDes Wisata Sawah Pulo</p>
+                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest" x-text="'Opsi 2: Transfer ' + order.payment_bank_name">Opsi 2: Transfer Bank Mandiri</span>
+                                <h4 class="text-lg font-black text-slate-800 dark:text-slate-200" x-text="order.payment_bank_account">142-0017-8899-23</h4>
+                                <p class="text-xs text-slate-400" x-text="'a.n. ' + order.payment_bank_recipient">a.n. BUMDes Wisata Sawah Pulo</p>
                             </div>
                             <span class="text-xs font-semibold px-2.5 py-1 bg-slate-200/50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg">Utama</span>
                         </div>
@@ -132,6 +132,12 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Cancel Order Button -->
+                <button @click="cancelOrder()" :disabled="cancelling" class="w-full py-3.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-200 dark:border-red-900/60 transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm shadow-red-500/5">
+                    <span x-show="cancelling" class="inline-block animate-spin mr-1">&#9696;</span>
+                    Batalkan Pesanan Ini
+                </button>
             </div>
         </div>
 
@@ -144,6 +150,7 @@
                 order: null,
                 loading: true,
                 submitting: false,
+                cancelling: false,
                 errorMessage: '',
                 imageFile: null,
                 imagePreview: null,
@@ -244,6 +251,34 @@
                             this.errorMessage = err.response.data.message;
                         } else {
                             this.errorMessage = 'Gagal mengunggah bukti pembayaran.';
+                        }
+                    });
+                },
+                cancelOrder() {
+                    if (!confirm('Apakah Anda yakin ingin membatalkan pesanan tiket ini?')) {
+                        return;
+                    }
+                    
+                    this.cancelling = true;
+                    this.errorMessage = '';
+                    const token = localStorage.getItem('access_token');
+
+                    axios.post(`/api/orders/${this.orderId}/cancel`, {}, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    .then(res => {
+                        this.cancelling = false;
+                        if (res.data.status === 200) {
+                            sessionStorage.setItem('order_success_msg', 'Pesanan tiket berhasil dibatalkan.');
+                            window.location.href = '/profile/history';
+                        }
+                    })
+                    .catch(err => {
+                        this.cancelling = false;
+                        if (err.response && err.response.data && err.response.data.message) {
+                            this.errorMessage = err.response.data.message;
+                        } else {
+                            this.errorMessage = 'Gagal membatalkan pesanan.';
                         }
                     });
                 },

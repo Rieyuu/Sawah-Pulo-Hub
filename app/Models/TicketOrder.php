@@ -33,6 +33,9 @@ class TicketOrder extends Model
     protected $appends = [
         'payment_deadline',
         'payment_qris_image',
+        'payment_bank_name',
+        'payment_bank_account',
+        'payment_bank_recipient',
     ];
 
     /**
@@ -83,5 +86,29 @@ class TicketOrder extends Model
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
+    }
+
+    /**
+     * Accessor untuk mendapatkan nama bank transfer
+     */
+    public function getPaymentBankNameAttribute()
+    {
+        return SiteSetting::getValue('payment_bank_name', 'Bank Mandiri');
+    }
+
+    /**
+     * Accessor untuk mendapatkan nomor rekening bank transfer
+     */
+    public function getPaymentBankAccountAttribute()
+    {
+        return SiteSetting::getValue('payment_bank_account', '1420012345678');
+    }
+
+    /**
+     * Accessor untuk mendapatkan nama penerima rekening bank transfer
+     */
+    public function getPaymentBankRecipientAttribute()
+    {
+        return SiteSetting::getValue('payment_bank_recipient', 'BUMDes Sawah Pulo');
     }
 }

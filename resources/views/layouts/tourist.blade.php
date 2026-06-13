@@ -71,6 +71,12 @@
                                         <p class="text-xs text-slate-400">Masuk sebagai</p>
                                         <p class="text-sm font-semibold truncate" x-text="userEmail"></p>
                                     </div>
+                                    <template x-if="isAdmin">
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm text-emerald-600 dark:text-emerald-400 font-bold hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"></path></svg>
+                                            Dashboard Admin
+                                        </a>
+                                    </template>
                                     <a href="{{ route('profile.settings') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         Pengaturan Profil
@@ -117,6 +123,9 @@
                 
                 <template x-if="isLoggedIn">
                     <div class="space-y-1">
+                        <template x-if="isAdmin">
+                            <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 text-base font-bold text-emerald-600 dark:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Dashboard Admin</a>
+                        </template>
                         <a href="{{ route('profile.settings') }}" class="block px-3 py-2 text-base font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Pengaturan Profil</a>
                         <a href="{{ route('profile.history') }}" class="block px-3 py-2 text-base font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">Riwayat Pembelian</a>
                         <button @click="logout" class="w-full text-left block px-3 py-2 text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg">Log Out</button>
@@ -137,8 +146,8 @@
                     
                     <!-- Brand Section -->
                     <div class="space-y-4">
-                        <h3 class="text-white text-lg font-bold">Sawah Pulo Hub</h3>
-                        <p class="text-sm">Destinasi wisata alam pedesaan yang menyajikan keindahan alam persawahan dengan berbagai fasilitas menarik, nyaman, dan edukatif.</p>
+                        <h3 class="text-white text-lg font-bold">Sawah Pulo Farm</h3>
+                        <p class="text-sm">{{ \App\Models\SiteSetting::getValue('footer_description', 'Destinasi wisata alam pedesaan yang menyajikan keindahan alam persawahan dengan berbagai fasilitas menarik, nyaman, dan edukatif.') }}</p>
                     </div>
 
                     <!-- Quick Links -->
@@ -193,8 +202,7 @@
 
                 <!-- Copy -->
                 <div class="flex flex-col sm:flex-row justify-between items-center text-xs">
-                    <p>&copy; 2026 Sawah Pulo Hub. Hak Cipta Dilindungi.</p>
-                    <p class="mt-2 sm:mt-0">Dibuat untuk Tugas Akhir Skripsi</p>
+                    <p>&copy; 2026 Sawah Pulo Farm. Hak Cipta Dilindungi.</p>
                 </div>
             </div>
         </footer>
@@ -204,6 +212,7 @@
             function navController() {
                 return {
                     isLoggedIn: false,
+                    isAdmin: false,
                     userName: '',
                     userEmail: '',
                     userInitials: '',
@@ -217,6 +226,9 @@
                             const profile = JSON.parse(profileStr);
                             this.userName = profile.name;
                             this.userEmail = profile.email;
+                            
+                            const roles = profile.roles || [];
+                            this.isAdmin = roles.some(role => role === 'admin' || (role && role.slug === 'admin'));
                             
                             // Get initials
                             const names = profile.name.split(' ');

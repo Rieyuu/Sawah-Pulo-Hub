@@ -158,7 +158,7 @@
                                 <th class="pb-3 text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 dark:divide-slate-850">
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                             <template x-if="reports.recent_orders.length === 0">
                                 <tr>
                                     <td colspan="6" class="py-6 text-center text-slate-400 italic">Belum ada transaksi pembelian.</td>

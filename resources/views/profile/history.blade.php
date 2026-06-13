@@ -72,10 +72,15 @@
                     <div class="flex-shrink-0 sm:text-right">
                         <!-- Pending Payment -> Upload CTA -->
                         <template x-if="order.status === 'pending_payment'">
-                            <a :href="`/tickets/payment/${order.id}`" class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10">
-                                Upload Bukti Bayar
-                                &rarr;
-                            </a>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button @click="cancelOrder(order.id)" class="px-3.5 py-2.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 text-xs font-bold rounded-xl border border-red-200 dark:border-red-900/60 transition-all">
+                                    Batalkan
+                                </button>
+                                <a :href="`/tickets/payment/${order.id}`" class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10">
+                                    Upload Bukti Bayar
+                                    &rarr;
+                                </a>
+                            </div>
                         </template>
 
                         <!-- Success -> Print Ticket CTA -->
@@ -148,6 +153,26 @@
                 filterStatus(status) {
                     this.activeFilter = status;
                     this.applyFilter();
+                },
+                cancelOrder(orderId) {
+                    if (!confirm('Apakah Anda yakin ingin membatalkan pesanan tiket ini?')) {
+                        return;
+                    }
+                    
+                    const token = localStorage.getItem('access_token');
+                    
+                    axios.post(`/api/orders/${orderId}/cancel`, {}, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    .then(res => {
+                        if (res.data.status === 200) {
+                            this.successMessage = 'Pesanan tiket berhasil dibatalkan.';
+                            this.fetchOrders();
+                        }
+                    })
+                    .catch(err => {
+                        alert('Gagal membatalkan pesanan.');
+                    });
                 },
                 applyFilter() {
                     if (this.activeFilter === 'all') {

@@ -42,6 +42,7 @@ Route::middleware('jwt')->group(function () {
     // Ticket Orders (Tourist)
     Route::post('/orders', [TicketOrderController::class, 'store']);
     Route::post('/orders/{id}/upload-payment', [TicketOrderController::class, 'uploadPayment']);
+    Route::post('/orders/{id}/cancel', [TicketOrderController::class, 'cancel']);
     Route::get('/orders/history', [TicketOrderController::class, 'history']);
     Route::get('/orders/{id}', [TicketOrderController::class, 'show']);
     

@@ -4,7 +4,7 @@
     <!-- Header Section -->
     <section class="relative bg-slate-900 text-white overflow-hidden py-20">
         <div class="absolute inset-0 opacity-30">
-            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=1920&q=80" alt="Tiket Sawah Pulo" class="w-full h-full object-cover object-center" />
+            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Tiket Sawah Pulo" class="w-full h-full object-cover object-center" />
             <div class="absolute inset-0 bg-slate-950"></div>
         </div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">

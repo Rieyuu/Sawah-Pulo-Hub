@@ -4,7 +4,7 @@
     <!-- Header Section -->
     <section class="relative bg-slate-900 text-white overflow-hidden py-20">
         <div class="absolute inset-0 opacity-30">
-            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=1920&q=80" alt="Sawah Pulo" class="w-full h-full object-cover object-center" />
+            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Sawah Pulo" class="w-full h-full object-cover object-center" />
             <div class="absolute inset-0 bg-slate-950"></div>
         </div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
@@ -22,14 +22,14 @@
                 <div class="space-y-6">
                     <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">Sejarah & Profil</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                        Tentang Sawah Pulo Hub
+                        Tentang Sawah Pulo Farm
                     </h2>
                     <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm sm:text-base whitespace-pre-line">
-                        {{ \App\Models\SiteSetting::getValue('about_history', 'Sawah Pulo Hub didirikan sebagai kawasan eduwisata pertanian modern terpadu yang memadukan keindahan alam pedesaan dengan metode agribisnis berkelanjutan.') }}
+                        {{ \App\Models\SiteSetting::getValue('about_history', 'Sawah Pulo Farm didirikan sebagai kawasan eduwisata pertanian modern terpadu yang memadukan keindahan alam pedesaan dengan metode agribisnis berkelanjutan.') }}
                     </p>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=800&q=80" alt="Sawah Pulo" class="w-full h-auto rounded-2xl object-cover" />
+                    <img src="{{ \App\Models\SiteSetting::getValue('about_image', asset('images/sawah_pulo_background.png')) }}" alt="Sawah Pulo" class="w-full h-auto rounded-2xl object-cover" />
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
             <div class="space-y-6 text-center max-w-4xl mx-auto pt-8 border-t border-slate-100 dark:border-slate-800">
                 <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">Struktur Manajemen</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Struktur Organisasi</h2>
-                <p class="text-slate-500 text-sm max-w-lg mx-auto">Berikut adalah susunan komite dan kepengurusan pengelola Eduwisata Sawah Pulo Hub.</p>
+                <p class="text-slate-500 text-sm max-w-lg mx-auto">Berikut adalah susunan komite dan kepengurusan pengelola Eduwisata Sawah Pulo Farm.</p>
                 
                 <div class="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-3xl border border-slate-100 dark:border-slate-800/50 shadow-inner max-w-2xl mx-auto">
                     <img src="{{ \App\Models\SiteSetting::getValue('about_structure_image', 'https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?auto=format&fit=crop&w=800&q=80') }}" alt="Struktur Organisasi" class="w-full h-auto rounded-2xl object-cover mx-auto" />

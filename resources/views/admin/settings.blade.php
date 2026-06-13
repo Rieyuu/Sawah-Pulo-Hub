@@ -7,7 +7,7 @@
                 Profil Kawasan Wisata
             </button>
             <button @click="activeTab = 'homepage'" class="py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2" :class="activeTab === 'homepage' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
-                Kontak & Jam Operasional
+                Kontak & Tampilan Utama
             </button>
             <button @click="activeTab = 'siteplan'" class="py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2" :class="activeTab === 'siteplan' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
                 Denah Peta 2D Site Plan
@@ -67,12 +67,59 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="border-t border-slate-100 dark:border-slate-800/80 pt-6">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Gambar Utama Profil Wisata (Tentang Wisata)</label>
+                        <div class="flex items-center gap-6">
+                            <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                                <template x-if="images.about_image">
+                                    <img :src="images.about_image" alt="About Image" class="w-full h-full object-cover" />
+                                </template>
+                            </div>
+                            <div class="flex-grow">
+                                <input type="file" @change="handleImageUpload($event, 'about_image')" accept="image/*" class="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
+                                <p class="text-[10px] text-slate-400 mt-1">Format: JPG, PNG, SVG (Maks. 2MB)</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Tab: Homepage (Operational Days/Hours/Address/Socials) -->
+            <!-- Tab: Homepage (Hero & Footer, Jam & Kontak) -->
             <div x-show="activeTab === 'homepage'" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 space-y-6">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Hari, Jam Buka, & Kontak Sosial Media</h3>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">Pengaturan Tampilan Beranda & Kaki Halaman (Footer)</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Judul Hero (Bisa HTML, misal: Keindahan Alam &lt;span class="text-emerald-500"&gt;Edukasi&lt;/span&gt;)</label>
+                        <input type="text" x-model="form.hero_title" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Deskripsi Kaki Halaman (Footer)</label>
+                        <textarea x-model="form.footer_description" rows="2" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Subjudul Hero (Tagline)</label>
+                        <textarea x-model="form.hero_subtitle" rows="2" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4"></textarea>
+                    </div>
+                    
+                    <div class="md:col-span-2 border-b border-slate-100 dark:border-slate-800 pb-6">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Gambar Background Hero (Halaman Utama)</label>
+                        <div class="flex items-center gap-6">
+                            <div class="w-32 h-20 bg-slate-100 dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                                <template x-if="images.hero_bg_image">
+                                    <img :src="images.hero_bg_image" alt="Hero Background" class="w-full h-full object-cover" />
+                                </template>
+                            </div>
+                            <div class="flex-grow">
+                                <input type="file" @change="handleImageUpload($event, 'hero_bg_image')" accept="image/*" class="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
+                                <p class="text-[10px] text-slate-400 mt-1">Format: JPG, PNG, SVG (Maks. 2MB)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white pt-4">Hari, Jam Buka, & Kontak Sosial Media</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -115,11 +162,7 @@
                         <input type="text" x-model="form.contact_maps_url" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="https://maps.app.goo.gl/..." />
                     </div>
 
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Link Embed Google Maps (Iframe Source)</label>
-                        <input type="text" x-model="form.contact_maps_embed" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="https://www.google.com/maps/embed?pb=..." />
-                        <p class="text-[10px] text-slate-400 mt-1">Salin hanya URL di dalam tag `src="..."` dari opsi Bagikan &rarr; Sematkan peta.</p>
-                    </div>
+
                 </div>
             </div>
 
@@ -170,6 +213,25 @@
                         </div>
                     </div>
 
+                    <!-- Bank Details -->
+                    <div class="border-t border-slate-100 dark:border-slate-800/80 pt-6">
+                        <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-4">Detail Rekening Bank Transfer Resmi</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nama Bank</label>
+                                <input type="text" x-model="form.payment_bank_name" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: Bank Mandiri" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nomor Rekening</label>
+                                <input type="text" x-model="form.payment_bank_account" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: 1420012345678" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nama Pemilik Rekening (a.n.)</label>
+                                <input type="text" x-model="form.payment_bank_recipient" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: BUMDes Sawah Pulo" />
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Timeout input -->
                     <div class="max-w-xs">
                         <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Batas Waktu Transfer Pembayaran (Jam)</label>
@@ -216,18 +278,27 @@
                     contact_tiktok: '',
                     contact_x: '',
                     contact_maps_url: '',
-                    contact_maps_embed: '',
-                    payment_timeout_hours: 2
+                    payment_timeout_hours: 2,
+                    hero_title: '',
+                    hero_subtitle: '',
+                    footer_description: '',
+                    payment_bank_name: '',
+                    payment_bank_account: '',
+                    payment_bank_recipient: '',
                 },
                 images: {
                     about_structure_image: null,
                     site_plan_image: null,
-                    payment_qris_image: null
+                    payment_qris_image: null,
+                    hero_bg_image: null,
+                    about_image: null,
                 },
                 uploadedFiles: {
                     about_structure_image: null,
                     site_plan_image: null,
-                    payment_qris_image: null
+                    payment_qris_image: null,
+                    hero_bg_image: null,
+                    about_image: null,
                 },
                 fetchSettings() {
                     this.loading = true;

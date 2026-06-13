@@ -67,7 +67,10 @@
                     <div class="space-y-4">
                         <!-- Current Password -->
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Sandi Saat Ini</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Sandi Saat Ini</label>
+                                <a href="{{ route('password.request') }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Lupa kata sandi?</a>
+                            </div>
                             <input type="password" x-model="pwdForm.current_password" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                             <p x-show="errors.current_password" x-text="errors.current_password[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>

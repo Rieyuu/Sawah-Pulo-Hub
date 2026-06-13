@@ -8,19 +8,19 @@
     <section class="relative bg-slate-900 text-white overflow-hidden py-32 sm:py-40">
         <!-- Background Image overlay -->
         <div class="absolute inset-0 opacity-40">
-            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=1920&q=80" alt="Sawah Pulo Background" class="w-full h-full object-cover object-center" />
+            <img src="{{ \App\Models\SiteSetting::getValue('hero_bg_image', asset('images/sawah_pulo_background.png')) }}" alt="Sawah Pulo Background" class="w-full h-full object-cover object-center" />
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent"></div>
         </div>
         
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
-                🌱 Selamat Datang di Sawah Pulo Hub
+                🌱 Selamat Datang di Sawah Pulo Farm
             </span>
             <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-3xl mx-auto leading-tight">
-                Keindahan Alam Pedesaan & <span class="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Edukasi Pertanian</span>
+                {!! \App\Models\SiteSetting::getValue('hero_title', 'Keindahan Alam Pedesaan & <span class="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Edukasi Pertanian</span>') !!}
             </h1>
             <p class="text-lg text-slate-300 max-w-2xl mx-auto">
-                Rasakan pengalaman edukatif bercocok tanam hidroponik, budidaya ternak, dan keindahan panorama sawah hijau yang menenangkan jiwa.
+                {{ \App\Models\SiteSetting::getValue('hero_subtitle', 'Rasakan pengalaman edukatif bercocok tanam hidroponik, budidaya ternak, dan keindahan panorama sawah hijau yang menenangkan jiwa.') }}
             </p>
             <div class="flex flex-wrap justify-center gap-4 pt-4">
                 <a href="#tiket" class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-600/30 transition-all duration-200">
@@ -49,7 +49,7 @@
                         <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Awal Mula Pendirian</h3>
                     </div>
                     <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm sm:text-base">
-                        {{ \App\Models\SiteSetting::getValue('about_history', 'Sawah Pulo Hub didirikan sebagai kawasan eduwisata pertanian modern terpadu yang memadukan keindahan alam pedesaan dengan metode agribisnis berkelanjutan.') }}
+                        {{ \App\Models\SiteSetting::getValue('about_history', 'Sawah Pulo Farm didirikan sebagai kawasan eduwisata pertanian modern terpadu yang memadukan keindahan alam pedesaan dengan metode agribisnis berkelanjutan.') }}
                     </p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
@@ -105,7 +105,7 @@
                         <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Peta 2D Kawasan</span>
                         <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Denah Eduwisata</h3>
                         <p class="text-slate-500 text-sm leading-relaxed">
-                            Denah layout 2D Sawah Pulo Hub membantu Anda menavigasi kawasan kami yang luas. Temukan lokasi area sawah tradisional, lab hidroponik, mini zoo, gardu pandang, dan spot edukasi peternakan secara mudah.
+                            Denah layout 2D Sawah Pulo Farm membantu Anda menavigasi kawasan kami yang luas. Temukan lokasi area sawah tradisional, lab hidroponik, mini zoo, gardu pandang, dan spot edukasi peternakan secara mudah.
                         </p>
                         
                         <div class="pt-2">
@@ -139,12 +139,12 @@
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">Highlight Fasilitas Utama</h3>
                 
                 @php
-                    $facilities = \App\Models\Facility::take(4)->get();
+                    $facilities = \App\Models\Facility::take(3)->get();
                 @endphp
 
                 @if($facilities->isEmpty())
                     <!-- Fallback default facilities if database empty -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Facility 1 -->
                         <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
                             <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-48 object-cover" />
@@ -163,24 +163,16 @@
                         </div>
                         <!-- Facility 3 -->
                         <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
-                            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80" alt="Panorama Sawah" class="w-full h-48 object-cover" />
+                            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Panorama Sawah" class="w-full h-48 object-cover" />
                             <div class="p-5 space-y-2">
                                 <h4 class="font-bold text-slate-900 dark:text-white">Panorama Jembatan Sawah</h4>
                                 <p class="text-xs text-slate-500 leading-relaxed">Spot swafoto di atas jembatan kayu melintasi hamparan sawah hijau yang indah.</p>
                             </div>
                         </div>
-                        <!-- Facility 4 -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
-                            <img src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&w=500&q=80" alt="Kuliner" class="w-full h-48 object-cover" />
-                            <div class="p-5 space-y-2">
-                                <h4 class="font-bold text-slate-900 dark:text-white">Sentra Kuliner Tradisional</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Menikmati hidangan kuliner khas pedesaan hasil bumi petani Sawah Pulo.</p>
-                            </div>
-                        </div>
                     </div>
                 @else
                     <!-- Dynamic database list -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($facilities as $facility)
                             <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
                                 <img src="{{ $facility->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $facility->name }}" class="w-full h-48 object-cover" />
@@ -211,7 +203,16 @@
             </div>
 
             @php
-                $tickets = \App\Models\Ticket::where('is_active', true)->get();
+                // Highlight tickets: Urutkan berdasarkan Best Seller (jumlah transaksi sukses terbanyak),
+                // jika sama atau belum ada transaksi, urutkan berdasarkan tiket terbaru.
+                $tickets = \App\Models\Ticket::where('is_active', true)
+                    ->withCount(['ticketOrders' => function ($query) {
+                        $query->where('status', 'success');
+                    }])
+                    ->orderBy('ticket_orders_count', 'desc')
+                    ->orderBy('created_at', 'desc')
+                    ->take(3)
+                    ->get();
             @endphp
 
             @if($tickets->isEmpty())
@@ -278,30 +279,54 @@
                 <!-- Fallback articles if database empty -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Article 1 -->
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800">
-                        <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-48 object-cover" />
-                        <div class="p-6 space-y-3">
-                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Edukasi</span>
-                            <h3 class="font-bold text-slate-900 dark:text-white">Metode Hidroponik untuk Pemula</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed">Temukan langkah-langkah praktis memulai menanam sayuran menggunakan media air di pekarangan rumah...</p>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-48 object-cover" />
+                            <div class="p-6 space-y-3">
+                                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Edukasi</span>
+                                <h3 class="font-bold text-slate-900 dark:text-white">Metode Hidroponik untuk Pemula</h3>
+                                <p class="text-xs text-slate-500 leading-relaxed">Temukan langkah-langkah praktis memulai menanam sayuran menggunakan media air di pekarangan rumah...</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2">
+                            <a href="{{ route('articles.index') }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1 hover:text-emerald-500">
+                                Baca Selengkapnya
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
                         </div>
                     </div>
                     <!-- Article 2 -->
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800">
-                        <img src="https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&w=500&q=80" alt="Organik" class="w-full h-48 object-cover" />
-                        <div class="p-6 space-y-3">
-                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Budidaya</span>
-                            <h3 class="font-bold text-slate-900 dark:text-white">Pentingnya Pupuk Kompos Organik</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed">Mengapa pupuk organik jauh lebih baik bagi kelestarian kesuburan tanah jangka panjang dibanding kimia...</p>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&w=500&q=80" alt="Organik" class="w-full h-48 object-cover" />
+                            <div class="p-6 space-y-3">
+                                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Budidaya</span>
+                                <h3 class="font-bold text-slate-900 dark:text-white">Pentingnya Pupuk Kompos Organik</h3>
+                                <p class="text-xs text-slate-500 leading-relaxed">Mengapa pupuk organik jauh lebih baik bagi kelestarian kesuburan tanah jangka panjang dibanding kimia...</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2">
+                            <a href="{{ route('articles.index') }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1 hover:text-emerald-500">
+                                Baca Selengkapnya
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
                         </div>
                     </div>
                     <!-- Article 3 -->
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800">
-                        <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80" alt="Wisata" class="w-full h-48 object-cover" />
-                        <div class="p-6 space-y-3">
-                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Event</span>
-                            <h3 class="font-bold text-slate-900 dark:text-white">Festival Panen Raya Sawah Pulo</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed">Keseruan festival menyambut panen padi musim ini dengan berbagai tari tradisional dan pentas rakyat...</p>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80" alt="Wisata" class="w-full h-48 object-cover" />
+                            <div class="p-6 space-y-3">
+                                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Event</span>
+                                <h3 class="font-bold text-slate-900 dark:text-white">Festival Panen Raya Sawah Pulo</h3>
+                                <p class="text-xs text-slate-500 leading-relaxed">Keseruan festival menyambut panen padi musim ini dengan berbagai tari tradisional dan pentas rakyat...</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2">
+                            <a href="{{ route('articles.index') }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1 hover:text-emerald-500">
+                                Baca Selengkapnya
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -309,12 +334,20 @@
                 <!-- Dynamic database articles -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach($articles as $article)
-                        <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800">
-                            <img src="{{ $article->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $article->title }}" class="w-full h-48 object-cover" />
-                            <div class="p-6 space-y-3">
-                                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">{{ $article->category->name ?? 'Wisata' }}</span>
-                                <h3 class="font-bold text-slate-900 dark:text-white">{{ $article->title }}</h3>
-                                <p class="text-xs text-slate-500 leading-relaxed">{{ Str::limit(strip_tags($article->content), 120) }}</p>
+                        <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between group">
+                            <div>
+                                <img src="{{ $article->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $article->title }}" class="w-full h-48 object-cover" />
+                                <div class="p-6 space-y-3">
+                                    <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">{{ $article->category->name ?? 'Wisata' }}</span>
+                                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">{{ $article->title }}</h3>
+                                    <p class="text-xs text-slate-500 leading-relaxed">{{ Str::limit(strip_tags($article->content), 120) }}</p>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-6 pt-2">
+                                <a href="{{ route('articles.show', $article->id) }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1 hover:text-emerald-500">
+                                    Baca Selengkapnya
+                                    <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
                             </div>
                         </div>
                     @endforeach
@@ -361,8 +394,30 @@
 
                 <!-- Google Maps Frame -->
                 <div class="bg-slate-50 dark:bg-slate-800/40 p-3 rounded-3xl border border-slate-100 dark:border-slate-800/50 shadow-sm">
+                    @php
+                        $mapsUrl = \App\Models\SiteSetting::getValue('contact_maps_url', '');
+                        $address = \App\Models\SiteSetting::getValue('contact_address', 'Dusun Pulo, Kec. Sawah Indah, Kab. Mojokerto, Jawa Timur, Indonesia');
+                        
+                        $embedUrl = '';
+                        
+                        if ($mapsUrl) {
+                            if (str_contains($mapsUrl, '/embed') || str_contains($mapsUrl, 'output=embed')) {
+                                $embedUrl = $mapsUrl;
+                            } elseif (preg_match('#/maps/place/([^/]+)#', $mapsUrl, $matches)) {
+                                $embedUrl = 'https://maps.google.com/maps?q=' . urlencode(urldecode(str_replace('+', ' ', $matches[1]))) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                            } elseif (preg_match('#/maps/search/([^/]+)#', $mapsUrl, $matches)) {
+                                $embedUrl = 'https://maps.google.com/maps?q=' . urlencode(urldecode(str_replace('+', ' ', $matches[1]))) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                            } elseif (preg_match('#@(-?\d+\.\d+),(-?\d+\.\d+)#', $mapsUrl, $matches)) {
+                                $embedUrl = 'https://maps.google.com/maps?q=' . $matches[1] . ',' . $matches[2] . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                            }
+                        }
+                        
+                        if (!$embedUrl) {
+                            $embedUrl = 'https://maps.google.com/maps?q=' . urlencode($address) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                        }
+                    @endphp
                     <iframe 
-                        src="{{ \App\Models\SiteSetting::getValue('contact_maps_embed', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15822.428458925574!2d112.5028479!3d-7.5414969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e78e1b1b1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sMojokerto%2C%20East%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid') }}" 
+                        src="{{ $embedUrl }}" 
                         width="100%" 
                         height="350" 
                         style="border:0;" 

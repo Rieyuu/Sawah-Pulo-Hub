@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         $admin = User::updateOrCreate(
             ['email' => 'admin@sawahpulohub.com'],
             [
-                'name' => 'Admin Sawah Pulo Hub',
+                'name' => 'Admin Sawah Pulo Farm',
                 'whatsapp' => '081111111111',
                 'password' => Hash::make('password'),
             ]

@@ -28,7 +28,7 @@
         <aside class="w-64 bg-slate-900 text-slate-400 border-r border-slate-800 flex flex-col fixed inset-y-0 left-0 z-40 transition-transform duration-300 md:translate-x-0" :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
             <!-- Sidebar Header -->
             <div class="h-16 flex items-center justify-between px-6 border-b border-slate-800">
-                <a href="{{ route('home') }}" class="flex items-center gap-2 group">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 group">
                     <span class="text-lg font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                         SAWAH PULO
                     </span>
@@ -107,9 +107,9 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('home') }}" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                        Lihat Situs Wisatawan
+                    <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-xl transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Lihat Website
                     </a>
                 </div>
             </header>
@@ -142,7 +142,7 @@
                         
                         // Verify role admin
                         const roles = profile.roles || [];
-                        const isAdmin = roles.some(role => role.slug === 'admin');
+                        const isAdmin = roles.some(role => role === 'admin' || (role && role.slug === 'admin'));
                         
                         if (!isAdmin) {
                             // Regular tourists are redirected to homepage

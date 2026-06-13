@@ -4,7 +4,7 @@
     <!-- Header Section -->
     <section class="relative bg-slate-900 text-white overflow-hidden py-20">
         <div class="absolute inset-0 opacity-30">
-            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1920&q=80" alt="Fasilitas Sawah Pulo" class="w-full h-full object-cover object-center" />
+            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Fasilitas Sawah Pulo" class="w-full h-full object-cover object-center" />
             <div class="absolute inset-0 bg-slate-950"></div>
         </div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
@@ -24,7 +24,7 @@
                         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">Layout Area</span>
                         <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-tight">Denah Peta 2D Kawasan</h2>
                         <p class="text-slate-500 dark:text-slate-400 text-sm sm:text-base leading-relaxed">
-                            Denah 2D ini menunjukkan seluruh area Eduwisata Sawah Pulo Hub secara lengkap. Anda dapat melihat koordinat spot-spot menarik seperti area perkebunan tradisional, jembatan pandang, peternakan kelinci/kambing, dan kawasan kuliner.
+                            Denah 2D ini menunjukkan seluruh area Eduwisata Sawah Pulo Farm secara lengkap. Anda dapat melihat koordinat spot-spot menarik seperti area perkebunan tradisional, jembatan pandang, peternakan kelinci/kambing, dan kawasan kuliner.
                         </p>
                         <div class="text-xs text-slate-400">
                             💡 Klik gambar denah di samping untuk memperbesar secara penuh.

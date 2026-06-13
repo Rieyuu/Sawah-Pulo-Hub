@@ -17,7 +17,7 @@
             <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
                 <div class="pb-3 border-b border-slate-100 dark:border-slate-800/80">
                     <h3 class="font-bold text-slate-900 dark:text-white">Informasi Akun</h3>
-                    <p class="text-xs text-slate-400">Perbarui informasi email, nama lengkap, dan nomor WhatsApp Anda.</p>
+                    <p class="text-xs text-slate-400">Perbarui informasi email dan nama lengkap Anda.</p>
                 </div>
 
                 <form @submit.prevent="updateProfile()" class="space-y-4">
@@ -35,12 +35,8 @@
                         <p x-show="profileErrors.email" x-text="profileErrors.email[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>
 
-                    <!-- WhatsApp -->
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase">Nomor WhatsApp</label>
-                        <input type="text" x-model="profileForm.whatsapp" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
-                        <p x-show="profileErrors.whatsapp" x-text="profileErrors.whatsapp[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
-                    </div>
+                    <!-- WhatsApp (Hidden for admin since destination WhatsApp is set globally) -->
+                    <input type="hidden" x-model="profileForm.whatsapp" />
 
                     <button type="submit" :disabled="loading" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-lg transition-all">
                         <span x-show="loading" class="inline-block animate-spin mr-1">&#9696;</span>
@@ -59,7 +55,10 @@
                 <form @submit.prevent="updatePassword()" class="space-y-4">
                     <!-- Current Password -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase">Sandi Saat Ini</label>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-bold text-slate-400 uppercase">Sandi Saat Ini</label>
+                            <a href="{{ route('password.request') }}" class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Lupa kata sandi?</a>
+                        </div>
                         <input type="password" x-model="passwordForm.current_password" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
                         <p x-show="passwordErrors.current_password" x-text="passwordErrors.current_password[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>

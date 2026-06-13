@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Tiket Resmi Sawah Pulo Hub</title>
+    <title>E-Tiket Resmi Sawah Pulo Farm</title>
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -37,7 +37,7 @@
         <!-- Header -->
         <div class="text-center border-b border-dashed border-slate-200 pb-6 space-y-2">
             <h2 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-                SAWAH PULO HUB
+                SAWAH PULO FARM
             </h2>
             <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest">E-Tiket Masuk Resmi</p>
         </div>

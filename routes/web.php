@@ -102,3 +102,6 @@ Route::prefix('admin')->group(function () {
         return view('admin.profile');
     })->name('admin.profile');
 });
+
+require __DIR__.'/auth.php';
+
