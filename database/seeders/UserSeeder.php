@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        if ($adminRole && !$admin->roles()->where('slug', 'admin')->exists()) {
+        if ($adminRole && ! $admin->roles()->where('slug', 'admin')->exists()) {
             $admin->roles()->attach($adminRole);
         }
 
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        if ($userRole && !$visitor->roles()->where('slug', 'user')->exists()) {
+        if ($userRole && ! $visitor->roles()->where('slug', 'user')->exists()) {
             $visitor->roles()->attach($userRole);
         }
     }

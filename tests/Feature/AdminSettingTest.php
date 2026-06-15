@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
-use App\Models\User;
 use App\Models\SiteSetting;
+use App\Models\User;
 use Database\Seeders\SiteSettingSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -16,8 +16,11 @@ class AdminSettingTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
 
     protected function setUp(): void
@@ -72,7 +75,7 @@ class AdminSettingTest extends TestCase
     public function admin_can_retrieve_settings()
     {
         $response = $this->getJson('/api/admin/settings', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -81,8 +84,8 @@ class AdminSettingTest extends TestCase
                 'message',
                 'data' => [
                     'about_history' => ['value', 'type', 'updated_by', 'updated_at'],
-                    'operating_days' => ['value', 'type', 'updated_by', 'updated_at']
-                ]
+                    'operating_days' => ['value', 'type', 'updated_by', 'updated_at'],
+                ],
             ]);
     }
 
@@ -90,7 +93,7 @@ class AdminSettingTest extends TestCase
     public function regular_user_cannot_retrieve_settings()
     {
         $response = $this->getJson('/api/admin/settings', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(403);
@@ -104,15 +107,15 @@ class AdminSettingTest extends TestCase
         $response = $this->postJson('/api/admin/settings', [
             'operating_days' => 'Senin - Sabtu',
             'operating_hours' => '09:00 - 16:00 WIB',
-            'site_plan_image' => $file
+            'site_plan_image' => $file,
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
             ->assertJson([
                 'status' => 200,
-                'message' => 'Successfully updated 3 settings'
+                'message' => 'Successfully updated 3 settings',
             ]);
 
         // Assert text values are updated

@@ -15,7 +15,7 @@ class AdminSettingController extends Controller
     public function index()
     {
         $settings = SiteSetting::with('user:id,name')->get();
-        
+
         // Bentuk menjadi key-value pair agar mudah diolah Front-end
         $formattedSettings = [];
         foreach ($settings as $setting) {
@@ -23,14 +23,14 @@ class AdminSettingController extends Controller
                 'value' => $setting->value,
                 'type' => $setting->type,
                 'updated_by' => $setting->user ? $setting->user->name : null,
-                'updated_at' => $setting->updated_at
+                'updated_at' => $setting->updated_at,
             ];
         }
 
         return response()->json([
             'status' => 200,
             'message' => 'Site settings retrieved successfully',
-            'data' => $formattedSettings
+            'data' => $formattedSettings,
         ], 200);
     }
 
@@ -58,7 +58,7 @@ class AdminSettingController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -68,7 +68,7 @@ class AdminSettingController extends Controller
             // Cek apakah key tersebut ada di pengaturan kita
             $setting = SiteSetting::where('key', $key)->first();
 
-            if (!$setting) {
+            if (! $setting) {
                 // Abaikan key yang tidak terdaftar di database
                 continue;
             }
@@ -82,7 +82,7 @@ class AdminSettingController extends Controller
                 }
 
                 $path = $request->file($key)->store('settings', 'public');
-                $setting->value = '/storage/' . $path;
+                $setting->value = '/storage/'.$path;
                 $setting->type = 'image';
             } else {
                 // Jika input berupa teks / textarea
@@ -97,7 +97,7 @@ class AdminSettingController extends Controller
         return response()->json([
             'status' => 200,
             'message' => "Successfully updated {$updatedCount} settings",
-            'data' => null
+            'data' => null,
         ], 200);
     }
 }

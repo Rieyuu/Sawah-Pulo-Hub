@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Facility;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Facility;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +15,11 @@ class FacilityCrudTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
 
     protected function setUp(): void
@@ -66,11 +69,11 @@ class FacilityCrudTest extends TestCase
             'name' => 'Fasilitas Utama',
             'slug' => 'fasilitas-utama',
             'description' => 'Deskripsi Fasilitas Utama',
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
 
         $response = $this->getJson('/api/admin/facilities', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -78,8 +81,8 @@ class FacilityCrudTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    '*' => ['id', 'name', 'slug', 'description', 'user']
-                ]
+                    '*' => ['id', 'name', 'slug', 'description', 'user'],
+                ],
             ])
             ->assertJsonCount(1, 'data');
     }
@@ -88,7 +91,7 @@ class FacilityCrudTest extends TestCase
     public function regular_user_cannot_list_facilities()
     {
         $response = $this->getJson('/api/admin/facilities', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(403);
@@ -102,21 +105,21 @@ class FacilityCrudTest extends TestCase
         $response = $this->postJson('/api/admin/facilities', [
             'name' => 'Toilet Bersih',
             'description' => 'Fasilitas sanitasi toilet bersih',
-            'image' => $file
+            'image' => $file,
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'status',
                 'message',
-                'data' => ['id', 'name', 'slug', 'image_path', 'user_id']
+                'data' => ['id', 'name', 'slug', 'image_path', 'user_id'],
             ]);
 
         $facility = Facility::first();
         $this->assertNotNull($facility->image_path);
-        
+
         $storedName = str_replace('/storage/', '', $facility->image_path);
         Storage::disk('public')->assertExists($storedName);
 
@@ -131,14 +134,14 @@ class FacilityCrudTest extends TestCase
             'name' => 'Kantin Lama',
             'slug' => 'kantin-lama',
             'description' => 'Deskripsi Lama',
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
 
         $response = $this->putJson("/api/admin/facilities/{$facility->id}", [
             'name' => 'Kantin Baru',
             'description' => 'Deskripsi Baru',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
@@ -154,11 +157,11 @@ class FacilityCrudTest extends TestCase
             'name' => 'Fasilitas Rusak',
             'slug' => 'fasilitas-rusak',
             'description' => 'Deskripsi',
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
 
         $response = $this->deleteJson("/api/admin/facilities/{$facility->id}", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
@@ -172,12 +175,12 @@ class FacilityCrudTest extends TestCase
             'name' => 'Fasilitas Hilang',
             'slug' => 'fasilitas-hilang',
             'description' => 'Deskripsi',
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
         $facility->delete();
 
         $response = $this->postJson("/api/admin/facilities/{$facility->id}/restore", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);

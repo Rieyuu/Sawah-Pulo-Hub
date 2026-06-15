@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SiteSetting;
 use App\Models\Ticket;
 use App\Models\TicketOrder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TicketOrderController extends Controller
 {
@@ -21,7 +22,7 @@ class TicketOrderController extends Controller
             return response()->json([
                 'status' => 403,
                 'message' => 'Akun administrator tidak diperkenankan untuk melakukan pemesanan tiket wisata. Silakan gunakan akun wisatawan biasa.',
-                'data' => null
+                'data' => null,
             ], 403);
         }
 
@@ -34,18 +35,18 @@ class TicketOrderController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $ticket = Ticket::find($request->ticket_id);
 
         // Cek keaktifan tiket
-        if (!$ticket->is_active) {
+        if (! $ticket->is_active) {
             return response()->json([
                 'status' => 400,
                 'message' => 'Ticket is currently inactive and cannot be ordered.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -54,13 +55,13 @@ class TicketOrderController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => "Insufficient stock. Only {$ticket->stock} tickets available.",
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
         // Generate kode tiket unik: SWP-XXXXXX
         do {
-            $ticketCode = 'SWP-' . strtoupper(Str::random(8));
+            $ticketCode = 'SWP-'.strtoupper(Str::random(8));
         } while (TicketOrder::where('ticket_code', $ticketCode)->exists());
 
         $totalPrice = $ticket->price * $request->quantity;
@@ -78,7 +79,7 @@ class TicketOrderController extends Controller
         return response()->json([
             'status' => 201,
             'message' => 'Ticket order created successfully. Please upload proof of payment.',
-            'data' => $order->load('ticket')
+            'data' => $order->load('ticket'),
         ], 201);
     }
 
@@ -91,11 +92,11 @@ class TicketOrderController extends Controller
             ->where('user_id', auth()->id())
             ->first();
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket order not found.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -104,19 +105,20 @@ class TicketOrderController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Cannot upload payment proof for this order status.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
         // Jalankan check expired untuk order ini
-        $timeoutHours = (int) \App\Models\SiteSetting::getValue('payment_timeout_hours', 2);
+        $timeoutHours = (int) SiteSetting::getValue('payment_timeout_hours', 2);
         if ($order->created_at->addHours($timeoutHours)->isPast()) {
             $order->status = 'failed';
             $order->save();
+
             return response()->json([
                 'status' => 400,
                 'message' => 'The payment window for this ticket order has expired. Please place a new order.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -128,7 +130,7 @@ class TicketOrderController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -140,8 +142,8 @@ class TicketOrderController extends Controller
             }
 
             $path = $request->file('proof_of_payment')->store('payments', 'public');
-            
-            $order->proof_of_payment = '/storage/' . $path;
+
+            $order->proof_of_payment = '/storage/'.$path;
             $order->status = 'pending'; // Ubah ke status menunggu approval admin
             $order->save();
         }
@@ -149,7 +151,7 @@ class TicketOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Payment proof uploaded successfully. Waiting for admin verification.',
-            'data' => $order->load('ticket')
+            'data' => $order->load('ticket'),
         ], 200);
     }
 
@@ -168,7 +170,7 @@ class TicketOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Purchase history retrieved successfully.',
-            'data' => $orders
+            'data' => $orders,
         ], 200);
     }
 
@@ -184,18 +186,18 @@ class TicketOrderController extends Controller
             ->with('ticket')
             ->first();
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket order not found.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
         return response()->json([
             'status' => 200,
             'message' => 'Ticket order details retrieved successfully.',
-            'data' => $order
+            'data' => $order,
         ], 200);
     }
 
@@ -208,11 +210,11 @@ class TicketOrderController extends Controller
             ->where('user_id', auth()->id())
             ->first();
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket order not found.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -221,7 +223,7 @@ class TicketOrderController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Hanya pesanan yang belum dibayar yang dapat dibatalkan.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -231,7 +233,7 @@ class TicketOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Pesanan tiket berhasil dibatalkan.',
-            'data' => $order->load('ticket')
+            'data' => $order->load('ticket'),
         ], 200);
     }
 }

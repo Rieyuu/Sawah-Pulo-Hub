@@ -2,10 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Services\JwtService;
+use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class JwtMiddleware
 {
@@ -19,8 +18,6 @@ class JwtMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @param  string|null  $role
      * @return mixed
      */
@@ -28,30 +25,30 @@ class JwtMiddleware
     {
         $token = $request->bearerToken();
 
-        if (!$token) {
+        if (! $token) {
             return response()->json([
                 'status' => 401,
                 'message' => 'Unauthorized - No token provided',
-                'data' => null
+                'data' => null,
             ], 401);
         }
 
         $user = $this->jwtService->validateToken($token);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'status' => 401,
                 'message' => 'Unauthorized - Invalid or expired token',
-                'data' => null
+                'data' => null,
             ], 401);
         }
 
         // Check role if specified
-        if ($role && !$user->hasRole($role)) {
+        if ($role && ! $user->hasRole($role)) {
             return response()->json([
                 'status' => 403,
                 'message' => 'Forbidden - Access denied',
-                'data' => null
+                'data' => null,
             ], 403);
         }
 

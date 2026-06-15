@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
-use App\Models\User;
 use App\Models\Ticket;
 use App\Models\TicketOrder;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,9 +14,13 @@ class AdminReportsTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
+
     protected $ticket;
 
     protected function setUp(): void
@@ -53,7 +57,7 @@ class AdminReportsTest extends TestCase
             'description' => 'Akses seluruh kawasan',
             'price' => 15000,
             'stock' => 10,
-            'is_active' => true
+            'is_active' => true,
         ]);
 
         // Get tokens
@@ -82,7 +86,7 @@ class AdminReportsTest extends TestCase
             'ticket_code' => 'SWP-REP01',
             'status' => 'success',
             'is_used' => false,
-            'expired_at' => now()->addDays(7)
+            'expired_at' => now()->addDays(7),
         ]);
 
         TicketOrder::create([
@@ -94,7 +98,7 @@ class AdminReportsTest extends TestCase
             'status' => 'success',
             'is_used' => true,
             'used_at' => now(),
-            'expired_at' => now()->addDays(7)
+            'expired_at' => now()->addDays(7),
         ]);
 
         // Buat order pending (tidak boleh masuk hitungan keuangan/wisatawan unik)
@@ -106,11 +110,11 @@ class AdminReportsTest extends TestCase
             'ticket_code' => 'SWP-REP03',
             'status' => 'pending',
             'is_used' => false,
-            'expired_at' => null
+            'expired_at' => null,
         ]);
 
         $response = $this->getJson('/api/admin/reports/dashboard', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -126,15 +130,15 @@ class AdminReportsTest extends TestCase
                     'tickets_sold',
                     'total_visitors',
                     'chart_data' => [
-                        '*' => ['label', 'raw_date', 'revenue', 'tickets']
+                        '*' => ['label', 'raw_date', 'revenue', 'tickets'],
                     ],
                     'popular_tickets' => [
-                        '*' => ['title', 'sold']
+                        '*' => ['title', 'sold'],
                     ],
                     'recent_orders' => [
-                        '*' => ['id', 'ticket_code', 'user_name', 'ticket_title', 'quantity', 'total_price', 'status', 'created_at']
-                    ]
-                ]
+                        '*' => ['id', 'ticket_code', 'user_name', 'ticket_title', 'quantity', 'total_price', 'status', 'created_at'],
+                    ],
+                ],
             ]);
 
         $this->assertEquals(75000, $response->json('data.total_revenue'));
@@ -146,14 +150,14 @@ class AdminReportsTest extends TestCase
     public function tourist_cannot_retrieve_dashboard_reports()
     {
         $response = $this->getJson('/api/admin/reports/dashboard', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(403)
             ->assertJson([
                 'status' => 403,
                 'message' => 'Forbidden - Access denied',
-                'data' => null
+                'data' => null,
             ]);
     }
 }

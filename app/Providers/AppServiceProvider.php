@@ -2,16 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-
-use App\Models\Ticket;
-use App\Observers\TicketObserver;
-use App\Models\Facility;
-use App\Observers\FacilityObserver;
-use App\Models\SiteSetting;
-use App\Observers\SiteSettingObserver;
 use App\Models\Article;
+use App\Models\Facility;
+use App\Models\SiteSetting;
+use App\Models\Ticket;
 use App\Observers\ArticleObserver;
+use App\Observers\FacilityObserver;
+use App\Observers\SiteSettingObserver;
+use App\Observers\TicketObserver;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

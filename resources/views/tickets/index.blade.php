@@ -30,9 +30,9 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($tickets as $ticket)
-                        <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 p-6 sm:p-8 rounded-3xl flex flex-col justify-between hover:shadow-md hover:border-slate-200 transition-all duration-300">
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 p-6 sm:p-8 rounded-3xl flex flex-col justify-between hover:shadow-md hover:border-slate-200 transition-all duration-300">
                             <div class="space-y-4">
-                                <div class="w-full h-44 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border dark:border-slate-800/60 relative">
+                                <div class="w-full h-32 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border dark:border-slate-800/60 relative">
                                     <img src="{{ $ticket->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $ticket->title }}" class="w-full h-full object-cover" />
                                 </div>
                                 <h3 class="font-bold text-slate-900 dark:text-white text-lg sm:text-xl">{{ $ticket->title }}</h3>

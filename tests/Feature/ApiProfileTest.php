@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Models\AccessToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -14,6 +13,7 @@ class ApiProfileTest extends TestCase
     use RefreshDatabase;
 
     protected $user;
+
     protected $token;
 
     protected function setUp(): void
@@ -60,8 +60,8 @@ class ApiProfileTest extends TestCase
                         'name' => 'John Doe',
                         'email' => 'john@example.com',
                         'whatsapp' => '081234567890',
-                    ]
-                ]
+                    ],
+                ],
             ]);
     }
 
@@ -85,8 +85,8 @@ class ApiProfileTest extends TestCase
                         'name' => 'John Updated',
                         'email' => 'john.updated@example.com',
                         'whatsapp' => '089999999999',
-                    ]
-                ]
+                    ],
+                ],
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -114,7 +114,7 @@ class ApiProfileTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'status' => 200,
-                'message' => 'Profile updated successfully'
+                'message' => 'Profile updated successfully',
             ]);
 
         // Verify hash password is updated
@@ -151,7 +151,7 @@ class ApiProfileTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'status' => 200,
-                'message' => 'Account deleted successfully'
+                'message' => 'Account deleted successfully',
             ]);
 
         // Assert user is soft-deleted

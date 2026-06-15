@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Article;
+use App\Models\Category;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Category;
-use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,9 +16,13 @@ class ArticleCrudTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
+
     protected $category;
 
     protected function setUp(): void
@@ -63,7 +67,7 @@ class ArticleCrudTest extends TestCase
         // Create Category
         $this->category = Category::create([
             'name' => 'Event Wisata',
-            'slug' => 'event-wisata'
+            'slug' => 'event-wisata',
         ]);
     }
 
@@ -75,11 +79,11 @@ class ArticleCrudTest extends TestCase
             'slug' => 'artikel-indah',
             'content' => 'Lorem ipsum dolor sit amet.',
             'category_id' => $this->category->id,
-            'author_id' => $this->admin->id
+            'author_id' => $this->admin->id,
         ]);
 
         $response = $this->getJson('/api/admin/articles', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -87,8 +91,8 @@ class ArticleCrudTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    '*' => ['id', 'title', 'slug', 'content', 'category', 'author']
-                ]
+                    '*' => ['id', 'title', 'slug', 'content', 'category', 'author'],
+                ],
             ])
             ->assertJsonCount(1, 'data');
     }
@@ -97,7 +101,7 @@ class ArticleCrudTest extends TestCase
     public function regular_user_cannot_list_articles()
     {
         $response = $this->getJson('/api/admin/articles', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(403);
@@ -112,21 +116,21 @@ class ArticleCrudTest extends TestCase
             'title' => 'Artikel Menarik Baru',
             'content' => 'Isi konten artikel yang sangat mendalam dan informatif.',
             'category_id' => $this->category->id,
-            'image' => $file
+            'image' => $file,
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'status',
                 'message',
-                'data' => ['id', 'title', 'slug', 'image_path', 'author_id', 'category_id']
+                'data' => ['id', 'title', 'slug', 'image_path', 'author_id', 'category_id'],
             ]);
 
         $article = Article::first();
         $this->assertNotNull($article->image_path);
-        
+
         $storedName = str_replace('/storage/', '', $article->image_path);
         Storage::disk('public')->assertExists($storedName);
 
@@ -142,15 +146,15 @@ class ArticleCrudTest extends TestCase
             'slug' => 'artikel-lawas',
             'content' => 'Konten lama',
             'category_id' => $this->category->id,
-            'author_id' => $this->admin->id
+            'author_id' => $this->admin->id,
         ]);
 
         $response = $this->putJson("/api/admin/articles/{$article->id}", [
             'title' => 'Artikel Terkini',
             'content' => 'Konten baru',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
@@ -168,11 +172,11 @@ class ArticleCrudTest extends TestCase
             'slug' => 'artikel-dihapus',
             'content' => 'Konten',
             'category_id' => $this->category->id,
-            'author_id' => $this->admin->id
+            'author_id' => $this->admin->id,
         ]);
 
         $response = $this->deleteJson("/api/admin/articles/{$article->id}", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
@@ -187,12 +191,12 @@ class ArticleCrudTest extends TestCase
             'slug' => 'artikel-terhapus',
             'content' => 'Konten',
             'category_id' => $this->category->id,
-            'author_id' => $this->admin->id
+            'author_id' => $this->admin->id,
         ]);
         $article->delete();
 
         $response = $this->postJson("/api/admin/articles/{$article->id}/restore", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);

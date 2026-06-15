@@ -8,6 +8,7 @@ use Illuminate\View\View;
 class AdminLayout extends Component
 {
     public $activeRoute;
+
     public $header;
 
     /**

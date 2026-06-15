@@ -13,6 +13,7 @@ class AdminSecurityTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
 
     protected function setUp(): void
@@ -45,7 +46,7 @@ class AdminSecurityTest extends TestCase
     {
         // 1. Ambil profil, pastikan is_using_default_password = true
         $profileRes = $this->getJson('/api/profile', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $profileRes->assertStatus(200);
@@ -58,19 +59,19 @@ class AdminSecurityTest extends TestCase
             'whatsapp' => '089999999999',
             'current_password' => 'password',
             'password' => 'newsecurepassword',
-            'password_confirmation' => 'newsecurepassword'
+            'password_confirmation' => 'newsecurepassword',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $updateRes->assertStatus(200);
-        
+
         // Flag is_using_default_password harus berubah jadi false karena password sudah diganti dari 'password'
         $this->assertFalse($updateRes->json('data.user.is_using_default_password'));
 
         // 3. Verifikasi dengan memanggil ulang profil
         $profileRes2 = $this->getJson('/api/profile', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
         $this->assertFalse($profileRes2->json('data.user.is_using_default_password'));
     }
@@ -84,7 +85,7 @@ class AdminSecurityTest extends TestCase
             'email' => 'superadmin@example.com',
             'whatsapp' => '089988887777',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -92,8 +93,8 @@ class AdminSecurityTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    'user' => ['id', 'name', 'email', 'whatsapp']
-                ]
+                    'user' => ['id', 'name', 'email', 'whatsapp'],
+                ],
             ]);
 
         // Pastikan tersimpan di DB

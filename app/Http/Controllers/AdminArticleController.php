@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AdminArticleController extends Controller
 {
@@ -26,7 +26,7 @@ class AdminArticleController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Articles retrieved successfully',
-            'data' => $articles
+            'data' => $articles,
         ], 200);
     }
 
@@ -46,20 +46,20 @@ class AdminArticleController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('articles', 'public');
-            $imagePath = '/storage/' . $imagePath;
+            $imagePath = '/storage/'.$imagePath;
         }
 
         // slug & author_id ditangani (slug via Str::slug, author_id via ArticleObserver)
         $article = Article::create([
             'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . Str::random(5), // slug unik
+            'slug' => Str::slug($request->title).'-'.Str::random(5), // slug unik
             'content' => $request->content,
             'category_id' => $request->category_id,
             'image_path' => $imagePath,
@@ -68,7 +68,7 @@ class AdminArticleController extends Controller
         return response()->json([
             'status' => 201,
             'message' => 'Article created successfully',
-            'data' => $article->load(['category', 'author:id,name'])
+            'data' => $article->load(['category', 'author:id,name']),
         ], 201);
     }
 
@@ -79,18 +79,18 @@ class AdminArticleController extends Controller
     {
         $article = Article::withTrashed()->with(['category', 'author:id,name'])->find($id);
 
-        if (!$article) {
+        if (! $article) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Article not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
         return response()->json([
             'status' => 200,
             'message' => 'Article retrieved successfully',
-            'data' => $article
+            'data' => $article,
         ], 200);
     }
 
@@ -101,11 +101,11 @@ class AdminArticleController extends Controller
     {
         $article = Article::find($id);
 
-        if (!$article) {
+        if (! $article) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Article not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -120,7 +120,7 @@ class AdminArticleController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -131,23 +131,23 @@ class AdminArticleController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $imagePath = $request->file('image')->store('articles', 'public');
-            $article->image_path = '/storage/' . $imagePath;
+            $article->image_path = '/storage/'.$imagePath;
         }
 
         $article->title = $request->title;
         if ($article->isDirty('title')) {
-            $article->slug = Str::slug($request->title) . '-' . Str::random(5);
+            $article->slug = Str::slug($request->title).'-'.Str::random(5);
         }
         $article->content = $request->content;
         $article->category_id = $request->category_id;
-        
+
         // author_id otomatis di-update oleh ArticleObserver saat save
         $article->save();
 
         return response()->json([
             'status' => 200,
             'message' => 'Article updated successfully',
-            'data' => $article->load(['category', 'author:id,name'])
+            'data' => $article->load(['category', 'author:id,name']),
         ], 200);
     }
 
@@ -158,11 +158,11 @@ class AdminArticleController extends Controller
     {
         $article = Article::find($id);
 
-        if (!$article) {
+        if (! $article) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Article not found or already deleted',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -171,7 +171,7 @@ class AdminArticleController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Article soft deleted successfully',
-            'data' => null
+            'data' => null,
         ], 200);
     }
 
@@ -182,11 +182,11 @@ class AdminArticleController extends Controller
     {
         $article = Article::onlyTrashed()->find($id);
 
-        if (!$article) {
+        if (! $article) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Deleted article not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -195,7 +195,7 @@ class AdminArticleController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Article restored successfully',
-            'data' => $article->load(['category', 'author:id,name'])
+            'data' => $article->load(['category', 'author:id,name']),
         ], 200);
     }
 }

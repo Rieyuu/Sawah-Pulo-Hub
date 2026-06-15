@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
-use App\Models\User;
 use App\Models\Ticket;
 use App\Models\TicketOrder;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,9 +14,13 @@ class AdminScanTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
+
     protected $ticket;
 
     protected function setUp(): void
@@ -53,7 +57,7 @@ class AdminScanTest extends TestCase
             'description' => 'Akses seluruh kawasan',
             'price' => 15000,
             'stock' => 10,
-            'is_active' => true
+            'is_active' => true,
         ]);
 
         // Get tokens
@@ -82,13 +86,13 @@ class AdminScanTest extends TestCase
             'ticket_code' => 'SWP-SUCCESS123',
             'status' => 'success',
             'is_used' => false,
-            'expired_at' => now()->addDays(7)
+            'expired_at' => now()->addDays(7),
         ]);
 
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-SUCCESS123'
+            'ticket_code' => 'SWP-SUCCESS123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -105,8 +109,8 @@ class AdminScanTest extends TestCase
                     'is_used',
                     'used_at',
                     'user' => ['id', 'name', 'email', 'whatsapp'],
-                    'ticket' => ['id', 'title', 'price']
-                ]
+                    'ticket' => ['id', 'title', 'price'],
+                ],
             ]);
 
         // Pastikan terupdate di database
@@ -126,20 +130,20 @@ class AdminScanTest extends TestCase
             'ticket_code' => 'SWP-UNPAID123',
             'status' => 'pending_payment',
             'is_used' => false,
-            'expired_at' => null
+            'expired_at' => null,
         ]);
 
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-UNPAID123'
+            'ticket_code' => 'SWP-UNPAID123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJson([
                 'status' => 400,
                 'message' => 'Tiket belum dibayar.',
-                'data' => null
+                'data' => null,
             ]);
     }
 
@@ -155,20 +159,20 @@ class AdminScanTest extends TestCase
             'ticket_code' => 'SWP-PENDING123',
             'status' => 'pending',
             'is_used' => false,
-            'expired_at' => null
+            'expired_at' => null,
         ]);
 
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-PENDING123'
+            'ticket_code' => 'SWP-PENDING123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJson([
                 'status' => 400,
                 'message' => 'Tiket sedang menunggu verifikasi pembayaran oleh admin.',
-                'data' => null
+                'data' => null,
             ]);
     }
 
@@ -184,20 +188,20 @@ class AdminScanTest extends TestCase
             'ticket_code' => 'SWP-FAILED123',
             'status' => 'failed',
             'is_used' => false,
-            'expired_at' => null
+            'expired_at' => null,
         ]);
 
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-FAILED123'
+            'ticket_code' => 'SWP-FAILED123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJson([
                 'status' => 400,
                 'message' => 'Tiket tidak dapat digunakan karena pembayaran gagal atau kedaluwarsa.',
-                'data' => null
+                'data' => null,
             ]);
     }
 
@@ -213,20 +217,20 @@ class AdminScanTest extends TestCase
             'ticket_code' => 'SWP-EXPIRED123',
             'status' => 'success',
             'is_used' => false,
-            'expired_at' => now()->subDay()
+            'expired_at' => now()->subDay(),
         ]);
 
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-EXPIRED123'
+            'ticket_code' => 'SWP-EXPIRED123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJsonStructure([
                 'status',
                 'message',
-                'data'
+                'data',
             ]);
 
         $this->assertStringContainsString('Tiket sudah kedaluwarsa', $response->json('message'));
@@ -245,20 +249,20 @@ class AdminScanTest extends TestCase
             'status' => 'success',
             'is_used' => true,
             'used_at' => now()->subHours(2),
-            'expired_at' => now()->addDays(7)
+            'expired_at' => now()->addDays(7),
         ]);
 
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-USED123'
+            'ticket_code' => 'SWP-USED123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJsonStructure([
                 'status',
                 'message',
-                'data'
+                'data',
             ]);
 
         $this->assertStringContainsString('Tiket sudah pernah digunakan', $response->json('message'));
@@ -268,16 +272,16 @@ class AdminScanTest extends TestCase
     public function admin_cannot_scan_non_existent_ticket()
     {
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-NONEXIST123'
+            'ticket_code' => 'SWP-NONEXIST123',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(404)
             ->assertJson([
                 'status' => 404,
                 'message' => 'Tiket tidak terdaftar/ditemukan.',
-                'data' => null
+                'data' => null,
             ]);
     }
 
@@ -285,16 +289,16 @@ class AdminScanTest extends TestCase
     public function tourist_cannot_scan_ticket()
     {
         $response = $this->postJson('/api/admin/tickets/scan', [
-            'ticket_code' => 'SWP-ANY123'
+            'ticket_code' => 'SWP-ANY123',
         ], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(403)
             ->assertJson([
                 'status' => 403,
                 'message' => 'Forbidden - Access denied',
-                'data' => null
+                'data' => null,
             ]);
     }
 }

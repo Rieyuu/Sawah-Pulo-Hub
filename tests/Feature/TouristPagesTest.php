@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Category;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,6 +14,7 @@ class TouristPagesTest extends TestCase
     use RefreshDatabase;
 
     protected $ticket;
+
     protected $article;
 
     protected function setUp(): void

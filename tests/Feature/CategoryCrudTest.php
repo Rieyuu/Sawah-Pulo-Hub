@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,8 +13,11 @@ class CategoryCrudTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
 
     protected function setUp(): void
@@ -66,7 +69,7 @@ class CategoryCrudTest extends TestCase
         Category::create(['name' => 'Peternakan', 'slug' => 'peternakan']);
 
         $response = $this->getJson('/api/admin/categories', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -78,13 +81,13 @@ class CategoryCrudTest extends TestCase
     {
         // List check
         $response = $this->getJson('/api/admin/categories', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
         $response->assertStatus(403);
 
         // Create check
         $response = $this->postJson('/api/admin/categories', ['name' => 'Illegal'], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
         $response->assertStatus(403);
     }
@@ -93,9 +96,9 @@ class CategoryCrudTest extends TestCase
     public function admin_can_create_category()
     {
         $response = $this->postJson('/api/admin/categories', [
-            'name' => 'Perkebunan Modern'
+            'name' => 'Perkebunan Modern',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(201)
@@ -104,7 +107,7 @@ class CategoryCrudTest extends TestCase
 
         $this->assertDatabaseHas('categories', [
             'name' => 'Perkebunan Modern',
-            'slug' => 'perkebunan-modern'
+            'slug' => 'perkebunan-modern',
         ]);
     }
 
@@ -114,9 +117,9 @@ class CategoryCrudTest extends TestCase
         $category = Category::create(['name' => 'Pertanian', 'slug' => 'pertanian']);
 
         $response = $this->putJson("/api/admin/categories/{$category->id}", [
-            'name' => 'Pertanian Hidroponik'
+            'name' => 'Pertanian Hidroponik',
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -126,7 +129,7 @@ class CategoryCrudTest extends TestCase
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'name' => 'Pertanian Hidroponik',
-            'slug' => 'pertanian-hidroponik'
+            'slug' => 'pertanian-hidroponik',
         ]);
     }
 
@@ -136,12 +139,12 @@ class CategoryCrudTest extends TestCase
         $category = Category::create(['name' => 'Peternakan Kelinci', 'slug' => 'peternakan-kelinci']);
 
         $response = $this->deleteJson("/api/admin/categories/{$category->id}", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('categories', [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
     }
 }

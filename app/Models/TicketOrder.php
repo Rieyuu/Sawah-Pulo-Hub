@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\SiteSetting;
 
 class TicketOrder extends Model
 {
@@ -44,6 +43,7 @@ class TicketOrder extends Model
     public function getPaymentDeadlineAttribute()
     {
         $timeoutHours = (int) SiteSetting::getValue('payment_timeout_hours', 2);
+
         return $this->created_at ? $this->created_at->addHours($timeoutHours)->toIso8601String() : null;
     }
 
