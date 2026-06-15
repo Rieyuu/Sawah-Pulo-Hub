@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TicketOrder;
 use App\Models\Ticket;
+use App\Models\TicketOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +33,7 @@ class AdminReportController extends Controller
                 'label' => $day->format('d/m'),
                 'raw_date' => $dateKey,
                 'revenue' => 0.0,
-                'tickets' => 0
+                'tickets' => 0,
             ];
         }
 
@@ -57,9 +57,10 @@ class AdminReportController extends Controller
         // Load detail tiket untuk popularTickets
         $popularTicketsFormatted = $popularTickets->map(function ($item) {
             $ticket = Ticket::find($item->ticket_id);
+
             return [
                 'title' => $ticket ? $ticket->title : 'Tiket Terhapus',
-                'sold' => (int) $item->sold_count
+                'sold' => (int) $item->sold_count,
             ];
         });
 
@@ -77,7 +78,7 @@ class AdminReportController extends Controller
                     'quantity' => $order->quantity,
                     'total_price' => (float) $order->total_price,
                     'status' => $order->status,
-                    'created_at' => $order->created_at->toIso8601String()
+                    'created_at' => $order->created_at->toIso8601String(),
                 ];
             });
 
@@ -92,7 +93,7 @@ class AdminReportController extends Controller
                 'popular_tickets' => $popularTicketsFormatted,
                 'recent_orders' => $recentOrders,
                 'is_using_default_password' => auth()->user() ? auth()->user()->is_using_default_password : false,
-            ]
+            ],
         ], 200);
     }
 }

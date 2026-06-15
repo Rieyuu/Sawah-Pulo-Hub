@@ -162,6 +162,13 @@
                         <input type="text" x-model="form.contact_maps_url" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="https://maps.app.goo.gl/..." />
                     </div>
 
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Link Embed Google Maps (Iframe Src)</label>
+                        <input type="text" x-model="form.contact_maps_embed" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="https://www.google.com/maps/embed?pb=..." />
+                        <p class="text-[10px] text-slate-400 mt-1">Masukkan URL dari atribut 'src' pada kode embed HTML Google Maps.</p>
+                    </div>
+
+
 
                 </div>
             </div>
@@ -278,6 +285,7 @@
                     contact_tiktok: '',
                     contact_x: '',
                     contact_maps_url: '',
+                    contact_maps_embed: '',
                     payment_timeout_hours: 2,
                     hero_title: '',
                     hero_subtitle: '',
@@ -347,6 +355,15 @@
                 saveSettings() {
                     this.submitting = true;
                     const token = localStorage.getItem('access_token');
+
+                    // Auto-extract src if user pasted full iframe HTML tag
+                    let embedInput = this.form.contact_maps_embed;
+                    if (embedInput && embedInput.includes('<iframe')) {
+                        const match = embedInput.match(/src=["']([^"']+)["']/);
+                        if (match && match[1]) {
+                            this.form.contact_maps_embed = match[1];
+                        }
+                    }
 
                     const formData = new FormData();
                     

@@ -95,7 +95,7 @@
         </aside>
 
         <!-- Main Wrapper -->
-        <div class="flex-1 flex flex-col md:pl-64">
+        <div class="flex-1 flex flex-col md:pl-64 min-w-0">
             
             <!-- Navbar -->
             <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between px-6 sticky top-0 z-30">

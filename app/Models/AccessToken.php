@@ -10,7 +10,7 @@ class AccessToken extends Model
     use HasFactory;
 
     protected $table = 'access_tokens';
-    
+
     protected $fillable = [
         'user_id',
         'token',
@@ -18,17 +18,17 @@ class AccessToken extends Model
         'expires_at',
         'revoked_at',
     ];
-    
+
     protected $casts = [
         'expires_at' => 'datetime',
         'revoked_at' => 'datetime',
     ];
-    
+
     /**
      * Access token tidak menggunakan updated_at
      */
     public $timestamps = false;
-    
+
     /**
      * Relasi dengan user
      */
@@ -36,12 +36,12 @@ class AccessToken extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    
+
     /**
      * Cek apakah token masih valid
      */
     public function isValid()
     {
-        return !$this->revoked_at && $this->expires_at->gt(now());
+        return ! $this->revoked_at && $this->expires_at->gt(now());
     }
 }

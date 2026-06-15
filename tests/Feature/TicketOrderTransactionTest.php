@@ -3,9 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
-use App\Models\User;
+use App\Models\SiteSetting;
 use App\Models\Ticket;
 use App\Models\TicketOrder;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,9 +17,13 @@ class TicketOrderTransactionTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
+
     protected $ticket;
 
     protected function setUp(): void
@@ -57,7 +62,7 @@ class TicketOrderTransactionTest extends TestCase
             'description' => 'Akses seluruh kawasan',
             'price' => 15000,
             'stock' => 10,
-            'is_active' => true
+            'is_active' => true,
         ]);
 
         // Get tokens
@@ -79,16 +84,16 @@ class TicketOrderTransactionTest extends TestCase
     {
         $response = $this->postJson('/api/orders', [
             'ticket_id' => $this->ticket->id,
-            'quantity' => 2
+            'quantity' => 2,
         ], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'status',
                 'message',
-                'data' => ['id', 'ticket_code', 'total_price', 'status']
+                'data' => ['id', 'ticket_code', 'total_price', 'status'],
             ]);
 
         $order = TicketOrder::first();
@@ -103,15 +108,15 @@ class TicketOrderTransactionTest extends TestCase
     {
         $response = $this->postJson('/api/orders', [
             'ticket_id' => $this->ticket->id,
-            'quantity' => 12 // Stock is only 10
+            'quantity' => 12, // Stock is only 10
         ], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJson([
                 'status' => 400,
-                'message' => 'Insufficient stock. Only 10 tickets available.'
+                'message' => 'Insufficient stock. Only 10 tickets available.',
             ]);
     }
 
@@ -124,21 +129,21 @@ class TicketOrderTransactionTest extends TestCase
             'quantity' => 2,
             'total_price' => 30000,
             'ticket_code' => 'SWP-TESTING',
-            'status' => 'pending_payment'
+            'status' => 'pending_payment',
         ]);
 
         $file = UploadedFile::fake()->image('proof.jpg');
 
         $response = $this->postJson("/api/orders/{$order->id}/upload-payment", [
-            'proof_of_payment' => $file
+            'proof_of_payment' => $file,
         ], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(200)
             ->assertJson([
                 'status' => 200,
-                'message' => 'Payment proof uploaded successfully. Waiting for admin verification.'
+                'message' => 'Payment proof uploaded successfully. Waiting for admin verification.',
             ]);
 
         $order->refresh();
@@ -159,15 +164,15 @@ class TicketOrderTransactionTest extends TestCase
             'total_price' => 45000,
             'ticket_code' => 'SWP-APPROVE',
             'status' => 'pending',
-            'proof_of_payment' => '/storage/payments/proof.jpg'
+            'proof_of_payment' => '/storage/payments/proof.jpg',
         ]);
 
         $response = $this->postJson("/api/admin/orders/{$order->id}/approve", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
-        
+
         $order->refresh();
         $this->ticket->refresh();
 
@@ -187,15 +192,15 @@ class TicketOrderTransactionTest extends TestCase
             'total_price' => 15000,
             'ticket_code' => 'SWP-REJECT',
             'status' => 'pending',
-            'proof_of_payment' => '/storage/payments/proof.jpg'
+            'proof_of_payment' => '/storage/payments/proof.jpg',
         ]);
 
         $response = $this->postJson("/api/admin/orders/{$order->id}/reject", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
-        
+
         $order->refresh();
         $this->assertEquals('failed', $order->status);
     }
@@ -209,18 +214,18 @@ class TicketOrderTransactionTest extends TestCase
             'quantity' => 1,
             'total_price' => 15000,
             'ticket_code' => 'SWP-REJECT',
-            'status' => 'pending'
+            'status' => 'pending',
         ]);
 
         // Access index
         $indexResponse = $this->getJson('/api/admin/orders', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
         $indexResponse->assertStatus(403);
 
         // Access approve
         $approveResponse = $this->postJson("/api/admin/orders/{$order->id}/approve", [], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
         $approveResponse->assertStatus(403);
     }
@@ -228,7 +233,7 @@ class TicketOrderTransactionTest extends TestCase
     /** @test */
     public function order_cancelled_after_payment_timeout()
     {
-        \App\Models\SiteSetting::setValue('payment_timeout_hours', '2');
+        SiteSetting::setValue('payment_timeout_hours', '2');
 
         $order = TicketOrder::create([
             'user_id' => $this->user->id,
@@ -243,7 +248,7 @@ class TicketOrderTransactionTest extends TestCase
         $order->save();
 
         $response = $this->getJson('/api/orders/history', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(200);
@@ -254,7 +259,7 @@ class TicketOrderTransactionTest extends TestCase
     /** @test */
     public function tourist_cannot_upload_proof_after_payment_timeout()
     {
-        \App\Models\SiteSetting::setValue('payment_timeout_hours', '2');
+        SiteSetting::setValue('payment_timeout_hours', '2');
 
         $order = TicketOrder::create([
             'user_id' => $this->user->id,
@@ -270,15 +275,15 @@ class TicketOrderTransactionTest extends TestCase
         $file = UploadedFile::fake()->image('proof.jpg');
 
         $response = $this->postJson("/api/orders/{$order->id}/upload-payment", [
-            'proof_of_payment' => $file
+            'proof_of_payment' => $file,
         ], [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(400)
             ->assertJson([
                 'status' => 400,
-                'message' => 'The payment window for this ticket order has expired. Please place a new order.'
+                'message' => 'The payment window for this ticket order has expired. Please place a new order.',
             ]);
 
         $order->refresh();
@@ -289,7 +294,7 @@ class TicketOrderTransactionTest extends TestCase
     public function tourist_can_get_active_ticket_details()
     {
         $response = $this->getJson("/api/tickets/{$this->ticket->id}", [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(200)
@@ -300,7 +305,7 @@ class TicketOrderTransactionTest extends TestCase
                     'id' => $this->ticket->id,
                     'title' => $this->ticket->title,
                     'price' => $this->ticket->price,
-                ]
+                ],
             ]);
     }
 
@@ -312,11 +317,11 @@ class TicketOrderTransactionTest extends TestCase
             'description' => 'Tidak aktif',
             'price' => 5000,
             'stock' => 5,
-            'is_active' => false
+            'is_active' => false,
         ]);
 
         $response = $this->getJson("/api/tickets/{$inactiveTicket->id}", [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(404);

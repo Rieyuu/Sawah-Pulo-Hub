@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\AccessToken;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\AccessToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -38,8 +38,8 @@ class ApiAuthTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    'user' => ['id', 'name', 'email', 'whatsapp']
-                ]
+                    'user' => ['id', 'name', 'email', 'whatsapp'],
+                ],
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -102,15 +102,15 @@ class ApiAuthTest extends TestCase
                     'user' => ['id', 'name', 'email', 'whatsapp', 'roles'],
                     'access_token',
                     'refresh_token',
-                    'expires_in'
-                ]
+                    'expires_in',
+                ],
             ]);
 
         // Check if token was saved in database
         $this->assertDatabaseHas('access_tokens', [
             'user_id' => $user->id,
         ]);
-        
+
         $tokenRecord = AccessToken::where('user_id', $user->id)->first();
         $this->assertNotNull($tokenRecord->token);
         $this->assertNull($tokenRecord->revoked_at);

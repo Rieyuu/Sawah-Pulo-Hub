@@ -1,17 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminTicketController;
-use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminCategoryController;
-use App\Http\Controllers\AdminSettingController;
-use App\Http\Controllers\TicketOrderController;
+use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\AdminScanController;
 use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\AdminScanController;
+use App\Http\Controllers\AdminSettingController;
+use App\Http\Controllers\AdminTicketController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketOrderController;
+use App\Models\Category;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,14 +28,14 @@ Route::get('/categories', function () {
     return response()->json([
         'status' => 200,
         'message' => 'Categories retrieved successfully',
-        'data' => \App\Models\Category::all()
+        'data' => Category::all(),
     ]);
 });
 
 // Authenticated Routes (Protected by Custom Stateful JWT Middleware)
 Route::middleware('jwt')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
     // User Profile Routes
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
@@ -45,21 +47,22 @@ Route::middleware('jwt')->group(function () {
     Route::post('/orders/{id}/cancel', [TicketOrderController::class, 'cancel']);
     Route::get('/orders/history', [TicketOrderController::class, 'history']);
     Route::get('/orders/{id}', [TicketOrderController::class, 'show']);
-    
+
     // Ticket Details (Tourist/Authenticated Users)
     Route::get('/tickets/{id}', function ($id) {
-        $ticket = \App\Models\Ticket::where('is_active', true)->find($id);
-        if (!$ticket) {
+        $ticket = Ticket::where('is_active', true)->find($id);
+        if (! $ticket) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket not found or inactive',
-                'data' => null
+                'data' => null,
             ], 404);
         }
+
         return response()->json([
             'status' => 200,
             'message' => 'Ticket retrieved successfully',
-            'data' => $ticket
+            'data' => $ticket,
         ], 200);
     });
 
@@ -113,5 +116,3 @@ Route::middleware('jwt')->group(function () {
         Route::get('/reports/dashboard', [AdminReportController::class, 'dashboardStats']);
     });
 });
-
-

@@ -27,8 +27,8 @@ class ProfileController extends Controller
                     'whatsapp' => $user->whatsapp,
                     'is_active' => $user->is_active,
                     'is_using_default_password' => $user->is_using_default_password,
-                ]
-            ]
+                ],
+            ],
         ], 200);
     }
 
@@ -41,8 +41,8 @@ class ProfileController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'whatsapp' => 'required|string|max:20|unique:users,whatsapp,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'whatsapp' => 'required|string|max:20|unique:users,whatsapp,'.$user->id,
             'current_password' => 'required_with:password|string',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
@@ -51,19 +51,19 @@ class ProfileController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         // Jika user ingin mengubah password
         if ($request->filled('password')) {
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return response()->json([
                     'status' => 422,
                     'message' => 'Validation error',
                     'errors' => [
-                        'current_password' => ['Password lama yang Anda masukkan tidak sesuai.']
-                    ]
+                        'current_password' => ['Password lama yang Anda masukkan tidak sesuai.'],
+                    ],
                 ], 422);
             }
             $user->password = Hash::make($request->password);
@@ -84,8 +84,8 @@ class ProfileController extends Controller
                     'email' => $user->email,
                     'whatsapp' => $user->whatsapp,
                     'is_using_default_password' => $user->is_using_default_password,
-                ]
-            ]
+                ],
+            ],
         ], 200);
     }
 
@@ -105,7 +105,7 @@ class ProfileController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Account deleted successfully',
-            'data' => null
+            'data' => null,
         ], 200);
     }
 }

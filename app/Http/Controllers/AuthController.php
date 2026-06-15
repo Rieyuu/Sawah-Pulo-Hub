@@ -34,7 +34,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -61,8 +61,8 @@ class AuthController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'whatsapp' => $user->whatsapp,
-                ]
-            ]
+                ],
+            ],
         ], 201);
     }
 
@@ -80,7 +80,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -88,26 +88,26 @@ class AuthController extends Controller
             ->orWhere('whatsapp', $request->identifier)
             ->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 401,
                 'message' => 'Invalid credentials',
-                'data' => null
+                'data' => null,
             ], 401);
         }
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             return response()->json([
                 'status' => 403,
                 'message' => 'Account is inactive',
-                'data' => null
+                'data' => null,
             ], 403);
         }
 
         // Generate token kustom menggunakan JwtService
         $accessToken = $this->jwtService->generateAccessToken($user);
         $refreshToken = $this->jwtService->generateRefreshToken($user);
-        
+
         // Simpan token ke database access_tokens
         $this->jwtService->storeTokens($user, $accessToken, $refreshToken);
 
@@ -125,8 +125,8 @@ class AuthController extends Controller
                 ],
                 'access_token' => $accessToken,
                 'refresh_token' => $refreshToken,
-                'expires_in' => JwtService::ACCESS_TOKEN_TTL * 60 // konversi menit ke detik
-            ]
+                'expires_in' => JwtService::ACCESS_TOKEN_TTL * 60, // konversi menit ke detik
+            ],
         ], 200);
     }
 
@@ -136,7 +136,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $token = $request->bearerToken();
-        
+
         if ($token) {
             $this->jwtService->revokeToken($token);
         }
@@ -144,7 +144,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Logout successful',
-            'data' => null
+            'data' => null,
         ], 200);
     }
 }

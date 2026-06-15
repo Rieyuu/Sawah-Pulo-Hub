@@ -25,7 +25,7 @@ class AdminTicketController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Tickets retrieved successfully',
-            'data' => $tickets
+            'data' => $tickets,
         ], 200);
     }
 
@@ -47,14 +47,14 @@ class AdminTicketController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('tickets', 'public');
-            $imagePath = '/storage/' . $imagePath;
+            $imagePath = '/storage/'.$imagePath;
         }
 
         // user_id otomatis diisi oleh TicketObserver
@@ -70,7 +70,7 @@ class AdminTicketController extends Controller
         return response()->json([
             'status' => 201,
             'message' => 'Ticket created successfully',
-            'data' => $ticket->load('user:id,name')
+            'data' => $ticket->load('user:id,name'),
         ], 201);
     }
 
@@ -81,18 +81,18 @@ class AdminTicketController extends Controller
     {
         $ticket = Ticket::withTrashed()->with('user:id,name')->find($id);
 
-        if (!$ticket) {
+        if (! $ticket) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
         return response()->json([
             'status' => 200,
             'message' => 'Ticket retrieved successfully',
-            'data' => $ticket
+            'data' => $ticket,
         ], 200);
     }
 
@@ -103,11 +103,11 @@ class AdminTicketController extends Controller
     {
         $ticket = Ticket::find($id);
 
-        if (!$ticket) {
+        if (! $ticket) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -124,7 +124,7 @@ class AdminTicketController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -135,7 +135,7 @@ class AdminTicketController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $imagePath = $request->file('image')->store('tickets', 'public');
-            $ticket->image_path = '/storage/' . $imagePath;
+            $ticket->image_path = '/storage/'.$imagePath;
         }
 
         $ticket->title = $request->title;
@@ -143,14 +143,14 @@ class AdminTicketController extends Controller
         $ticket->price = $request->price;
         $ticket->stock = $request->stock;
         $ticket->is_active = $request->boolean('is_active', $ticket->is_active);
-        
+
         // user_id otomatis di-update oleh TicketObserver
         $ticket->save();
 
         return response()->json([
             'status' => 200,
             'message' => 'Ticket updated successfully',
-            'data' => $ticket->load('user:id,name')
+            'data' => $ticket->load('user:id,name'),
         ], 200);
     }
 
@@ -161,11 +161,11 @@ class AdminTicketController extends Controller
     {
         $ticket = Ticket::find($id);
 
-        if (!$ticket) {
+        if (! $ticket) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket not found or already deleted',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -174,7 +174,7 @@ class AdminTicketController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Ticket soft deleted successfully',
-            'data' => null
+            'data' => null,
         ], 200);
     }
 
@@ -185,11 +185,11 @@ class AdminTicketController extends Controller
     {
         $ticket = Ticket::onlyTrashed()->find($id);
 
-        if (!$ticket) {
+        if (! $ticket) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Deleted ticket not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -198,7 +198,7 @@ class AdminTicketController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Ticket restored successfully',
-            'data' => $ticket->load('user:id,name')
+            'data' => $ticket->load('user:id,name'),
         ], 200);
     }
 }

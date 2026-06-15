@@ -5,7 +5,7 @@
     <meta name="description" content="Sawah Pulo Hub adalah pusat eduwisata alam pedesaan ramah lingkungan yang memadukan pertanian tradisional dengan edukasi modern. Temukan petualangan menarik bersama keluarga." />
 
     <!-- 1. Hero Section -->
-    <section class="relative bg-slate-900 text-white overflow-hidden py-32 sm:py-40">
+    <section class="relative bg-slate-900 text-white overflow-hidden py-20 sm:py-32 lg:py-40">
         <!-- Background Image overlay -->
         <div class="absolute inset-0 opacity-40">
             <img src="{{ \App\Models\SiteSetting::getValue('hero_bg_image', asset('images/sawah_pulo_background.png')) }}" alt="Sawah Pulo Background" class="w-full h-full object-cover object-center" />
@@ -16,10 +16,10 @@
             <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
                 🌱 Selamat Datang di Sawah Pulo Farm
             </span>
-            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-3xl mx-auto leading-tight">
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white max-w-3xl mx-auto leading-tight">
                 {!! \App\Models\SiteSetting::getValue('hero_title', 'Keindahan Alam Pedesaan & <span class="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Edukasi Pertanian</span>') !!}
             </h1>
-            <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+            <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
                 {{ \App\Models\SiteSetting::getValue('hero_subtitle', 'Rasakan pengalaman edukatif bercocok tanam hidroponik, budidaya ternak, dan keindahan panorama sawah hijau yang menenangkan jiwa.') }}
             </p>
             <div class="flex flex-wrap justify-center gap-4 pt-4">
@@ -146,36 +146,37 @@
                     <!-- Fallback default facilities if database empty -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Facility 1 -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
-                            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-48 object-cover" />
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
+                            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-40 sm:h-48 object-cover" />
                             <div class="p-5 space-y-2">
                                 <h4 class="font-bold text-slate-900 dark:text-white">Greenhouse Hidroponik</h4>
                                 <p class="text-xs text-slate-500 leading-relaxed">Belajar menanam sayur organik menggunakan media air dan nutrisi ramah lingkungan.</p>
                             </div>
                         </div>
                         <!-- Facility 2 -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
-                            <img src="https://images.unsplash.com/photo-1500595046783-cd2117939a68?auto=format&fit=crop&w=500&q=80" alt="Mini Zoo" class="w-full h-48 object-cover" />
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
+                            <img src="https://images.unsplash.com/photo-1500595046783-cd2117939a68?auto=format&fit=crop&w=500&q=80" alt="Mini Zoo" class="w-full h-40 sm:h-48 object-cover" />
                             <div class="p-5 space-y-2">
                                 <h4 class="font-bold text-slate-900 dark:text-white">Peternakan Mini Zoo</h4>
                                 <p class="text-xs text-slate-500 leading-relaxed">Berinteraksi secara langsung dan memberi makan kelinci, kambing, serta ternak sehat.</p>
                             </div>
                         </div>
                         <!-- Facility 3 -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
-                            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Panorama Sawah" class="w-full h-48 object-cover" />
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
+                            <img src="{{ asset('images/sawah_pulo_background.png') }}" alt="Panorama Sawah" class="w-full h-40 sm:h-48 object-cover" />
                             <div class="p-5 space-y-2">
                                 <h4 class="font-bold text-slate-900 dark:text-white">Panorama Jembatan Sawah</h4>
                                 <p class="text-xs text-slate-500 leading-relaxed">Spot swafoto di atas jembatan kayu melintasi hamparan sawah hijau yang indah.</p>
                             </div>
                         </div>
                     </div>
+
                 @else
                     <!-- Dynamic database list -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @foreach($facilities as $facility)
-                            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
-                                <img src="{{ $facility->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $facility->name }}" class="w-full h-48 object-cover" />
+                            <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-200">
+                                <img src="{{ $facility->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $facility->name }}" class="w-full h-40 sm:h-48 object-cover" />
                                 <div class="p-5 space-y-2">
                                     <h4 class="font-bold text-slate-900 dark:text-white">{{ $facility->name }}</h4>
                                     <p class="text-xs text-slate-500 leading-relaxed">{{ Str::limit($facility->description, 120) }}</p>
@@ -183,6 +184,7 @@
                             </div>
                         @endforeach
                     </div>
+
                 @endif
                 <div class="flex justify-center pt-10">
                     <a href="{{ route('facilities') }}" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-semibold rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-200">
@@ -232,14 +234,15 @@
                 <!-- Dynamic database tickets -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
                     @foreach($tickets as $ticket)
-                        <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 p-8 rounded-3xl flex flex-col justify-between hover:shadow-md transition-all">
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 p-6 sm:p-8 rounded-3xl flex flex-col justify-between hover:shadow-md transition-all">
                             <div class="space-y-4">
-                                <div class="w-full h-40 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border dark:border-slate-800">
+                                <div class="w-full h-32 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border dark:border-slate-800">
                                     <img src="{{ $ticket->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $ticket->title }}" class="w-full h-full object-cover" />
                                 </div>
                                 <h3 class="font-bold text-slate-900 dark:text-white text-lg">{{ $ticket->title }}</h3>
                                 <p class="text-xs text-slate-500 leading-relaxed">{{ $ticket->description }}</p>
                             </div>
+
                             <div class="mt-8 space-y-4">
                                 <p class="text-2xl font-black text-emerald-600">
                                     Rp {{ number_format($ticket->price, 0, ',', '.') }}
@@ -279,9 +282,9 @@
                 <!-- Fallback articles if database empty -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Article 1 -->
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                    <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
                         <div>
-                            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-48 object-cover" />
+                            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=500&q=80" alt="Hidroponik" class="w-full h-40 sm:h-48 object-cover" />
                             <div class="p-6 space-y-3">
                                 <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Edukasi</span>
                                 <h3 class="font-bold text-slate-900 dark:text-white">Metode Hidroponik untuk Pemula</h3>
@@ -296,9 +299,9 @@
                         </div>
                     </div>
                     <!-- Article 2 -->
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                    <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
                         <div>
-                            <img src="https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&w=500&q=80" alt="Organik" class="w-full h-48 object-cover" />
+                            <img src="https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&w=500&q=80" alt="Organik" class="w-full h-40 sm:h-48 object-cover" />
                             <div class="p-6 space-y-3">
                                 <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Budidaya</span>
                                 <h3 class="font-bold text-slate-900 dark:text-white">Pentingnya Pupuk Kompos Organik</h3>
@@ -313,9 +316,9 @@
                         </div>
                     </div>
                     <!-- Article 3 -->
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                    <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
                         <div>
-                            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80" alt="Wisata" class="w-full h-48 object-cover" />
+                            <img src="https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80" alt="Wisata" class="w-full h-40 sm:h-48 object-cover" />
                             <div class="p-6 space-y-3">
                                 <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">Event</span>
                                 <h3 class="font-bold text-slate-900 dark:text-white">Festival Panen Raya Sawah Pulo</h3>
@@ -330,19 +333,21 @@
                         </div>
                     </div>
                 </div>
+
             @else
                 <!-- Dynamic database articles -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach($articles as $article)
-                        <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between group">
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between group">
                             <div>
-                                <img src="{{ $article->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $article->title }}" class="w-full h-48 object-cover" />
+                                <img src="{{ $article->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $article->title }}" class="w-full h-40 sm:h-48 object-cover" />
                                 <div class="p-6 space-y-3">
                                     <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1 rounded-full">{{ $article->category->name ?? 'Wisata' }}</span>
                                     <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">{{ $article->title }}</h3>
                                     <p class="text-xs text-slate-500 leading-relaxed">{{ Str::limit(strip_tags($article->content), 120) }}</p>
                                 </div>
                             </div>
+
                             <div class="px-6 pb-6 pt-2">
                                 <a href="{{ route('articles.show', $article->id) }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1 hover:text-emerald-500">
                                     Baca Selengkapnya
@@ -395,25 +400,30 @@
                 <!-- Google Maps Frame -->
                 <div class="bg-slate-50 dark:bg-slate-800/40 p-3 rounded-3xl border border-slate-100 dark:border-slate-800/50 shadow-sm">
                     @php
+                        $mapsEmbed = \App\Models\SiteSetting::getValue('contact_maps_embed', '');
                         $mapsUrl = \App\Models\SiteSetting::getValue('contact_maps_url', '');
                         $address = \App\Models\SiteSetting::getValue('contact_address', 'Dusun Pulo, Kec. Sawah Indah, Kab. Mojokerto, Jawa Timur, Indonesia');
                         
                         $embedUrl = '';
                         
-                        if ($mapsUrl) {
-                            if (str_contains($mapsUrl, '/embed') || str_contains($mapsUrl, 'output=embed')) {
-                                $embedUrl = $mapsUrl;
-                            } elseif (preg_match('#/maps/place/([^/]+)#', $mapsUrl, $matches)) {
-                                $embedUrl = 'https://maps.google.com/maps?q=' . urlencode(urldecode(str_replace('+', ' ', $matches[1]))) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
-                            } elseif (preg_match('#/maps/search/([^/]+)#', $mapsUrl, $matches)) {
-                                $embedUrl = 'https://maps.google.com/maps?q=' . urlencode(urldecode(str_replace('+', ' ', $matches[1]))) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
-                            } elseif (preg_match('#@(-?\d+\.\d+),(-?\d+\.\d+)#', $mapsUrl, $matches)) {
-                                $embedUrl = 'https://maps.google.com/maps?q=' . $matches[1] . ',' . $matches[2] . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                        if ($mapsEmbed) {
+                            $embedUrl = $mapsEmbed;
+                        } else {
+                            if ($mapsUrl) {
+                                if (str_contains($mapsUrl, '/embed') || str_contains($mapsUrl, 'output=embed')) {
+                                    $embedUrl = $mapsUrl;
+                                } elseif (preg_match('#/maps/place/([^/]+)#', $mapsUrl, $matches)) {
+                                    $embedUrl = 'https://maps.google.com/maps?q=' . urlencode(urldecode(str_replace('+', ' ', $matches[1]))) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                                } elseif (preg_match('#/maps/search/([^/]+)#', $mapsUrl, $matches)) {
+                                    $embedUrl = 'https://maps.google.com/maps?q=' . urlencode(urldecode(str_replace('+', ' ', $matches[1]))) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                                } elseif (preg_match('#@(-?\d+\.\d+),(-?\d+\.\d+)#', $mapsUrl, $matches)) {
+                                    $embedUrl = 'https://maps.google.com/maps?q=' . $matches[1] . ',' . $matches[2] . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                                }
                             }
-                        }
-                        
-                        if (!$embedUrl) {
-                            $embedUrl = 'https://maps.google.com/maps?q=' . urlencode($address) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                            
+                            if (!$embedUrl) {
+                                $embedUrl = 'https://maps.google.com/maps?q=' . urlencode($address) . '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+                            }
                         }
                     @endphp
                     <iframe 

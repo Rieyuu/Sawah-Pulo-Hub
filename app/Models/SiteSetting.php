@@ -30,6 +30,7 @@ class SiteSetting extends Model
     public static function getValue(string $key, $default = null): ?string
     {
         $setting = self::where('key', $key)->first();
+
         return $setting ? $setting->value : $default;
     }
 
@@ -41,9 +42,9 @@ class SiteSetting extends Model
         return self::updateOrCreate(
             ['key' => $key],
             [
-                'value' => $value, 
+                'value' => $value,
                 'type' => $type,
-                'user_id' => auth()->check() ? auth()->id() : null
+                'user_id' => auth()->check() ? auth()->id() : null,
             ]
         );
     }

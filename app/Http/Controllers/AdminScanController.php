@@ -24,7 +24,7 @@ class AdminScanController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validasi gagal',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -33,11 +33,11 @@ class AdminScanController extends Controller
         // Cari pesanan tiket berdasarkan kode unik
         $order = TicketOrder::where('ticket_code', $ticketCode)->first();
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Tiket tidak terdaftar/ditemukan.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -47,7 +47,7 @@ class AdminScanController extends Controller
                 return response()->json([
                     'status' => 400,
                     'message' => 'Tiket belum dibayar.',
-                    'data' => null
+                    'data' => null,
                 ], 400);
             }
 
@@ -55,7 +55,7 @@ class AdminScanController extends Controller
                 return response()->json([
                     'status' => 400,
                     'message' => 'Tiket sedang menunggu verifikasi pembayaran oleh admin.',
-                    'data' => null
+                    'data' => null,
                 ], 400);
             }
 
@@ -63,14 +63,14 @@ class AdminScanController extends Controller
                 return response()->json([
                     'status' => 400,
                     'message' => 'Tiket tidak dapat digunakan karena pembayaran gagal atau kedaluwarsa.',
-                    'data' => null
+                    'data' => null,
                 ], 400);
             }
 
             return response()->json([
                 'status' => 400,
                 'message' => 'Tiket tidak valid atau pembayaran belum disetujui.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -78,18 +78,19 @@ class AdminScanController extends Controller
         if ($order->expired_at && $order->expired_at->isPast()) {
             return response()->json([
                 'status' => 400,
-                'message' => 'Tiket sudah kedaluwarsa pada ' . $order->expired_at->format('d-m-Y H:i') . '.',
-                'data' => null
+                'message' => 'Tiket sudah kedaluwarsa pada '.$order->expired_at->format('d-m-Y H:i').'.',
+                'data' => null,
             ], 400);
         }
 
         // 3. Validasi Double Scanning (Penggunaan Ulang)
         if ($order->is_used) {
             $formattedUsedAt = $order->used_at ? $order->used_at->format('d-m-Y H:i') : '-';
+
             return response()->json([
                 'status' => 400,
-                'message' => 'Tiket sudah pernah digunakan pada ' . $formattedUsedAt . '.',
-                'data' => null
+                'message' => 'Tiket sudah pernah digunakan pada '.$formattedUsedAt.'.',
+                'data' => null,
             ], 400);
         }
 
@@ -101,7 +102,7 @@ class AdminScanController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Tiket berhasil discan. Selamat menikmati kunjungan Anda!',
-            'data' => $order->load(['user:id,name,email,whatsapp', 'ticket:id,title,price'])
+            'data' => $order->load(['user:id,name,email,whatsapp', 'ticket:id,title,price']),
         ], 200);
     }
 }

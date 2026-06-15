@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
-use App\Models\User;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +15,11 @@ class TicketCrudTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $adminToken;
+
     protected $user;
+
     protected $userToken;
 
     protected function setUp(): void
@@ -74,11 +77,11 @@ class TicketCrudTest extends TestCase
             'price' => 15000,
             'stock' => 50,
             'is_active' => true,
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
 
         $response = $this->getJson('/api/admin/tickets', [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200)
@@ -86,8 +89,8 @@ class TicketCrudTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    '*' => ['id', 'title', 'price', 'stock', 'user']
-                ]
+                    '*' => ['id', 'title', 'price', 'stock', 'user'],
+                ],
             ])
             ->assertJsonCount(1, 'data');
     }
@@ -96,7 +99,7 @@ class TicketCrudTest extends TestCase
     public function regular_user_cannot_list_tickets()
     {
         $response = $this->getJson('/api/admin/tickets', [
-            'Authorization' => "Bearer {$this->userToken}"
+            'Authorization' => "Bearer {$this->userToken}",
         ]);
 
         $response->assertStatus(403);
@@ -113,21 +116,21 @@ class TicketCrudTest extends TestCase
             'price' => 20000,
             'stock' => 100,
             'is_active' => true,
-            'image' => $file
+            'image' => $file,
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'status',
                 'message',
-                'data' => ['id', 'title', 'image_path', 'user_id']
+                'data' => ['id', 'title', 'image_path', 'user_id'],
             ]);
 
         $ticket = Ticket::first();
         $this->assertNotNull($ticket->image_path);
-        
+
         // Assert image was saved in storage
         $storedName = str_replace('/storage/', '', $ticket->image_path);
         Storage::disk('public')->assertExists($storedName);
@@ -145,7 +148,7 @@ class TicketCrudTest extends TestCase
             'price' => 10000,
             'stock' => 10,
             'is_active' => true,
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
 
         $response = $this->putJson("/api/admin/tickets/{$ticket->id}", [
@@ -153,9 +156,9 @@ class TicketCrudTest extends TestCase
             'description' => 'Deskripsi Diedit',
             'price' => 12000,
             'stock' => 15,
-            'is_active' => false
+            'is_active' => false,
         ], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
@@ -174,11 +177,11 @@ class TicketCrudTest extends TestCase
             'price' => 10000,
             'stock' => 10,
             'is_active' => true,
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
 
         $response = $this->deleteJson("/api/admin/tickets/{$ticket->id}", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);
@@ -194,12 +197,12 @@ class TicketCrudTest extends TestCase
             'price' => 10000,
             'stock' => 10,
             'is_active' => true,
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
         $ticket->delete();
 
         $response = $this->postJson("/api/admin/tickets/{$ticket->id}/restore", [], [
-            'Authorization' => "Bearer {$this->adminToken}"
+            'Authorization' => "Bearer {$this->adminToken}",
         ]);
 
         $response->assertStatus(200);

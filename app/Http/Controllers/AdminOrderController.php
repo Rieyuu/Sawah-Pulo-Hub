@@ -25,7 +25,7 @@ class AdminOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'All ticket orders retrieved successfully.',
-            'data' => $orders
+            'data' => $orders,
         ], 200);
     }
 
@@ -36,18 +36,18 @@ class AdminOrderController extends Controller
     {
         $order = TicketOrder::with(['user:id,name,email,whatsapp', 'ticket'])->find($id);
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket order not found.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
         return response()->json([
             'status' => 200,
             'message' => 'Ticket order retrieved successfully.',
-            'data' => $order
+            'data' => $order,
         ], 200);
     }
 
@@ -58,11 +58,11 @@ class AdminOrderController extends Controller
     {
         $order = TicketOrder::with('ticket')->find($id);
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket order not found.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -70,7 +70,7 @@ class AdminOrderController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Only pending orders can be approved.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -81,7 +81,7 @@ class AdminOrderController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => "Cannot approve order. Insufficient ticket stock ({$ticket->stock} remaining).",
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -97,7 +97,7 @@ class AdminOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Ticket order approved successfully. E-ticket is now active.',
-            'data' => $order->load(['user:id,name,email,whatsapp', 'ticket'])
+            'data' => $order->load(['user:id,name,email,whatsapp', 'ticket']),
         ], 200);
     }
 
@@ -108,11 +108,11 @@ class AdminOrderController extends Controller
     {
         $order = TicketOrder::find($id);
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Ticket order not found.',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -120,7 +120,7 @@ class AdminOrderController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Only pending orders can be rejected.',
-                'data' => null
+                'data' => null,
             ], 400);
         }
 
@@ -130,7 +130,7 @@ class AdminOrderController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Ticket order payment rejected successfully.',
-            'data' => $order->load(['user:id,name,email,whatsapp', 'ticket'])
+            'data' => $order->load(['user:id,name,email,whatsapp', 'ticket']),
         ], 200);
     }
 }

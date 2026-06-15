@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AdminCategoryController extends Controller
 {
@@ -19,7 +19,7 @@ class AdminCategoryController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Categories retrieved successfully',
-            'data' => $categories
+            'data' => $categories,
         ], 200);
     }
 
@@ -36,7 +36,7 @@ class AdminCategoryController extends Controller
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -48,7 +48,7 @@ class AdminCategoryController extends Controller
         return response()->json([
             'status' => 201,
             'message' => 'Category created successfully',
-            'data' => $category
+            'data' => $category,
         ], 201);
     }
 
@@ -59,23 +59,23 @@ class AdminCategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if (!$category) {
+        if (! $category) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Category not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+            'name' => 'required|string|max:255|unique:categories,name,'.$id,
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -86,7 +86,7 @@ class AdminCategoryController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Category updated successfully',
-            'data' => $category
+            'data' => $category,
         ], 200);
     }
 
@@ -97,11 +97,11 @@ class AdminCategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if (!$category) {
+        if (! $category) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Category not found',
-                'data' => null
+                'data' => null,
             ], 404);
         }
 
@@ -110,7 +110,7 @@ class AdminCategoryController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Category deleted successfully',
-            'data' => null
+            'data' => null,
         ], 200);
     }
 }
