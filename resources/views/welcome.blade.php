@@ -275,7 +275,7 @@
             </div>
 
             @php
-                $articles = \App\Models\Article::latest()->take(3)->get();
+                $articles = \App\Models\Article::with('category')->latest()->take(3)->get();
             @endphp
 
             @if($articles->isEmpty())

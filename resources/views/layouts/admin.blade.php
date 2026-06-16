@@ -15,6 +15,8 @@
         <!-- Tailwind CSS & Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+        
         <style>
             body {
                 font-family: 'Plus Jakarta Sans', sans-serif;

@@ -40,7 +40,7 @@ Route::get('/tickets', function () {
 })->name('tickets.index');
 
 Route::get('/articles', function () {
-    $articles = Article::latest()->paginate(6);
+    $articles = Article::with('category')->latest()->paginate(6);
 
     return view('articles.index', compact('articles'));
 })->name('articles.index');

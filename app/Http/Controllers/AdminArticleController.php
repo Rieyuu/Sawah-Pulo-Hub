@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Services\ImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -52,7 +53,7 @@ class AdminArticleController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('articles', 'public');
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'articles', 'public', 75, 1200);
             $imagePath = '/storage/'.$imagePath;
         }
 
@@ -130,7 +131,7 @@ class AdminArticleController extends Controller
                 $oldPath = str_replace('/storage/', '', $article->image_path);
                 Storage::disk('public')->delete($oldPath);
             }
-            $imagePath = $request->file('image')->store('articles', 'public');
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'articles', 'public', 75, 1200);
             $article->image_path = '/storage/'.$imagePath;
         }
 

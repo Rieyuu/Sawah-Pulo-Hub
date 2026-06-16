@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiteSetting;
+use App\Services\ImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -81,7 +82,18 @@ class AdminSettingController extends Controller
                     Storage::disk('public')->delete($oldPath);
                 }
 
-                $path = $request->file($key)->store('settings', 'public');
+                $quality = 75;
+                $maxWidth = 1200;
+
+                if (in_array($key, ['site_plan_image', 'hero_bg_image'])) {
+                    $quality = 92;
+                    $maxWidth = 2560;
+                } elseif (in_array($key, ['payment_qris_image', 'about_structure_image'])) {
+                    $quality = 80;
+                    $maxWidth = 1200;
+                }
+
+                $path = ImageCompressionService::compressAndStore($request->file($key), 'settings', 'public', $quality, $maxWidth);
                 $setting->value = '/storage/'.$path;
                 $setting->type = 'image';
             } else {

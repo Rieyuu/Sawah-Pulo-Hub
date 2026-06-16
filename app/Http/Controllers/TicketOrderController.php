@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiteSetting;
 use App\Models\Ticket;
 use App\Models\TicketOrder;
+use App\Services\ImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -141,7 +142,7 @@ class TicketOrderController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
 
-            $path = $request->file('proof_of_payment')->store('payments', 'public');
+            $path = ImageCompressionService::compressAndStore($request->file('proof_of_payment'), 'payments', 'public', 60, 1024);
 
             $order->proof_of_payment = '/storage/'.$path;
             $order->status = 'pending'; // Ubah ke status menunggu approval admin
