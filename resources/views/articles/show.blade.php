@@ -2,7 +2,7 @@
     <x-slot name="title">{{ $article->title }} | Sawah Pulo Hub</x-slot>
 
     <!-- Header / Banner Section -->
-    <section class="py-12 bg-slate-50 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 transition-colors">
+    <section class="py-12 bg-slate-50 dark:bg-slate-950 border-b border-emerald-100 dark:border-emerald-900/30 transition-colors">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             
             <!-- Breadcrumbs -->
@@ -22,7 +22,7 @@
                 {{ $article->title }}
             </h1>
 
-            <div class="flex items-center gap-4 text-xs sm:text-sm text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-4 text-xs sm:text-sm text-slate-400 pt-2 border-t border-emerald-100 dark:border-emerald-900/30">
                 <span>📅 Dipublikasikan pada {{ $article->created_at->format('d M Y') }}</span>
                 <span>•</span>
                 <span>✍️ Oleh Admin</span>
@@ -37,8 +37,8 @@
                 
                 <!-- Main Image -->
                 @if($article->image_path)
-                    <div class="w-full h-80 sm:h-96 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
-                        <img src="{{ $article->image_path }}" alt="{{ $article->title }}" class="w-full h-full object-cover" />
+                    <div class="w-full h-80 sm:h-96 rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 border border-emerald-100 dark:border-emerald-900/30">
+                        <img src="{{ asset($article->image_path) }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
                     </div>
                 @endif
 
@@ -48,7 +48,7 @@
                 </article>
 
                 <!-- Footer Actions -->
-                <div class="pt-8 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <div class="pt-8 border-t border-emerald-100 dark:border-emerald-900/30 flex justify-between items-center">
                     <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-xl transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Kembali ke Artikel

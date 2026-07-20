@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Services\ImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -53,8 +54,8 @@ class AdminTicketController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('tickets', 'public');
-            $imagePath = '/storage/'.$imagePath;
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'tickets', 'public', 75, 1200);
+            $imagePath = $imagePath ? '/storage/'.$imagePath : null;
         }
 
         // user_id otomatis diisi oleh TicketObserver
@@ -134,8 +135,8 @@ class AdminTicketController extends Controller
                 $oldPath = str_replace('/storage/', '', $ticket->image_path);
                 Storage::disk('public')->delete($oldPath);
             }
-            $imagePath = $request->file('image')->store('tickets', 'public');
-            $ticket->image_path = '/storage/'.$imagePath;
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'tickets', 'public', 75, 1200);
+            $ticket->image_path = $imagePath ? '/storage/'.$imagePath : $ticket->image_path;
         }
 
         $ticket->title = $request->title;

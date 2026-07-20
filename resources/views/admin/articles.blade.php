@@ -14,14 +14,31 @@
                     Kelola Kategori
                 </button>
                 
-                <label class="flex items-center gap-2 cursor-pointer bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 rounded-2xl text-xs font-semibold select-none">
+                <label class="flex items-center gap-2 cursor-pointer bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/30 px-4 py-3 rounded-2xl text-xs font-semibold select-none">
                     <input type="checkbox" x-model="withTrashed" @change="fetchArticles()" class="rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
                     Tampilkan Artikel Terhapus (Archive)
                 </label>
             </div>
             
-            <div class="text-sm text-slate-400">
+            <div class="text-sm text-slate-600 font-medium dark:text-slate-300">
                 Total: <span class="font-bold text-slate-800 dark:text-slate-200" x-text="articles.length">0</span> Artikel
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="relative group">
+            <input
+                type="text"
+                x-model="searchQuery"
+                placeholder="Cari judul atau isi artikel..."
+                class="w-full px-4 py-3 bg-white dark:bg-slate-900 border-2 border-emerald-100 dark:border-emerald-900/40 rounded-2xl text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-500 transition-all duration-300"
+            />
+            <!-- Live result count -->
+            <div class="absolute inset-y-0 right-0 flex items-center gap-2 pr-4">
+                <span x-show="searchQuery" x-transition class="text-xs font-semibold px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded-full" x-text="filteredArticles.length + ' artikel'" x-cloak></span>
+                <button x-show="searchQuery" @click="searchQuery = ''" class="text-slate-400 hover:text-red-500 transition-colors duration-200" x-cloak>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
         </div>
 
@@ -34,28 +51,28 @@
         <!-- Loading Spinner -->
         <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-500">Memuat data artikel...</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat data artikel...</p>
         </div>
 
         <!-- Empty State -->
-        <div x-show="!loading && articles.length === 0" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-16 text-center space-y-4" x-cloak>
-            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800/60 rounded-2xl flex items-center justify-center mx-auto text-slate-400">
+        <div x-show="!loading && filteredArticles.length === 0" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-16 text-center space-y-4" x-cloak>
+            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800/60 rounded-2xl flex items-center justify-center mx-auto text-slate-600 font-medium dark:text-slate-300">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
             </div>
             <h4 class="text-lg font-bold text-slate-700 dark:text-slate-300">Belum Ada Artikel</h4>
-            <p class="text-sm text-slate-400 max-w-sm mx-auto">Klik tombol 'Tulis Artikel Baru' di atas untuk mempublikasikan artikel edukasi pertama.</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300 max-w-sm mx-auto">Klik tombol 'Tulis Artikel Baru' di atas untuk mempublikasikan artikel edukasi pertama.</p>
         </div>
 
         <!-- Article Cards Grid -->
-        <div x-show="!loading && articles.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" x-cloak>
-            <template x-for="article in articles" :key="article.id">
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm flex flex-col group relative" :class="article.deleted_at ? 'opacity-60 grayscale' : ''">
+        <div x-show="!loading && filteredArticles.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" x-cloak>
+            <template x-for="article in filteredArticles" :key="article.id">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 flex flex-col group relative hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300" :class="article.deleted_at ? 'opacity-60 grayscale' : ''">
                     <!-- Image -->
                     <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
-                        <template x-if="article.image_path">
-                            <img :src="article.image_path" alt="Article Image" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" />
+                        <template x-if="article.image_path && article.image_path !== '/storage/'">
+                            <img :src="article.image_path.startsWith('http') ? article.image_path : '{{ asset('') }}' + article.image_path.replace(/^\/+/, '')" alt="Article Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
                         </template>
-                        <template x-if="!article.image_path">
+                        <template x-if="!article.image_path || article.image_path === '/storage/'">
                             <div class="w-full h-full flex items-center justify-center text-slate-300 bg-slate-100 dark:bg-slate-800">
                                 <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
@@ -76,11 +93,11 @@
                     <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
                         <div class="space-y-2">
                             <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 truncate" x-text="article.title"></h4>
-                            <p class="text-xs text-slate-400 line-clamp-3" x-text="article.content"></p>
+                            <p class="text-xs text-slate-600 font-medium dark:text-slate-300 line-clamp-3" x-text="article.content"></p>
                         </div>
 
                         <!-- Audit Log -->
-                        <div class="text-[10px] text-slate-400 bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="text-[10px] text-slate-600 font-medium dark:text-slate-300 bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl flex items-center justify-between">
                             <span>Penulis: <b class="text-slate-600 dark:text-slate-300" x-text="article.author ? article.author.name : 'System'"></b></span>
                             <span x-text="formatDate(article.updated_at)"></span>
                         </div>
@@ -116,24 +133,24 @@
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                 <!-- Modal Content -->
-                <div x-show="modal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-slate-100 dark:border-slate-800">
+                <div x-show="modal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-emerald-100 dark:border-emerald-900/30">
                     <div class="p-6 sm:p-8 space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                        <div class="flex justify-between items-center border-b border-emerald-100 dark:border-emerald-900/40 pb-4">
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white" x-text="modal.isEdit ? 'Ubah Artikel' : 'Tulis Artikel Baru'"></h3>
-                            <button @click="modal.open = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">&times;</button>
+                            <button @click="modal.open = false" class="text-slate-600 font-medium dark:text-slate-300 hover:text-slate-600 dark:hover:text-white">&times;</button>
                         </div>
 
                         <form @submit.prevent="saveArticle" class="space-y-4">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Judul Artikel</label>
-                                <input type="text" x-model="modal.form.title" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: Panduan Menanam Sayur Organik di Rumah" />
+                                <input type="text" x-model="modal.form.title" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: Panduan Menanam Sayur Organik di Rumah" />
                                 <p x-show="modal.errors.title" x-text="modal.errors.title[0]" class="mt-1 text-xs text-red-600"></p>
                             </div>
 
                             <div class="grid grid-cols-1 gap-4">
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Kategori</label>
-                                    <select x-model="modal.form.category_id" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4">
+                                    <select x-model="modal.form.category_id" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4">
                                         <option value="">Pilih Kategori...</option>
                                         <template x-for="cat in categories" :key="cat.id">
                                             <option :value="cat.id" x-text="cat.name" :selected="cat.id == modal.form.category_id"></option>
@@ -145,18 +162,18 @@
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Konten / Isi Artikel</label>
-                                <textarea x-model="modal.form.content" required rows="6" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Ketik isi konten edukasi di sini..."></textarea>
+                                <textarea x-model="modal.form.content" required rows="6" class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Ketik isi konten edukasi di sini..."></textarea>
                                 <p x-show="modal.errors.content" x-text="modal.errors.content[0]" class="mt-1 text-xs text-red-600"></p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Gambar Sampul</label>
-                                <input type="file" @change="handleImageUpload($event)" accept="image/*" class="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
-                                <p class="text-[10px] text-slate-400 mt-1">Format: JPG, PNG, SVG (Maks. 2MB). Biarkan kosong jika tidak ingin mengubah gambar.</p>
+                                <input type="file" @change="handleImageUpload($event)" accept="image/*" class="w-full text-sm text-slate-600 font-medium dark:text-slate-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
+                                <p class="text-[10px] text-slate-600 font-medium dark:text-slate-300 mt-1">Format: JPG, PNG, SVG (Maks. 2MB). Biarkan kosong jika tidak ingin mengubah gambar.</p>
                                 <p x-show="modal.errors.image" x-text="modal.errors.image[0]" class="mt-1 text-xs text-red-600"></p>
                             </div>
 
-                            <div class="flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800/80 pt-4 mt-6">
+                            <div class="flex justify-end gap-2 border-t border-emerald-100 dark:border-emerald-900/40 pt-4 mt-6">
                                 <button type="button" @click="modal.open = false" class="px-5 py-2.5 bg-slate-150 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
                                     Batal
                                 </button>
@@ -177,17 +194,17 @@
                 <div class="fixed inset-0 transition-opacity bg-slate-900/60 backdrop-blur-sm" @click="categoryModal.open = false"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                <div x-show="categoryModal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-slate-100 dark:border-slate-800">
+                <div x-show="categoryModal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full border border-emerald-100 dark:border-emerald-900/30">
                     <div class="p-6 sm:p-8 space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                        <div class="flex justify-between items-center border-b border-emerald-100 dark:border-emerald-900/40 pb-4">
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white">Kelola Kategori Artikel</h3>
-                            <button @click="categoryModal.open = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">&times;</button>
+                            <button @click="categoryModal.open = false" class="text-slate-600 font-medium dark:text-slate-300 hover:text-slate-600 dark:hover:text-white">&times;</button>
                         </div>
 
-                        <form @submit.prevent="saveCategory" class="space-y-4 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100/80 dark:border-slate-800/50">
+                        <form @submit.prevent="saveCategory" class="space-y-4 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-emerald-100/80 dark:border-emerald-900/30">
                             <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200" x-text="categoryModal.isEdit ? 'Ubah Nama Kategori' : 'Tambah Kategori Baru'"></h4>
                             <div class="flex gap-2">
-                                <input type="text" x-model="categoryModal.form.name" required class="flex-grow rounded-xl border-slate-200 dark:border-slate-800 dark:bg-slate-900 focus:border-emerald-500 focus:ring-emerald-500 text-xs py-2.5 px-3" placeholder="Nama Kategori (misal: Hidroponik)" />
+                                <input type="text" x-model="categoryModal.form.name" required class="flex-grow rounded-xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-900 focus:border-emerald-500 focus:ring-emerald-500 text-xs py-2.5 px-3" placeholder="Nama Kategori (misal: Hidroponik)" />
                                 <button type="submit" :disabled="categoryModal.submitting" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10">
                                     Simpan
                                 </button>
@@ -199,8 +216,8 @@
                         </form>
 
                         <div class="space-y-3">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Daftar Kategori</h4>
-                            <div class="max-h-60 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 border border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-950/40">
+                            <h4 class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase tracking-wider">Daftar Kategori</h4>
+                            <div class="max-h-60 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 border border-emerald-100 dark:border-emerald-900/30 rounded-2xl bg-white dark:bg-slate-950/40">
                                 <template x-for="cat in categories" :key="cat.id">
                                     <div class="p-3.5 flex items-center justify-between gap-4">
                                         <span class="text-sm font-semibold text-slate-700 dark:text-slate-300" x-text="cat.name"></span>
@@ -217,7 +234,7 @@
                             </div>
                         </div>
 
-                        <div class="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                        <div class="flex justify-end pt-4 border-t border-emerald-100 dark:border-emerald-900/40">
                             <button type="button" @click="categoryModal.open = false" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
                                 Tutup
                             </button>
@@ -236,6 +253,7 @@
                 categories: [],
                 loading: true,
                 withTrashed: false,
+                searchQuery: '',
                 alert: {
                     show: false,
                     type: 'success',
@@ -456,6 +474,14 @@
                     setTimeout(() => {
                         this.alert.show = false;
                     }, 5000);
+                },
+                get filteredArticles() {
+                    if (!this.searchQuery.trim()) return this.articles;
+                    const q = this.searchQuery.toLowerCase().trim();
+                    return this.articles.filter(a =>
+                        (a.title && a.title.toLowerCase().includes(q)) ||
+                        (a.content && a.content.toLowerCase().includes(q))
+                    );
                 },
                 formatDate(dateStr) {
                     if (!dateStr) return '';

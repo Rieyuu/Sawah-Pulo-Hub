@@ -5,15 +5,15 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="space-y-1">
                 <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Pintu Masuk Loket</h1>
-                <p class="text-sm text-slate-500">Scan QR Code tiket wisatawan secara real-time atau masukkan kode tiket secara manual.</p>
+                <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Scan QR Code tiket wisatawan secara real-time atau masukkan kode tiket secara manual.</p>
             </div>
             
             <!-- Mode Switcher Tabs -->
-            <div class="inline-flex p-1 bg-slate-200/60 dark:bg-slate-900 rounded-2xl border border-slate-200/20">
-                <button @click="switchTab('camera')" :class="activeTab === 'camera' ? 'bg-white dark:bg-slate-800 text-slate-950 dark:text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'" class="px-4 py-2 text-xs font-bold rounded-xl transition-all">
+            <div class="inline-flex p-1 bg-slate-200/60 dark:bg-slate-900 rounded-2xl border border-emerald-100/20">
+                <button @click="switchTab('camera')" :class="activeTab === 'camera' ? 'bg-white dark:bg-slate-800 text-slate-950 dark:text-white shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300' : 'text-slate-600 font-medium dark:text-slate-300 hover:text-slate-200'" class="px-4 py-2 text-xs font-bold rounded-xl transition-all">
                     📷 Kamera Scanner
                 </button>
-                <button @click="switchTab('manual')" :class="activeTab === 'manual' ? 'bg-white dark:bg-slate-800 text-slate-950 dark:text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'" class="px-4 py-2 text-xs font-bold rounded-xl transition-all">
+                <button @click="switchTab('manual')" :class="activeTab === 'manual' ? 'bg-white dark:bg-slate-800 text-slate-950 dark:text-white shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300' : 'text-slate-600 font-medium dark:text-slate-300 hover:text-slate-200'" class="px-4 py-2 text-xs font-bold rounded-xl transition-all">
                     ✍️ Input Manual
                 </button>
             </div>
@@ -26,7 +26,7 @@
             <div class="lg:col-span-2 space-y-6">
                 
                 <!-- Results Display Overlay (Active when result is present) -->
-                <div x-show="scanResult" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6" x-cloak>
+                <div x-show="scanResult" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6" x-cloak>
                     
                     <!-- SUCCESS CARD -->
                     <template x-if="scanResult && scanResult.success">
@@ -36,34 +36,34 @@
                                     ✓
                                 </div>
                                 <h3 class="text-xl font-black text-emerald-600 dark:text-emerald-400">TIKET VALID!</h3>
-                                <p class="text-xs text-slate-500" x-text="scanResult.message"></p>
+                                <p class="text-xs text-slate-600 font-medium dark:text-slate-300" x-text="scanResult.message"></p>
                             </div>
 
-                            <div class="bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-800/50 space-y-4">
-                                <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm border-b border-slate-200/50 dark:border-slate-800/50 pb-2">Informasi Kunjungan</h4>
+                            <div class="bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 space-y-4">
+                                <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm border-b border-emerald-100 dark:border-emerald-900/30 pb-2">Informasi Kunjungan</h4>
                                 <div class="grid grid-cols-2 gap-4 text-xs">
                                     <div>
-                                        <p class="text-slate-400">Nama Pengunjung</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Nama Pengunjung</p>
                                         <p class="font-bold text-slate-800 dark:text-slate-200 mt-1" x-text="scanResult.data.user.name"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">WhatsApp</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">WhatsApp</p>
                                         <p class="font-bold text-slate-800 dark:text-slate-200 mt-1" x-text="scanResult.data.user.whatsapp"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Jenis Tiket</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Jenis Tiket</p>
                                         <p class="font-bold text-slate-800 dark:text-slate-200 mt-1" x-text="scanResult.data.ticket.title"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Jumlah Orang</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Jumlah Orang</p>
                                         <p class="font-black text-emerald-600 dark:text-emerald-400 mt-1" x-text="scanResult.data.quantity + ' Orang'"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Kode Tiket</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Kode Tiket</p>
                                         <p class="font-mono font-bold text-slate-800 dark:text-slate-200 mt-1" x-text="scanResult.data.ticket_code"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Waktu Digunakan</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Waktu Digunakan</p>
                                         <p class="font-bold text-slate-800 dark:text-slate-200 mt-1" x-text="formatDate(scanResult.data.used_at)"></p>
                                     </div>
                                 </div>
@@ -83,8 +83,8 @@
                             </div>
 
                             <template x-if="scanResult.ticket_code">
-                                <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/50 flex justify-between items-center text-xs">
-                                    <span class="text-slate-400">Kode Tiket yang Dipindai</span>
+                                <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 flex justify-between items-center text-xs">
+                                    <span class="text-slate-600 font-medium dark:text-slate-300">Kode Tiket yang Dipindai</span>
                                     <span class="font-mono font-bold text-slate-700 dark:text-slate-300" x-text="scanResult.ticket_code"></span>
                                 </div>
                             </template>
@@ -97,8 +97,8 @@
                 </div>
 
                 <!-- CAMERA SCANNER VIEW -->
-                <div x-show="activeTab === 'camera' && !scanResult" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
+                <div x-show="activeTab === 'camera' && !scanResult" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                    <div class="flex items-center justify-between pb-3 border-b border-emerald-100 dark:border-emerald-900/40">
                         <h3 class="font-bold text-slate-900 dark:text-white">Pemindaian Kamera QR Code</h3>
                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 animate-pulse">
                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Aktif
@@ -107,8 +107,8 @@
 
                     <!-- Camera selection -->
                     <div class="space-y-2" x-show="cameras.length > 0">
-                        <label class="text-xs font-semibold text-slate-400">Pilih Kamera Perangkat:</label>
-                        <select x-model="selectedCameraId" @change="restartCamera()" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label class="text-xs font-semibold text-slate-600 font-medium dark:text-slate-300">Pilih Kamera Perangkat:</label>
+                        <select x-model="selectedCameraId" @change="restartCamera()" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-emerald-100/60 dark:border-emerald-900/30 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
                             <template x-for="camera in cameras" :key="camera.id">
                                 <option :value="camera.id" x-text="camera.label"></option>
                             </template>
@@ -116,8 +116,8 @@
                     </div>
 
                     <!-- Camera Window -->
-                    <div class="relative w-full max-w-md mx-auto aspect-square overflow-hidden rounded-3xl border border-slate-200/50 dark:border-slate-800 bg-slate-950 flex items-center justify-center">
-                        <div id="reader" class="w-full h-full object-cover"></div>
+                    <div class="relative w-full max-w-md mx-auto aspect-square overflow-hidden rounded-3xl border border-emerald-100 dark:border-emerald-900/30 bg-slate-950 flex items-center justify-center">
+                        <div id="reader" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"></div>
                         
                         <!-- Overlay Loading when verifying -->
                         <div x-show="isProcessing" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center space-y-4 text-white z-10" x-cloak>
@@ -127,19 +127,19 @@
                     </div>
 
                     <!-- Instructions -->
-                    <div class="text-xs text-slate-400 text-center max-w-sm mx-auto leading-relaxed">
+                    <div class="text-xs text-slate-600 font-medium dark:text-slate-300 text-center max-w-sm mx-auto leading-relaxed">
                         Posisikan QR Code e-tiket wisatawan tepat di dalam kotak kamera. Deteksi akan dilakukan secara instan.
                     </div>
                 </div>
 
                 <!-- MANUAL INPUT VIEW -->
-                <div x-show="activeTab === 'manual' && !scanResult" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6" x-cloak>
-                    <h3 class="font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800/80">Input Kode Tiket Manual</h3>
+                <div x-show="activeTab === 'manual' && !scanResult" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6" x-cloak>
+                    <h3 class="font-bold text-slate-900 dark:text-white pb-3 border-b border-emerald-100 dark:border-emerald-900/40">Input Kode Tiket Manual</h3>
 
                     <form @submit.prevent="verifyManualCode()" class="space-y-6">
                         <div class="space-y-2">
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Masukkan Kode Tiket</label>
-                            <input type="text" x-model="manualCode" placeholder="Contoh: SWP-A7B8C9D0" uppercase autocomplete="off" required :disabled="isProcessing" class="w-full px-5 py-4 text-lg font-mono font-bold tracking-widest text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-400 placeholder:font-sans placeholder:tracking-normal placeholder:text-sm" />
+                            <label class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase tracking-wider">Masukkan Kode Tiket</label>
+                            <input type="text" x-model="manualCode" placeholder="Contoh: SWP-A7B8C9D0" uppercase autocomplete="off" required :disabled="isProcessing" class="w-full px-5 py-4 text-lg font-mono font-bold tracking-widest text-slate-800 dark:text-white bg-slate-50 dark:bg-slate-950 border border-emerald-100 dark:border-emerald-900/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-600 font-medium dark:text-slate-300 placeholder:font-sans placeholder:tracking-normal placeholder:text-sm" />
                         </div>
 
                         <button type="submit" :disabled="isProcessing || !manualCode" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-2xl shadow-lg transition-all">
@@ -154,9 +154,9 @@
             <!-- Right Panel: Info & History (1 Column) -->
             <div class="space-y-6">
                 <!-- Guide Card -->
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 shadow-sm space-y-4">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-4">
                     <h3 class="font-bold text-slate-900 dark:text-white">Petunjuk Loket Masuk</h3>
-                    <div class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed space-y-2.5">
+                    <div class="text-xs text-slate-600 font-medium dark:text-slate-300 leading-relaxed space-y-2.5">
                         <p>1. Wisatawan menyodorkan QR Code dari e-tiket pada handphone atau lembar cetak.</p>
                         <p>2. Arahkan QR Code ke kamera scanner admin.</p>
                         <p>3. Jika pembacaan gagal, gunakan menu **Input Manual** dan ketikkan kode unik yang tertera di tiket.</p>
@@ -165,19 +165,19 @@
                 </div>
 
                 <!-- Recent Scan logs (Client-side tracking) -->
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 shadow-sm space-y-4">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-4">
                     <h3 class="font-bold text-slate-900 dark:text-white">Pindaian Terakhir</h3>
                     
                     <div class="space-y-3">
                         <template x-if="recentScans.length === 0">
-                            <p class="text-xs text-slate-400 italic py-2">Belum ada aktivitas scan.</p>
+                            <p class="text-xs text-slate-600 font-medium dark:text-slate-300 italic py-2">Belum ada aktivitas scan.</p>
                         </template>
 
                         <template x-for="scan in recentScans" :key="scan.time">
-                            <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800/50 flex items-center justify-between text-xs">
+                            <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-emerald-100 dark:border-emerald-900/30 flex items-center justify-between text-xs">
                                 <div class="space-y-0.5">
                                     <p class="font-mono font-bold text-slate-800 dark:text-slate-200" x-text="scan.code"></p>
-                                    <p class="text-[10px] text-slate-400" x-text="scan.info"></p>
+                                    <p class="text-[10px] text-slate-600 font-medium dark:text-slate-300" x-text="scan.info"></p>
                                 </div>
                                 <span :class="scan.valid ? 'bg-emerald-500/10 text-emerald-600' : 'bg-red-500/10 text-red-600'" class="px-2.5 py-1 rounded-lg font-bold text-[10px]" x-text="scan.valid ? 'VALID' : 'GAGAL'">
                                 </span>

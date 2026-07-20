@@ -14,7 +14,7 @@
         </div>
 
         <!-- Tabs filter -->
-        <div class="flex border-b border-slate-200 dark:border-slate-800 gap-2 sm:gap-4 overflow-x-auto pb-px mb-8">
+        <div class="flex border-b border-emerald-100 dark:border-emerald-900/30 gap-2 sm:gap-4 overflow-x-auto pb-px mb-8">
             <button @click="filterStatus('all')" class="py-3 px-4 text-xs sm:text-sm font-bold border-b-2 transition-all" :class="activeFilter === 'all' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
                 Semua
             </button>
@@ -35,22 +35,22 @@
         <!-- Loading -->
         <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-500">Memuat riwayat transaksi...</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat riwayat transaksi...</p>
         </div>
 
         <!-- Empty State -->
-        <div x-show="!loading && filteredOrders.length === 0" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-16 text-center space-y-4" x-cloak>
+        <div x-show="!loading && filteredOrders.length === 0" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-16 text-center space-y-4" x-cloak>
             <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-400">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
             </div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tidak Ada Transaksi</h3>
-            <p class="text-sm text-slate-500 max-w-sm mx-auto">Anda tidak memiliki pesanan tiket dalam kategori ini.</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300 max-w-sm mx-auto">Anda tidak memiliki pesanan tiket dalam kategori ini.</p>
         </div>
 
         <!-- Orders List -->
         <div x-show="!loading && filteredOrders.length > 0" class="space-y-4" x-cloak>
             <template x-for="order in filteredOrders" :key="order.id">
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 transition-all hover:border-slate-200 dark:hover:border-slate-700">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 shadow-xl shadow-slate-200/60 dark:shadow-none flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 transition-all hover:border-emerald-100 dark:hover:border-slate-700">
                     
                     <!-- Order Details -->
                     <div class="space-y-2 flex-grow">
@@ -86,7 +86,7 @@
                         <!-- Success -> Print Ticket CTA -->
                         <template x-if="order.status === 'success'">
                             <a :href="`/tickets/print/${order.id}`" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition-all">
-                                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                <svg class="w-4 h-4 text-slate-600 font-medium dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                 Cetak E-Tiket
                             </a>
                         </template>

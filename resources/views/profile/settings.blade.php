@@ -7,7 +7,7 @@
         <!-- Loading State -->
         <div x-show="loadingData" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-500">Memuat profil Anda...</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat profil Anda...</p>
         </div>
 
         <div x-show="!loadingData" class="space-y-8" x-cloak>
@@ -22,7 +22,7 @@
             </div>
 
             <!-- Profile Info Form -->
-            <div class="bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8">
+            <div class="bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/60 dark:shadow-none border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Informasi Pribadi</h2>
                 
                 <form @submit.prevent="updateProfile">
@@ -30,21 +30,21 @@
                         <!-- Name -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nama Lengkap</label>
-                            <input type="text" x-model="form.name" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
+                            <input type="text" x-model="form.name" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                             <p x-show="errors.name" x-text="errors.name[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
 
                         <!-- Email -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Alamat Email</label>
-                            <input type="email" x-model="form.email" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
+                            <input type="email" x-model="form.email" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                             <p x-show="errors.email" x-text="errors.email[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
 
                         <!-- WhatsApp -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nomor WhatsApp</label>
-                            <input type="text" x-model="form.whatsapp" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
+                            <input type="text" x-model="form.whatsapp" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                             <p x-show="errors.whatsapp" x-text="errors.whatsapp[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
                     </div>
@@ -59,9 +59,9 @@
             </div>
 
             <!-- Password Form -->
-            <div class="bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8">
+            <div class="bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/60 dark:shadow-none border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Ubah Sandi</h2>
-                <p class="text-sm text-slate-500 mb-6">Pastikan sandi Anda aman dengan kombinasi karakter unik.</p>
+                <p class="text-sm text-slate-600 font-medium dark:text-slate-300 mb-6">Pastikan sandi Anda aman dengan kombinasi karakter unik.</p>
 
                 <form @submit.prevent="updatePassword">
                     <div class="space-y-4">
@@ -71,21 +71,21 @@
                                 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Sandi Saat Ini</label>
                                 <a href="{{ route('password.request') }}" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Lupa kata sandi?</a>
                             </div>
-                            <input type="password" x-model="pwdForm.current_password" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
+                            <input type="password" x-model="pwdForm.current_password" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                             <p x-show="errors.current_password" x-text="errors.current_password[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
 
                         <!-- New Password -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Sandi Baru</label>
-                            <input type="password" x-model="pwdForm.password" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
+                            <input type="password" x-model="pwdForm.password" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                             <p x-show="errors.password" x-text="errors.password[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
 
                         <!-- Confirm Password -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Konfirmasi Sandi Baru</label>
-                            <input type="password" x-model="pwdForm.password_confirmation" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
+                            <input type="password" x-model="pwdForm.password_confirmation" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm py-3 px-4" />
                         </div>
                     </div>
 
@@ -121,7 +121,7 @@
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                 <!-- Modal box -->
-                <div x-show="showDeleteModal" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-slate-100 dark:border-slate-800">
+                <div x-show="showDeleteModal" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-emerald-100 dark:border-emerald-900/30">
                     <div class="p-6">
                         <div class="flex items-start gap-4">
                             <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-950/50 text-red-600">
@@ -129,7 +129,7 @@
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-slate-900 dark:text-white">Hapus Akun Permanen?</h3>
-                                <p class="text-sm text-slate-500 mt-2">Apakah Anda yakin ingin menghapus akun? Anda akan langsung dikeluarkan dari sistem dan akun tidak bisa diakses kembali.</p>
+                                <p class="text-sm text-slate-600 font-medium dark:text-slate-300 mt-2">Apakah Anda yakin ingin menghapus akun? Anda akan langsung dikeluarkan dari sistem dan akun tidak bisa diakses kembali.</p>
                             </div>
                         </div>
                     </div>

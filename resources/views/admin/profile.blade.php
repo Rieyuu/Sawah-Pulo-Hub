@@ -14,24 +14,24 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             <!-- Left Side: Profile Info Card -->
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-                <div class="pb-3 border-b border-slate-100 dark:border-slate-800/80">
+            <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                <div class="pb-3 border-b border-emerald-100 dark:border-emerald-900/40">
                     <h3 class="font-bold text-slate-900 dark:text-white">Informasi Akun</h3>
-                    <p class="text-xs text-slate-400">Perbarui informasi email dan nama lengkap Anda.</p>
+                    <p class="text-xs text-slate-600 font-medium dark:text-slate-300">Perbarui informasi email dan nama lengkap Anda.</p>
                 </div>
 
                 <form @submit.prevent="updateProfile()" class="space-y-4">
                     <!-- Name -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase">Nama Lengkap</label>
-                        <input type="text" x-model="profileForm.name" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
+                        <label class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase">Nama Lengkap</label>
+                        <input type="text" x-model="profileForm.name" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-emerald-100 dark:border-emerald-900/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
                         <p x-show="profileErrors.name" x-text="profileErrors.name[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>
 
                     <!-- Email -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase">Alamat Email</label>
-                        <input type="email" x-model="profileForm.email" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
+                        <label class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase">Alamat Email</label>
+                        <input type="email" x-model="profileForm.email" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-emerald-100 dark:border-emerald-900/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
                         <p x-show="profileErrors.email" x-text="profileErrors.email[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>
 
@@ -46,34 +46,34 @@
             </div>
 
             <!-- Right Side: Change Password Card -->
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-                <div class="pb-3 border-b border-slate-100 dark:border-slate-800/80">
+            <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                <div class="pb-3 border-b border-emerald-100 dark:border-emerald-900/40">
                     <h3 class="font-bold text-slate-900 dark:text-white">Keamanan & Kata Sandi</h3>
-                    <p class="text-xs text-slate-400">Ganti kata sandi Anda secara berkala untuk menjaga keamanan akun.</p>
+                    <p class="text-xs text-slate-600 font-medium dark:text-slate-300">Ganti kata sandi Anda secara berkala untuk menjaga keamanan akun.</p>
                 </div>
 
                 <form @submit.prevent="updatePassword()" class="space-y-4">
                     <!-- Current Password -->
                     <div class="space-y-1">
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs font-bold text-slate-400 uppercase">Sandi Saat Ini</label>
+                            <label class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase">Sandi Saat Ini</label>
                             <a href="{{ route('password.request') }}" class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline">Lupa kata sandi?</a>
                         </div>
-                        <input type="password" x-model="passwordForm.current_password" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
+                        <input type="password" x-model="passwordForm.current_password" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-emerald-100 dark:border-emerald-900/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
                         <p x-show="passwordErrors.current_password" x-text="passwordErrors.current_password[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>
 
                     <!-- New Password -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase">Sandi Baru</label>
-                        <input type="password" x-model="passwordForm.password" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
+                        <label class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase">Sandi Baru</label>
+                        <input type="password" x-model="passwordForm.password" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-emerald-100 dark:border-emerald-900/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
                         <p x-show="passwordErrors.password" x-text="passwordErrors.password[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>
 
                     <!-- Confirm New Password -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase">Konfirmasi Sandi Baru</label>
-                        <input type="password" x-model="passwordForm.password_confirmation" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
+                        <label class="text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase">Konfirmasi Sandi Baru</label>
+                        <input type="password" x-model="passwordForm.password_confirmation" required :disabled="loading" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-emerald-100 dark:border-emerald-900/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs font-semibold" />
                         <p x-show="passwordErrors.password_confirmation" x-text="passwordErrors.password_confirmation[0]" class="text-[10px] text-red-600 dark:text-red-400 mt-1"></p>
                     </div>
 

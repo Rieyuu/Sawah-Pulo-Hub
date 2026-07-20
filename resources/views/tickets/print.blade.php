@@ -32,10 +32,10 @@
 <body class="min-h-screen flex items-center justify-center p-4 sm:p-8" x-data="eTicketPrinter()" x-init="fetchOrder()">
 
     <!-- Main Container -->
-    <div class="max-w-md w-full bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 print-card relative" x-show="order" x-cloak>
+    <div class="max-w-md w-full bg-white border border-emerald-100 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 print-card relative" x-show="order" x-cloak>
         
         <!-- Header -->
-        <div class="text-center border-b border-dashed border-slate-200 pb-6 space-y-2">
+        <div class="text-center border-b border-dashed border-emerald-100 pb-6 space-y-2">
             <h2 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 SAWAH PULO FARM
             </h2>
@@ -44,7 +44,7 @@
 
         <!-- QR Code -->
         <div class="flex flex-col items-center justify-center py-4 space-y-4">
-            <div class="p-3 bg-white border border-slate-100 rounded-2xl shadow-inner">
+            <div class="p-3 bg-white border border-emerald-100 rounded-2xl shadow-inner">
                 <img :src="`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${order ? order.ticket_code : ''}`" alt="Ticket QR Code" class="w-36 h-36" />
             </div>
             <div class="text-center space-y-1">
@@ -54,7 +54,7 @@
         </div>
 
         <!-- Order Information Table -->
-        <div class="border-t border-b border-dashed border-slate-200 py-4 space-y-3 text-xs">
+        <div class="border-t border-b border-dashed border-emerald-100 py-4 space-y-3 text-xs">
             <div class="flex justify-between">
                 <span class="text-slate-400">Pengunjung</span>
                 <span class="font-bold text-slate-800" x-text="order ? order.user.name : ''"></span>
@@ -87,7 +87,7 @@
 
         <!-- Footer / Instructions -->
         <div class="text-center space-y-2 text-[10px] text-slate-400 leading-relaxed">
-            <p class="font-bold text-slate-500">PENTING & WAJIB DIKETAHUI:</p>
+            <p class="font-bold text-slate-600 font-medium dark:text-slate-300">PENTING & WAJIB DIKETAHUI:</p>
             <p>1. Tunjukkan QR Code di atas kepada petugas loket pintu masuk untuk discan.</p>
             <p>2. Jika QR Code gagal discan, berikan Kode Tiket Unik di atas kepada petugas.</p>
             <p>3. Tiket hanya dapat discan/digunakan 1 kali masuk.</p>
@@ -108,7 +108,7 @@
     <!-- Loading -->
     <div x-show="!order" class="flex flex-col items-center justify-center space-y-4 no-print">
         <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-        <p class="text-sm text-slate-500">Memproses E-Tiket Anda...</p>
+        <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memproses E-Tiket Anda...</p>
     </div>
 
     <script>

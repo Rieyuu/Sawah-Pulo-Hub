@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Services\ImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -52,8 +53,8 @@ class AdminArticleController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('articles', 'public');
-            $imagePath = '/storage/'.$imagePath;
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'articles', 'public', 75, 1200);
+            $imagePath = $imagePath ? '/storage/'.$imagePath : null;
         }
 
         // slug & author_id ditangani (slug via Str::slug, author_id via ArticleObserver)
@@ -130,8 +131,8 @@ class AdminArticleController extends Controller
                 $oldPath = str_replace('/storage/', '', $article->image_path);
                 Storage::disk('public')->delete($oldPath);
             }
-            $imagePath = $request->file('image')->store('articles', 'public');
-            $article->image_path = '/storage/'.$imagePath;
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'articles', 'public', 75, 1200);
+            $article->image_path = $imagePath ? '/storage/'.$imagePath : $article->image_path;
         }
 
         $article->title = $request->title;

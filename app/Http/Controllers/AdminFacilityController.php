@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
+use App\Services\ImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -51,8 +52,8 @@ class AdminFacilityController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('facilities', 'public');
-            $imagePath = '/storage/'.$imagePath;
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'facilities', 'public', 75, 1200);
+            $imagePath = $imagePath ? '/storage/'.$imagePath : null;
         }
 
         // Slug & user_id otomatis ditangani (slug via Str::slug, user_id via FacilityObserver)
@@ -127,8 +128,8 @@ class AdminFacilityController extends Controller
                 $oldPath = str_replace('/storage/', '', $facility->image_path);
                 Storage::disk('public')->delete($oldPath);
             }
-            $imagePath = $request->file('image')->store('facilities', 'public');
-            $facility->image_path = '/storage/'.$imagePath;
+            $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'facilities', 'public', 75, 1200);
+            $facility->image_path = $imagePath ? '/storage/'.$imagePath : $facility->image_path;
         }
 
         $facility->name = $request->name;

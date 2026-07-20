@@ -52,11 +52,12 @@ class AdminReportController extends Controller
             ->groupBy('ticket_id')
             ->orderByDesc('sold_count')
             ->take(5)
+            ->with('ticket')
             ->get();
 
         // Load detail tiket untuk popularTickets
         $popularTicketsFormatted = $popularTickets->map(function ($item) {
-            $ticket = Ticket::find($item->ticket_id);
+            $ticket = $item->ticket;
 
             return [
                 'title' => $ticket ? $ticket->title : 'Tiket Terhapus',

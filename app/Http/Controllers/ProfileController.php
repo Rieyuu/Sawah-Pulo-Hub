@@ -99,6 +99,11 @@ class ProfileController extends Controller
         // Cabut semua token user
         $user->accessTokens()->update(['revoked_at' => now()]);
 
+        // Anonimkan email dan whatsapp agar bisa digunakan kembali untuk mendaftar
+        $user->email = 'deleted_' . time() . '_' . $user->email;
+        $user->whatsapp = 'deleted_' . time() . '_' . $user->whatsapp;
+        $user->save();
+
         // Soft-delete akun user
         $user->delete();
 

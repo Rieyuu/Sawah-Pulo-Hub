@@ -6,7 +6,7 @@
         <!-- Header -->
         <div class="mb-8 space-y-2">
             <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Pembayaran Tiket</h1>
-            <p class="text-sm text-slate-500">Silakan lakukan transfer pembayaran dan unggah bukti transfer di bawah ini.</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Silakan lakukan transfer pembayaran dan unggah bukti transfer di bawah ini.</p>
         </div>
 
         <!-- Alert -->
@@ -31,7 +31,7 @@
         <!-- Loading -->
         <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-500">Memuat detail pesanan...</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat detail pesanan...</p>
         </div>
 
         <!-- Main Content -->
@@ -39,13 +39,13 @@
             <!-- Bank & Upload Form (2 cols) -->
             <div class="md:col-span-2 space-y-6">
                 <!-- Bank Info -->
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
                     <h3 class="font-bold text-slate-900 dark:text-white">Pilihan Metode Pembayaran</h3>
                     
                     <!-- QRIS -->
-                    <div class="flex flex-col items-center justify-center p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-4">
+                    <div class="flex flex-col items-center justify-center p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 space-y-4">
                         <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Opsi 1: Scan QRIS Resmi</span>
-                        <div class="p-3 bg-white rounded-xl shadow-inner border border-slate-100">
+                        <div class="p-3 bg-white rounded-xl shadow-inner border border-emerald-100">
                             <img :src="order.payment_qris_image" alt="QRIS Pembayaran Resmi" class="w-48 h-48 object-contain" />
                         </div>
                         <a :href="order.payment_qris_image" download="QRIS_Sawah_Pulo.png" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10 hover:scale-[1.02]">
@@ -56,14 +56,14 @@
                     </div>
 
                     <div class="relative flex py-2 items-center">
-                        <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                        <div class="flex-grow border-t border-emerald-100 dark:border-emerald-900/30"></div>
                         <span class="flex-shrink mx-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Atau Transfer Bank</span>
-                        <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                        <div class="flex-grow border-t border-emerald-100 dark:border-emerald-900/30"></div>
                     </div>
 
                     <!-- Bank Transfer -->
                     <div class="space-y-4">
-                        <div class="p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <div class="p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 flex items-center justify-between">
                             <div class="space-y-1">
                                 <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest" x-text="'Opsi 2: Transfer ' + order.payment_bank_name">Opsi 2: Transfer Bank Mandiri</span>
                                 <h4 class="text-lg font-black text-slate-800 dark:text-slate-200" x-text="order.payment_bank_account">142-0017-8899-23</h4>
@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="text-xs text-slate-400 leading-relaxed space-y-1">
-                        <p class="font-semibold text-slate-500">Petunjuk Pembayaran:</p>
+                        <p class="font-semibold text-slate-600 font-medium dark:text-slate-300">Petunjuk Pembayaran:</p>
                         <p>1. Gunakan M-Banking / ATM untuk transfer ke rekening di atas.</p>
                         <p>2. Transfer tepat sesuai dengan total tagihan agar verifikasi berjalan cepat.</p>
                         <p>3. Simpan struk / tangkapan layar bukti transfer untuk diunggah di bawah.</p>
@@ -82,19 +82,19 @@
                 </div>
 
                 <!-- Upload Form -->
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
                     <h3 class="font-bold text-slate-900 dark:text-white">Unggah Bukti Transfer</h3>
                     
                     <form @submit.prevent="submitPayment()" class="space-y-4">
                         <div>
-                            <input type="file" @change="handleFileUpload($event)" accept="image/jpeg,image/png,image/jpg" required :disabled="timerExpired" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer disabled:opacity-50" />
+                            <input type="file" @change="handleFileUpload($event)" accept="image/jpeg,image/png,image/jpg" required :disabled="timerExpired" class="w-full text-sm text-slate-600 font-medium dark:text-slate-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer disabled:opacity-50" />
                             <p class="text-[10px] text-slate-400 mt-2">Format yang diizinkan: JPG, JPEG, PNG (Maksimal 2MB).</p>
                             <p x-show="errors.proof_of_payment" x-text="errors.proof_of_payment[0]" class="mt-1 text-xs text-red-600"></p>
                         </div>
 
                         <!-- Image Preview -->
                         <template x-if="imagePreview">
-                            <div class="mt-4 p-2 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden max-w-xs bg-slate-50 dark:bg-slate-950">
+                            <div class="mt-4 p-2 border border-emerald-100 dark:border-emerald-900/30 rounded-2xl overflow-hidden max-w-xs bg-slate-50 dark:bg-slate-950">
                                 <img :src="imagePreview" alt="Payment Proof Preview" class="w-full h-auto rounded-xl object-contain" />
                             </div>
                         </template>
@@ -109,8 +109,8 @@
 
             <!-- Order Details (1 col) -->
             <div class="space-y-6">
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 shadow-sm space-y-6">
-                    <h3 class="font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800/80">Detail Pembelian</h3>
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                    <h3 class="font-bold text-slate-900 dark:text-white pb-3 border-b border-emerald-100 dark:border-emerald-900/40">Detail Pembelian</h3>
                     
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between">
@@ -125,7 +125,7 @@
                             <span class="text-slate-400">Jumlah Orang</span>
                             <span class="font-bold text-slate-700 dark:text-slate-300" x-text="order.quantity"></span>
                         </div>
-                        <hr class="border-slate-100 dark:border-slate-800/80">
+                        <hr class="border-emerald-100 dark:border-emerald-900/40">
                         <div class="flex justify-between text-base">
                             <span class="font-bold text-slate-800 dark:text-slate-200">Total Pembayaran</span>
                             <span class="font-black text-emerald-600 dark:text-emerald-400">Rp <span x-text="formatNumber(order.total_price)"></span></span>
@@ -134,7 +134,7 @@
                 </div>
 
                 <!-- Cancel Order Button -->
-                <button @click="cancelOrder()" :disabled="cancelling" class="w-full py-3.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-200 dark:border-red-900/60 transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm shadow-red-500/5">
+                <button @click="cancelOrder()" :disabled="cancelling" class="w-full py-3.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-200 dark:border-red-900/60 transition-all text-xs flex items-center justify-center gap-1.5 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 shadow-red-500/5">
                     <span x-show="cancelling" class="inline-block animate-spin mr-1">&#9696;</span>
                     Batalkan Pesanan Ini
                 </button>
