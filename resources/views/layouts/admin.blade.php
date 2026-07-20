@@ -27,7 +27,7 @@
     <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 min-h-screen flex antialiased" x-data="adminLayoutController()" x-init="checkAdmin()">
         
         <!-- Sidebar -->
-        <aside class="w-64 bg-slate-900 text-slate-400 border-r border-slate-800 flex flex-col fixed inset-y-0 left-0 z-40 transition-transform duration-300 md:translate-x-0" :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
+        <aside class="w-64 bg-slate-900 text-slate-600 font-medium dark:text-slate-300  font-medium dark:text-slate-400 border-r border-slate-800 flex flex-col fixed inset-y-0 left-0 z-40 transition-transform duration-300 md:translate-x-0" :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
             <!-- Sidebar Header -->
             <div class="h-16 flex items-center justify-between px-6 border-b border-slate-800">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 group">
@@ -36,7 +36,7 @@
                     </span>
                     <span class="text-[10px] px-2 py-0.5 font-semibold bg-emerald-950 text-emerald-300 rounded-full">ADMIN</span>
                 </a>
-                <button @click="sidebarOpen = false" class="md:hidden text-slate-400 hover:text-white">
+                <button @click="sidebarOpen = false" class="md:hidden text-slate-600 font-medium dark:text-slate-300  font-medium dark:text-slate-400 hover:text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -86,10 +86,10 @@
                         <div class="w-9 h-9 rounded-xl bg-emerald-600 group-hover:bg-emerald-500 text-white font-bold flex items-center justify-center transition-colors" x-text="userInitials"></div>
                         <div class="flex-grow min-w-0">
                             <p class="text-sm font-semibold text-slate-200 truncate group-hover:text-emerald-400 transition-colors" x-text="userName"></p>
-                            <p class="text-xs text-slate-500 truncate">Administrator</p>
+                            <p class="text-xs text-slate-600 font-medium dark:text-slate-300 truncate">Administrator</p>
                         </div>
                     </a>
-                    <button @click="logout" class="p-1.5 text-slate-500 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors">
+                    <button @click="logout" class="p-1.5 text-slate-600 font-medium dark:text-slate-300 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     </button>
                 </div>
@@ -100,9 +100,9 @@
         <div class="flex-1 flex flex-col md:pl-64 min-w-0">
             
             <!-- Navbar -->
-            <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between px-6 sticky top-0 z-30">
+            <header class="h-16 bg-white dark:bg-slate-900 border-b border-emerald-100 dark:border-emerald-900/40 flex items-center justify-between px-6 sticky top-0 z-30">
                 <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = true" class="md:hidden p-2 text-slate-500 hover:text-slate-800 dark:hover:text-white rounded-lg">
+                    <button @click="sidebarOpen = true" class="md:hidden p-2 text-slate-600 font-medium dark:text-slate-300 hover:text-slate-800 dark:hover:text-white rounded-lg">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
                     <h2 class="text-lg font-bold text-slate-800 dark:text-white">{{ $header ?? 'Panel Admin' }}</h2>

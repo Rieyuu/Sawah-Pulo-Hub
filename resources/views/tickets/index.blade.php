@@ -20,7 +20,7 @@
             <div class="text-center max-w-2xl mx-auto mb-10 space-y-3">
                 <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">Pembelian Tiket Resmi</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Pilih & Beli Tiket Secara Online</h2>
-                <p class="text-slate-500 text-sm">Pembayaran aman terintegrasi, e-ticket dapat langsung diunduh dan dicetak setelah diverifikasi admin.</p>
+                <p class="text-slate-600 font-medium dark:text-slate-300 text-sm">Pembayaran aman terintegrasi, e-ticket dapat langsung diunduh dan dicetak setelah diverifikasi admin.</p>
             </div>
 
             @if($tickets->isEmpty())
@@ -30,13 +30,13 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($tickets as $ticket)
-                        <div class="max-w-md mx-auto md:max-w-none w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 p-6 sm:p-8 rounded-3xl flex flex-col justify-between hover:shadow-md hover:border-slate-200 transition-all duration-300">
+                        <div class="max-w-md mx-auto md:max-w-none w-full bg-slate-50 dark:bg-slate-800/40 border border-emerald-100 dark:border-emerald-900/30 p-6 sm:p-8 rounded-3xl flex flex-col justify-between group hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 cursor-pointer">
                             <div class="space-y-4">
-                                <div class="w-full h-32 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border dark:border-slate-800/60 relative">
-                                    <img src="{{ $ticket->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $ticket->title }}" class="w-full h-full object-cover" />
+                                <div class="w-full h-32 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border dark:border-emerald-900/30 relative">
+                                    <img src="{{ $ticket->image_path ? asset($ticket->image_path) : 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $ticket->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
                                 </div>
                                 <h3 class="font-bold text-slate-900 dark:text-white text-lg sm:text-xl">{{ $ticket->title }}</h3>
-                                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{{ $ticket->description }}</p>
+                                <p class="text-xs sm:text-sm text-slate-600 font-medium dark:text-slate-300 leading-relaxed">{{ $ticket->description }}</p>
                             </div>
                             
                             <div class="mt-8 space-y-4">
@@ -44,7 +44,7 @@
                                     Rp {{ number_format($ticket->price, 0, ',', '.') }}
                                     <span class="text-xs font-normal text-slate-400">/orang</span>
                                 </p>
-                                <button @click="buyTicket({{ $ticket->id }})" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md">
+                                <button @click="buyTicket({{ $ticket->id }})" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-2xl transition-all duration-200 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-md">
                                     Beli Tiket
                                 </button>
                             </div>

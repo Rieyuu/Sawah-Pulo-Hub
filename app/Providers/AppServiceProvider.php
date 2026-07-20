@@ -19,7 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Sesuaikan folder public ke public_html saat website live di hosting produksi
+        if ($this->app->environment('production')) {
+            $this->app->usePublicPath(base_path('../public_html'));
+        }
     }
 
     /**

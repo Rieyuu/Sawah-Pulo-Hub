@@ -9,13 +9,13 @@
                     Tambah Tiket Baru
                 </button>
                 
-                <label class="flex items-center gap-2 cursor-pointer bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 rounded-2xl text-xs font-semibold select-none">
+                <label class="flex items-center gap-2 cursor-pointer bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/30 px-4 py-3 rounded-2xl text-xs font-semibold select-none">
                     <input type="checkbox" x-model="withTrashed" @change="fetchTickets()" class="rounded text-emerald-600 focus:ring-emerald-500 border-slate-300">
                     Tampilkan Tiket Terhapus (Archive)
                 </label>
             </div>
             
-            <div class="text-sm text-slate-400">
+            <div class="text-sm text-slate-600 font-medium dark:text-slate-300">
                 Total: <span class="font-bold text-slate-800 dark:text-slate-200" x-text="tickets.length">0</span> Tiket
             </div>
         </div>
@@ -29,28 +29,28 @@
         <!-- Loading Spinner -->
         <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-500">Memuat data tiket...</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat data tiket...</p>
         </div>
 
         <!-- Empty State -->
-        <div x-show="!loading && tickets.length === 0" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-16 text-center space-y-4" x-cloak>
-            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800/60 rounded-2xl flex items-center justify-center mx-auto text-slate-400">
+        <div x-show="!loading && tickets.length === 0" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-16 text-center space-y-4" x-cloak>
+            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800/60 rounded-2xl flex items-center justify-center mx-auto text-slate-600 font-medium dark:text-slate-300">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2 2v2M4 18h16"></path></svg>
             </div>
             <h4 class="text-lg font-bold text-slate-700 dark:text-slate-300">Belum Ada Tiket Wisata</h4>
-            <p class="text-sm text-slate-400 max-w-sm mx-auto">Klik tombol 'Tambah Tiket Baru' di atas untuk meluncurkan opsi tiket wisata pertama Anda.</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300 max-w-sm mx-auto">Klik tombol 'Tambah Tiket Baru' di atas untuk meluncurkan opsi tiket wisata pertama Anda.</p>
         </div>
 
         <!-- Ticket Cards Grid -->
         <div x-show="!loading && tickets.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" x-cloak>
             <template x-for="ticket in tickets" :key="ticket.id">
-                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm flex flex-col group relative" :class="ticket.deleted_at ? 'opacity-60 grayscale' : ''">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 flex flex-col group relative hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300" :class="ticket.deleted_at ? 'opacity-60 grayscale' : ''">
                     <!-- Image -->
                     <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
-                        <template x-if="ticket.image_path">
-                            <img :src="ticket.image_path" alt="Ticket Image" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" />
+                        <template x-if="ticket.image_path && ticket.image_path !== '/storage/'">
+                            <img :src="ticket.image_path.startsWith('http') ? ticket.image_path : '{{ asset('') }}' + ticket.image_path.replace(/^\/+/, '')" alt="Ticket Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
                         </template>
-                        <template x-if="!ticket.image_path">
+                        <template x-if="!ticket.image_path || ticket.image_path === '/storage/'">
                             <div class="w-full h-full flex items-center justify-center text-slate-300 bg-slate-100 dark:bg-slate-800">
                                 <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
@@ -70,22 +70,22 @@
                     <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
                         <div class="space-y-2">
                             <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 truncate" x-text="ticket.title"></h4>
-                            <p class="text-xs text-slate-400 line-clamp-3" x-text="ticket.description"></p>
+                            <p class="text-xs text-slate-600 font-medium dark:text-slate-300 line-clamp-3" x-text="ticket.description"></p>
                         </div>
 
-                        <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex justify-between items-center text-sm">
+                        <div class="pt-4 border-t border-emerald-100 dark:border-emerald-900/40 flex justify-between items-center text-sm">
                             <div>
-                                <p class="text-xs text-slate-400">Harga</p>
+                                <p class="text-xs text-slate-600 font-medium dark:text-slate-300">Harga</p>
                                 <p class="font-extrabold text-emerald-600 dark:text-emerald-400">Rp <span x-text="formatNumber(ticket.price)"></span></p>
                             </div>
                             <div class="text-right">
-                                <p class="text-xs text-slate-400">Stok Harian</p>
+                                <p class="text-xs text-slate-600 font-medium dark:text-slate-300">Stok Harian</p>
                                 <p class="font-bold text-slate-700 dark:text-slate-300" x-text="ticket.stock"></p>
                             </div>
                         </div>
 
                         <!-- Audit Log -->
-                        <div class="text-[10px] text-slate-400 bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl flex items-center justify-between">
+                        <div class="text-[10px] text-slate-600 font-medium dark:text-slate-300 bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl flex items-center justify-between">
                             <span>Diupdate: <b class="text-slate-600 dark:text-slate-300" x-text="ticket.user ? ticket.user.name : 'System'"></b></span>
                             <span x-text="formatDate(ticket.updated_at)"></span>
                         </div>
@@ -121,43 +121,43 @@
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                 <!-- Modal Content -->
-                <div x-show="modal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-slate-100 dark:border-slate-800">
+                <div x-show="modal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-emerald-100 dark:border-emerald-900/30">
                     <div class="p-6 sm:p-8 space-y-6">
-                        <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                        <div class="flex justify-between items-center border-b border-emerald-100 dark:border-emerald-900/40 pb-4">
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white" x-text="modal.isEdit ? 'Ubah Tiket Wisata' : 'Tambah Tiket Wisata'"></h3>
-                            <button @click="modal.open = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">&times;</button>
+                            <button @click="modal.open = false" class="text-slate-600 font-medium dark:text-slate-300 hover:text-slate-600 dark:hover:text-white">&times;</button>
                         </div>
 
                         <form @submit.prevent="saveTicket" class="space-y-4">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nama Tiket</label>
-                                <input type="text" x-model="modal.form.title" required class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: Tiket Masuk Eduwisata Weekend" />
+                                <input type="text" x-model="modal.form.title" required class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Misal: Tiket Masuk Eduwisata Weekend" />
                                 <p x-show="modal.errors.title" x-text="modal.errors.title[0]" class="mt-1 text-xs text-red-600"></p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Deskripsi Tiket</label>
-                                <textarea x-model="modal.form.description" required rows="3" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Ketik deskripsi lengkap detail tiket..."></textarea>
+                                <textarea x-model="modal.form.description" required rows="3" class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" placeholder="Ketik deskripsi lengkap detail tiket..."></textarea>
                                 <p x-show="modal.errors.description" x-text="modal.errors.description[0]" class="mt-1 text-xs text-red-600"></p>
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Harga (Rupiah)</label>
-                                    <input type="number" x-model="modal.form.price" required min="0" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" />
+                                    <input type="number" x-model="modal.form.price" required min="0" class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" />
                                     <p x-show="modal.errors.price" x-text="modal.errors.price[0]" class="mt-1 text-xs text-red-600"></p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Stok Harian</label>
-                                    <input type="number" x-model="modal.form.stock" required min="0" class="w-full rounded-2xl border-slate-200 dark:border-slate-800 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" />
+                                    <input type="number" x-model="modal.form.stock" required min="0" class="w-full rounded-2xl border-emerald-100 dark:border-emerald-900/30 dark:bg-slate-950 focus:border-emerald-500 focus:ring-emerald-500 text-sm py-3 px-4" />
                                     <p x-show="modal.errors.stock" x-text="modal.errors.stock[0]" class="mt-1 text-xs text-red-600"></p>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Gambar Tiket</label>
-                                <input type="file" @change="handleImageUpload($event)" accept="image/*" class="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
-                                <p class="text-[10px] text-slate-400 mt-1">Format: JPG, PNG, SVG (Maks. 2MB). Biarkan kosong jika tidak ingin mengubah gambar.</p>
+                                <input type="file" @change="handleImageUpload($event)" accept="image/*" class="w-full text-sm text-slate-600 font-medium dark:text-slate-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer" />
+                                <p class="text-[10px] text-slate-600 font-medium dark:text-slate-300 mt-1">Format: JPG, PNG, SVG (Maks. 2MB). Biarkan kosong jika tidak ingin mengubah gambar.</p>
                                 <p x-show="modal.errors.image" x-text="modal.errors.image[0]" class="mt-1 text-xs text-red-600"></p>
                             </div>
 
@@ -166,7 +166,7 @@
                                 <label for="isActive" class="text-sm font-semibold text-slate-700 dark:text-slate-300 select-none cursor-pointer">Tiket ini Aktif (Bisa dibeli wisatawan)</label>
                             </div>
 
-                            <div class="flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800/80 pt-4 mt-6">
+                            <div class="flex justify-end gap-2 border-t border-emerald-100 dark:border-emerald-900/40 pt-4 mt-6">
                                 <button type="button" @click="modal.open = false" class="px-5 py-2.5 bg-slate-150 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
                                     Batal
                                 </button>

@@ -20,7 +20,7 @@
             <div class="text-center max-w-2xl mx-auto mb-10 space-y-3">
                 <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">Kanal Edukasi</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Tips & Kegiatan Eduwisata</h2>
-                <p class="text-slate-500 text-sm">Temukan artikel informatif terbaru yang ditulis oleh tim ahli agronomi dan manajemen kami.</p>
+                <p class="text-slate-600 font-medium dark:text-slate-300 text-sm">Temukan artikel informatif terbaru yang ditulis oleh tim ahli agronomi dan manajemen kami.</p>
             </div>
 
             @if($articles->isEmpty())
@@ -30,11 +30,11 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($articles as $article)
-                        <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                        <div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-md transition-all border border-emerald-100 dark:border-emerald-900/30 flex flex-col justify-between">
                             <div>
                                 <div class="w-full h-48 bg-slate-100 dark:bg-slate-950 overflow-hidden relative">
-                                    <img src="{{ $article->image_path ?? 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $article->title }}" class="w-full h-full object-cover" />
-                                    <span class="absolute top-4 left-4 text-xs font-semibold text-white bg-emerald-600 px-3 py-1.5 rounded-full shadow-sm">
+                                    <img src="{{ $article->image_path ? asset($article->image_path) : 'https://images.unsplash.com/photo-1500937386664-56d159f8e281?auto=format&fit=crop&w=500&q=80' }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
+                                    <span class="absolute top-4 left-4 text-xs font-semibold text-white bg-emerald-600 px-3 py-1.5 rounded-full shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300">
                                         {{ $article->category->name ?? 'Wisata' }}
                                     </span>
                                 </div>
@@ -45,7 +45,7 @@
                                     <h3 class="font-bold text-slate-900 dark:text-white text-lg line-clamp-2 leading-snug">
                                         {{ $article->title }}
                                     </h3>
-                                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
+                                    <p class="text-xs sm:text-sm text-slate-600 font-medium dark:text-slate-300 leading-relaxed line-clamp-3">
                                         {{ Str::limit(strip_tags($article->content), 140) }}
                                     </p>
                                 </div>

@@ -2,20 +2,38 @@
     <div class="space-y-6" x-data="adminOrdersController()" x-init="fetchOrders()">
         
         <!-- Tab Filters -->
-        <div class="flex border-b border-slate-200 dark:border-slate-800 gap-4 overflow-x-auto pb-px">
-            <button @click="filterStatus('all')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all" :class="activeFilter === 'all' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
+        <div class="flex border-b border-emerald-100 dark:border-emerald-900/30 gap-4 overflow-x-auto pb-px">
+            <button @click="filterStatus('all')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap" :class="activeFilter === 'all' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-600 font-medium dark:text-slate-300 hover:text-slate-200'">
                 Semua Pesanan
             </button>
-            <button @click="filterStatus('pending')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2" :class="activeFilter === 'pending' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
+            <button @click="filterStatus('pending')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap" :class="activeFilter === 'pending' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-600 font-medium dark:text-slate-300 hover:text-slate-200'">
                 Menunggu Verifikasi
                 <span class="px-2 py-0.5 text-2xs bg-amber-500 text-white font-bold rounded-full" x-show="pendingCount > 0" x-text="pendingCount">0</span>
             </button>
-            <button @click="filterStatus('success')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all" :class="activeFilter === 'success' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
+            <button @click="filterStatus('success')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap" :class="activeFilter === 'success' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-600 font-medium dark:text-slate-300 hover:text-slate-200'">
                 Sukses / Lunas
             </button>
-            <button @click="filterStatus('failed')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all" :class="activeFilter === 'failed' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-200'">
+            <button @click="filterStatus('failed')" class="py-3 px-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap" :class="activeFilter === 'failed' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-600 font-medium dark:text-slate-300 hover:text-slate-200'">
                 Gagal / Ditolak
             </button>
+        </div>
+
+        <!-- Search Box -->
+        <div class="relative group">
+            <input
+                type="text"
+                x-model="searchQuery"
+                @input="applyFilter()"
+                placeholder="Cari kode order atau nama wisatawan..."
+                class="w-full px-4 py-3 bg-white dark:bg-slate-900 border-2 border-emerald-100 dark:border-emerald-900/40 rounded-2xl text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-500 transition-all duration-300"
+            />
+            <!-- Live result count -->
+            <div class="absolute inset-y-0 right-0 flex items-center gap-2 pr-4">
+                <span x-show="searchQuery" x-transition class="text-xs font-semibold px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded-full" x-text="filteredOrders.length + ' hasil'" x-cloak></span>
+                <button x-show="searchQuery" @click="searchQuery = ''; applyFilter()" class="text-slate-400 hover:text-red-500 transition-colors duration-200" x-cloak>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
         </div>
 
         <!-- Alert messages -->
@@ -27,24 +45,24 @@
         <!-- Loading Spinner -->
         <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
             <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-500">Memuat data transaksi...</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat data transaksi...</p>
         </div>
 
         <!-- Empty State -->
-        <div x-show="!loading && filteredOrders.length === 0" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-16 text-center space-y-4" x-cloak>
-            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800/60 rounded-2xl flex items-center justify-center mx-auto text-slate-400">
+        <div x-show="!loading && filteredOrders.length === 0" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-16 text-center space-y-4" x-cloak>
+            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800/60 rounded-2xl flex items-center justify-center mx-auto text-slate-600 font-medium dark:text-slate-300">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
             </div>
             <h4 class="text-lg font-bold text-slate-700 dark:text-slate-300">Tidak Ada Pesanan Tiket</h4>
-            <p class="text-sm text-slate-400 max-w-sm mx-auto">Tidak ada pesanan tiket wisata dalam kategori filter ini.</p>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300 max-w-sm mx-auto">Tidak ada pesanan tiket wisata dalam kategori filter ini.</p>
         </div>
 
         <!-- Table View -->
-        <div x-show="!loading && filteredOrders.length > 0" class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm" x-cloak>
+        <div x-show="!loading && filteredOrders.length > 0" class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300" x-cloak>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
-                        <tr class="bg-slate-50 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800/80 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                        <tr class="bg-slate-50 dark:bg-slate-950 border-b border-emerald-100 dark:border-emerald-900/40 text-xs font-bold text-slate-600 font-medium dark:text-slate-300 uppercase tracking-wider">
                             <th class="px-6 py-4">Kode Order</th>
                             <th class="px-6 py-4">Wisatawan</th>
                             <th class="px-6 py-4">Tiket</th>
@@ -58,10 +76,10 @@
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80">
                         <template x-for="order in filteredOrders" :key="order.id">
                             <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/40 transition-colors">
-                                <td class="px-6 py-4 font-mono font-bold text-slate-500" x-text="order.ticket_code"></td>
+                                <td class="px-6 py-4 font-mono font-bold text-slate-600 font-medium dark:text-slate-300" x-text="order.ticket_code"></td>
                                 <td class="px-6 py-4">
                                     <div class="font-semibold text-slate-800 dark:text-slate-200" x-text="order.user.name"></div>
-                                    <div class="text-[10px] text-slate-400" x-text="order.user.whatsapp"></div>
+                                    <div class="text-[10px] text-slate-600 font-medium dark:text-slate-300" x-text="order.user.whatsapp"></div>
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-300" x-text="order.ticket.title"></td>
                                 <td class="px-6 py-4 font-bold text-slate-700 dark:text-slate-300" x-text="order.quantity"></td>
@@ -69,7 +87,7 @@
                                 <td class="px-6 py-4">
                                     <span class="text-[10px] px-2 py-0.5 font-bold rounded-full" :class="getStatusClass(order.status)" x-text="getStatusLabel(order.status)"></span>
                                 </td>
-                                <td class="px-6 py-4 text-xs text-slate-400" x-text="formatDate(order.created_at)"></td>
+                                <td class="px-6 py-4 text-xs text-slate-600 font-medium dark:text-slate-300" x-text="formatDate(order.created_at)"></td>
                                 <td class="px-6 py-4 text-right">
                                     <template x-if="order.status === 'pending'">
                                         <button @click="openVerificationModal(order)" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10">
@@ -97,11 +115,11 @@
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                 <!-- Modal Content -->
-                <div x-show="modal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-slate-100 dark:border-slate-800">
+                <div x-show="modal.open" x-transition class="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-emerald-100 dark:border-emerald-900/30">
                     <div class="p-6 sm:p-8 space-y-6" x-data="{ showFullProof: false }">
-                        <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                        <div class="flex justify-between items-center border-b border-emerald-100 dark:border-emerald-900/40 pb-4">
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white" x-text="modal.order && modal.order.status === 'pending' ? 'Verifikasi Pembayaran Tiket' : 'Detail Transaksi Tiket'"></h3>
-                            <button @click="modal.open = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">&times;</button>
+                            <button @click="modal.open = false" class="text-slate-600 font-medium dark:text-slate-300 hover:text-slate-600 dark:hover:text-white">&times;</button>
                         </div>
 
                         <!-- Modal Body -->
@@ -110,41 +128,41 @@
                                 <!-- Order Data -->
                                 <div class="grid grid-cols-2 gap-4 text-xs">
                                     <div>
-                                        <p class="text-slate-400">Kode Transaksi</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Kode Transaksi</p>
                                         <p class="font-mono font-bold text-sm text-slate-800 dark:text-slate-200" x-text="modal.order.ticket_code"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Tanggal Pesan</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Tanggal Pesan</p>
                                         <p class="font-semibold text-slate-700 dark:text-slate-300" x-text="formatDate(modal.order.created_at)"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Nama Wisatawan</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Nama Wisatawan</p>
                                         <p class="font-bold text-slate-800 dark:text-slate-200" x-text="modal.order.user.name"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">WhatsApp</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">WhatsApp</p>
                                         <p class="font-semibold text-slate-700 dark:text-slate-300" x-text="modal.order.user.whatsapp"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Tiket</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Tiket</p>
                                         <p class="font-bold text-slate-800 dark:text-slate-200" x-text="modal.order.ticket.title"></p>
                                     </div>
                                     <div>
-                                        <p class="text-slate-400">Jumlah & Total Bayar</p>
+                                        <p class="text-slate-600 font-medium dark:text-slate-300">Jumlah & Total Bayar</p>
                                         <p class="font-extrabold text-slate-800 dark:text-slate-200"><span x-text="modal.order.quantity"></span>x / <span class="text-emerald-600 dark:text-emerald-400">Rp <span x-text="formatNumber(modal.order.total_price)"></span></span></p>
                                     </div>
                                 </div>
 
                                 <!-- Proof of payment -->
-                                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-2">
-                                    <p class="text-xs font-semibold text-slate-400">Bukti Transfer:</p>
+                                <div class="border-t border-emerald-100 dark:border-emerald-900/40 pt-4 space-y-2">
+                                    <p class="text-xs font-semibold text-slate-600 font-medium dark:text-slate-300">Bukti Transfer:</p>
                                     <template x-if="modal.order.proof_of_payment">
-                                        <div class="relative max-w-xs border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in">
+                                        <div class="relative max-w-xs border border-emerald-100 dark:border-emerald-900/30 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in">
                                             <img :src="modal.order.proof_of_payment" alt="Proof of payment" @click="showFullProof = true" class="w-full h-auto object-contain hover:opacity-90 transition-opacity" />
                                         </div>
                                     </template>
                                     <template x-if="!modal.order.proof_of_payment">
-                                        <p class="text-xs text-slate-400 italic">Bukti transfer belum diunggah.</p>
+                                        <p class="text-xs text-slate-600 font-medium dark:text-slate-300 italic">Bukti transfer belum diunggah.</p>
                                     </template>
 
                                     <!-- Proof Full View Modal -->
@@ -157,7 +175,7 @@
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800/80 pt-4 mt-6">
+                                <div class="flex justify-end gap-2 border-t border-emerald-100 dark:border-emerald-900/40 pt-4 mt-6">
                                     <button type="button" @click="modal.open = false" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">
                                         Kembali
                                     </button>
@@ -189,6 +207,7 @@
                 filteredOrders: [],
                 loading: true,
                 activeFilter: 'all',
+                searchQuery: '',
                 pendingCount: 0,
                 alert: {
                     show: false,
@@ -223,11 +242,18 @@
                     this.applyFilter();
                 },
                 applyFilter() {
-                    if (this.activeFilter === 'all') {
-                        this.filteredOrders = this.orders;
-                    } else {
-                        this.filteredOrders = this.orders.filter(o => o.status === this.activeFilter);
+                    let result = this.orders;
+                    if (this.activeFilter !== 'all') {
+                        result = result.filter(o => o.status === this.activeFilter);
                     }
+                    if (this.searchQuery.trim()) {
+                        const q = this.searchQuery.toLowerCase().trim();
+                        result = result.filter(o =>
+                            (o.ticket_code && o.ticket_code.toLowerCase().includes(q)) ||
+                            (o.user && o.user.name && o.user.name.toLowerCase().includes(q))
+                        );
+                    }
+                    this.filteredOrders = result;
                 },
                 openVerificationModal(order) {
                     this.modal.order = order;

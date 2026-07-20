@@ -55,7 +55,7 @@ class AdminTicketController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'tickets', 'public', 75, 1200);
-            $imagePath = '/storage/'.$imagePath;
+            $imagePath = $imagePath ? '/storage/'.$imagePath : null;
         }
 
         // user_id otomatis diisi oleh TicketObserver
@@ -136,7 +136,7 @@ class AdminTicketController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'tickets', 'public', 75, 1200);
-            $ticket->image_path = '/storage/'.$imagePath;
+            $ticket->image_path = $imagePath ? '/storage/'.$imagePath : $ticket->image_path;
         }
 
         $ticket->title = $request->title;

@@ -53,7 +53,7 @@ class AdminFacilityController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'facilities', 'public', 75, 1200);
-            $imagePath = '/storage/'.$imagePath;
+            $imagePath = $imagePath ? '/storage/'.$imagePath : null;
         }
 
         // Slug & user_id otomatis ditangani (slug via Str::slug, user_id via FacilityObserver)
@@ -129,7 +129,7 @@ class AdminFacilityController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'facilities', 'public', 75, 1200);
-            $facility->image_path = '/storage/'.$imagePath;
+            $facility->image_path = $imagePath ? '/storage/'.$imagePath : $facility->image_path;
         }
 
         $facility->name = $request->name;

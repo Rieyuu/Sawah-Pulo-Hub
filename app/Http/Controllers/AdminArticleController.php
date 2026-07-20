@@ -54,7 +54,7 @@ class AdminArticleController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'articles', 'public', 75, 1200);
-            $imagePath = '/storage/'.$imagePath;
+            $imagePath = $imagePath ? '/storage/'.$imagePath : null;
         }
 
         // slug & author_id ditangani (slug via Str::slug, author_id via ArticleObserver)
@@ -132,7 +132,7 @@ class AdminArticleController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $imagePath = ImageCompressionService::compressAndStore($request->file('image'), 'articles', 'public', 75, 1200);
-            $article->image_path = '/storage/'.$imagePath;
+            $article->image_path = $imagePath ? '/storage/'.$imagePath : $article->image_path;
         }
 
         $article->title = $request->title;
