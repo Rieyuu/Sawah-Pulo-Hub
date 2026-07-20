@@ -16,6 +16,8 @@ class SiteSetting extends Model
         'user_id',
     ];
 
+    protected static $cachedSettings = null;
+
     /**
      * Relasi ke User (admin pengubah setting)
      */
@@ -29,8 +31,11 @@ class SiteSetting extends Model
      */
     public static function getValue(string $key, $default = null): ?string
     {
-        $setting = self::where('key', $key)->first();
-        return $setting ? $setting->value : $default;
+        if (self::$cachedSettings === null) {
+            self::$cachedSettings = self::pluck('value', 'key')->toArray();
+        }
+
+        return array_key_exists($key, self::$cachedSettings) ? self::$cachedSettings[$key] : $default;
     }
 
     /**
@@ -38,13 +43,18 @@ class SiteSetting extends Model
      */
     public static function setValue(string $key, ?string $value, string $type = 'text'): self
     {
-        return self::updateOrCreate(
+        $setting = self::updateOrCreate(
             ['key' => $key],
             [
-                'value' => $value, 
+                'value' => $value,
                 'type' => $type,
-                'user_id' => auth()->check() ? auth()->id() : null
+                'user_id' => auth()->check() ? auth()->id() : null,
             ]
         );
+
+        // Reset cache so subsequent calls reflect the new value
+        self::$cachedSettings = null;
+
+        return $setting;
     }
 }

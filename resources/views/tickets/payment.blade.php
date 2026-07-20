@@ -1,0 +1,291 @@
+<x-tourist-layout>
+    <x-slot name="title">Pembayaran Tiket | Sawah Pulo Hub</x-slot>
+
+    <div class="max-w-3xl mx-auto px-4 py-12" x-data="ticketPayment()" x-init="fetchOrder()">
+        
+        <!-- Header -->
+        <div class="mb-8 space-y-2">
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Pembayaran Tiket</h1>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Silakan lakukan transfer pembayaran dan unggah bukti transfer di bawah ini.</p>
+        </div>
+
+        <!-- Alert -->
+        <div x-show="errorMessage" x-transition class="mb-6 p-4 text-sm text-red-800 rounded-2xl bg-red-50 dark:bg-slate-900 dark:text-red-400 border border-red-100 dark:border-red-950" role="alert" x-cloak>
+            <span class="font-medium">Gagal!</span> <span x-text="errorMessage"></span>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div x-show="!loading && order" class="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-amber-800 dark:text-amber-400" x-cloak>
+            <div class="flex items-center gap-3">
+                <span class="text-2xl animate-pulse">⏰</span>
+                <div>
+                    <h4 class="font-bold text-sm">Selesaikan Pembayaran Sebelum Waktu Habis</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Pesanan Anda akan dibatalkan otomatis jika bukti transfer belum dikirim.</p>
+                </div>
+            </div>
+            <div class="text-2xl font-mono font-black tracking-widest bg-amber-500 text-white dark:bg-amber-400 dark:text-slate-950 py-1.5 px-4 rounded-xl shadow-md" x-text="countdownText">
+                00:00:00
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div x-show="loading" class="flex flex-col items-center justify-center py-20 space-y-4">
+            <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-sm text-slate-600 font-medium dark:text-slate-300">Memuat detail pesanan...</p>
+        </div>
+
+        <!-- Main Content -->
+        <div x-show="!loading && order" class="grid grid-cols-1 md:grid-cols-3 gap-8" x-cloak>
+            <!-- Bank & Upload Form (2 cols) -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Bank Info -->
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                    <h3 class="font-bold text-slate-900 dark:text-white">Pilihan Metode Pembayaran</h3>
+                    
+                    <!-- QRIS -->
+                    <div class="flex flex-col items-center justify-center p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 space-y-4">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Opsi 1: Scan QRIS Resmi</span>
+                        <div class="p-3 bg-white rounded-xl shadow-inner border border-emerald-100">
+                            <img :src="order.payment_qris_image" alt="QRIS Pembayaran Resmi" class="w-48 h-48 object-contain" />
+                        </div>
+                        <a :href="order.payment_qris_image" download="QRIS_Sawah_Pulo.png" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-500/10 hover:scale-[1.02]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Unduh Gambar QRIS
+                        </a>
+                        <p class="text-[10px] text-slate-400 text-center max-w-xs">Mendukung semua aplikasi e-wallet (Gopay, OVO, Dana, LinkAja) & M-Banking.</p>
+                    </div>
+
+                    <div class="relative flex py-2 items-center">
+                        <div class="flex-grow border-t border-emerald-100 dark:border-emerald-900/30"></div>
+                        <span class="flex-shrink mx-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Atau Transfer Bank</span>
+                        <div class="flex-grow border-t border-emerald-100 dark:border-emerald-900/30"></div>
+                    </div>
+
+                    <!-- Bank Transfer -->
+                    <div class="space-y-4">
+                        <div class="p-5 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 flex items-center justify-between">
+                            <div class="space-y-1">
+                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest" x-text="'Opsi 2: Transfer ' + order.payment_bank_name">Opsi 2: Transfer Bank Mandiri</span>
+                                <h4 class="text-lg font-black text-slate-800 dark:text-slate-200" x-text="order.payment_bank_account">142-0017-8899-23</h4>
+                                <p class="text-xs text-slate-400" x-text="'a.n. ' + order.payment_bank_recipient">a.n. BUMDes Wisata Sawah Pulo</p>
+                            </div>
+                            <span class="text-xs font-semibold px-2.5 py-1 bg-slate-200/50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg">Utama</span>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-400 leading-relaxed space-y-1">
+                        <p class="font-semibold text-slate-600 font-medium dark:text-slate-300">Petunjuk Pembayaran:</p>
+                        <p>1. Gunakan M-Banking / ATM untuk transfer ke rekening di atas.</p>
+                        <p>2. Transfer tepat sesuai dengan total tagihan agar verifikasi berjalan cepat.</p>
+                        <p>3. Simpan struk / tangkapan layar bukti transfer untuk diunggah di bawah.</p>
+                    </div>
+                </div>
+
+                <!-- Upload Form -->
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                    <h3 class="font-bold text-slate-900 dark:text-white">Unggah Bukti Transfer</h3>
+                    
+                    <form @submit.prevent="submitPayment()" class="space-y-4">
+                        <div>
+                            <input type="file" @change="handleFileUpload($event)" accept="image/jpeg,image/png,image/jpg" required :disabled="timerExpired" class="w-full text-sm text-slate-600 font-medium dark:text-slate-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-950/40 dark:file:text-emerald-300 file:cursor-pointer disabled:opacity-50" />
+                            <p class="text-[10px] text-slate-400 mt-2">Format yang diizinkan: JPG, JPEG, PNG (Maksimal 2MB).</p>
+                            <p x-show="errors.proof_of_payment" x-text="errors.proof_of_payment[0]" class="mt-1 text-xs text-red-600"></p>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <template x-if="imagePreview">
+                            <div class="mt-4 p-2 border border-emerald-100 dark:border-emerald-900/30 rounded-2xl overflow-hidden max-w-xs bg-slate-50 dark:bg-slate-950">
+                                <img :src="imagePreview" alt="Payment Proof Preview" class="w-full h-auto rounded-xl object-contain" />
+                            </div>
+                        </template>
+
+                        <button type="submit" :disabled="submitting || !imageFile || timerExpired" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 transition-all duration-200">
+                            <span x-show="submitting" class="inline-block animate-spin mr-1">&#9696;</span>
+                            Unggah Bukti Transfer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order Details (1 col) -->
+            <div class="space-y-6">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/40 rounded-3xl p-6 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 space-y-6">
+                    <h3 class="font-bold text-slate-900 dark:text-white pb-3 border-b border-emerald-100 dark:border-emerald-900/40">Detail Pembelian</h3>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Kode Pembelian</span>
+                            <span class="font-mono font-bold text-slate-800 dark:text-slate-200" x-text="order.ticket_code"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Tiket</span>
+                            <span class="font-semibold text-slate-700 dark:text-slate-300" x-text="order.ticket.title"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Jumlah Orang</span>
+                            <span class="font-bold text-slate-700 dark:text-slate-300" x-text="order.quantity"></span>
+                        </div>
+                        <hr class="border-emerald-100 dark:border-emerald-900/40">
+                        <div class="flex justify-between text-base">
+                            <span class="font-bold text-slate-800 dark:text-slate-200">Total Pembayaran</span>
+                            <span class="font-black text-emerald-600 dark:text-emerald-400">Rp <span x-text="formatNumber(order.total_price)"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cancel Order Button -->
+                <button @click="cancelOrder()" :disabled="cancelling" class="w-full py-3.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-200 dark:border-red-900/60 transition-all text-xs flex items-center justify-center gap-1.5 shadow-xl shadow-slate-200/60 dark:shadow-none hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-900/10 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 shadow-red-500/5">
+                    <span x-show="cancelling" class="inline-block animate-spin mr-1">&#9696;</span>
+                    Batalkan Pesanan Ini
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function ticketPayment() {
+            return {
+                orderId: '{{ $orderId }}',
+                order: null,
+                loading: true,
+                submitting: false,
+                cancelling: false,
+                errorMessage: '',
+                imageFile: null,
+                imagePreview: null,
+                errors: {},
+                countdownText: '00:00:00',
+                timerExpired: false,
+                timerInterval: null,
+                fetchOrder() {
+                    const token = localStorage.getItem('access_token');
+                    
+                    axios.get(`/api/orders/${this.orderId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    .then(res => {
+                        this.order = res.data.data;
+                        this.loading = false;
+                        
+                        // Proteksi jika status order sudah bukan pending_payment
+                        if (this.order.status !== 'pending_payment') {
+                            window.location.href = '/profile/history';
+                        }
+
+                        // Mulai hitung mundur
+                        this.startTimer(this.order.payment_deadline);
+                    })
+                    .catch(err => {
+                        this.loading = false;
+                        this.errorMessage = 'Gagal memuat detail pesanan.';
+                    });
+                },
+                startTimer(deadlineStr) {
+                    if (!deadlineStr) return;
+                    const deadline = new Date(deadlineStr).getTime();
+
+                    const updateTimer = () => {
+                        const now = new Date().getTime();
+                        const diff = deadline - now;
+
+                        if (diff <= 0) {
+                            clearInterval(this.timerInterval);
+                            this.countdownText = '00:00:00';
+                            this.timerExpired = true;
+                            this.errorMessage = 'Batas waktu pembayaran telah habis. Pesanan dibatalkan otomatis.';
+                            return;
+                        }
+
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        const pad = (num) => String(num).padStart(2, '0');
+                        this.countdownText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+                    };
+
+                    updateTimer();
+                    this.timerInterval = setInterval(updateTimer, 1000);
+                },
+                handleFileUpload(e) {
+                    if (e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        this.imageFile = file;
+                        
+                        // Preview
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            this.imagePreview = event.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                },
+                submitPayment() {
+                    this.submitting = true;
+                    this.errors = {};
+                    this.errorMessage = '';
+                    const token = localStorage.getItem('access_token');
+
+                    const formData = new FormData();
+                    formData.append('proof_of_payment', this.imageFile);
+
+                    axios.post(`/api/orders/${this.orderId}/upload-payment`, formData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(res => {
+                        this.submitting = false;
+                        if (res.data.status === 200) {
+                            sessionStorage.setItem('order_success_msg', 'Bukti pembayaran berhasil diunggah! Status pesanan kini menunggu verifikasi admin.');
+                            window.location.href = '/profile/history';
+                        }
+                    })
+                    .catch(err => {
+                        this.submitting = false;
+                        if (err.response && err.response.status === 422) {
+                            this.errors = err.response.data.errors;
+                        } else if (err.response && err.response.data && err.response.data.message) {
+                            this.errorMessage = err.response.data.message;
+                        } else {
+                            this.errorMessage = 'Gagal mengunggah bukti pembayaran.';
+                        }
+                    });
+                },
+                cancelOrder() {
+                    if (!confirm('Apakah Anda yakin ingin membatalkan pesanan tiket ini?')) {
+                        return;
+                    }
+                    
+                    this.cancelling = true;
+                    this.errorMessage = '';
+                    const token = localStorage.getItem('access_token');
+
+                    axios.post(`/api/orders/${this.orderId}/cancel`, {}, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    .then(res => {
+                        this.cancelling = false;
+                        if (res.data.status === 200) {
+                            sessionStorage.setItem('order_success_msg', 'Pesanan tiket berhasil dibatalkan.');
+                            window.location.href = '/profile/history';
+                        }
+                    })
+                    .catch(err => {
+                        this.cancelling = false;
+                        if (err.response && err.response.data && err.response.data.message) {
+                            this.errorMessage = err.response.data.message;
+                        } else {
+                            this.errorMessage = 'Gagal membatalkan pesanan.';
+                        }
+                    });
+                },
+                formatNumber(val) {
+                    return new Intl.NumberFormat('id-ID').format(val);
+                }
+            }
+        }
+    </script>
+</x-tourist-layout>

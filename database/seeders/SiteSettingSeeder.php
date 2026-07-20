@@ -15,7 +15,7 @@ class SiteSettingSeeder extends Seeder
         // Tentang Kami Settings
         SiteSetting::setValue(
             'about_history',
-            'Sawah-Pulo-Hub didirikan pada tahun 2024 sebagai inisiatif eduwisata ramah lingkungan yang memadukan pertanian tradisional dengan inovasi modern. Terletak di kawasan asri, objek wisata ini bertujuan mengedukasi generasi muda mengenai pentingnya kedaulatan pangan, bercocok tanam secara hidroponik dan organik, serta budidaya hewan ternak secara sehat.',
+            'Sawah Pulo Farm didirikan pada tahun 2024 sebagai inisiatif eduwisata ramah lingkungan yang memadukan pertanian tradisional dengan inovasi modern. Terletak di kawasan asri, objek wisata ini bertujuan mengedukasi generasi muda mengenai pentingnya kedaulatan pangan, bercocok tanam secara hidroponik dan organik, serta budidaya hewan ternak secara sehat.',
             'textarea'
         );
 
@@ -99,6 +99,68 @@ class SiteSettingSeeder extends Seeder
             'contact_maps_embed',
             'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15822.428458925574!2d112.5028479!3d-7.5414969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e78e1b1b1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sMojokerto%2C%20East%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid',
             'text'
+        );
+
+        // Pembayaran QRIS & Batas Waktu
+        SiteSetting::setValue(
+            'payment_qris_image',
+            '/images/qris_placeholder.png',
+            'image'
+        );
+
+        SiteSetting::setValue(
+            'payment_timeout_hours',
+            '2',
+            'text'
+        );
+
+        // Customizable Text, Hero, and Payment settings
+        SiteSetting::setValue(
+            'hero_title',
+            'Keindahan Alam Pedesaan & Edukasi Pertanian',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'hero_subtitle',
+            'Rasakan pengalaman edukatif bercocok tanam hidroponik, budidaya ternak, dan keindahan panorama sawah hijau yang menenangkan jiwa.',
+            'textarea'
+        );
+
+        SiteSetting::setValue(
+            'hero_bg_image',
+            '/images/sawah_pulo_background.png',
+            'image'
+        );
+
+        SiteSetting::setValue(
+            'footer_description',
+            'Destinasi wisata alam pedesaan yang menyajikan keindahan alam persawahan dengan berbagai fasilitas menarik, nyaman, dan edukatif.',
+            'textarea'
+        );
+
+        SiteSetting::setValue(
+            'payment_bank_name',
+            'Bank Mandiri',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'payment_bank_account',
+            '1420012345678',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'payment_bank_recipient',
+            'BUMDes Sawah Pulo',
+            'text'
+        );
+
+        SiteSetting::setValue(
+            'about_image',
+            '/images/sawah_pulo_background.png',
+            'image'
         );
     }
 }

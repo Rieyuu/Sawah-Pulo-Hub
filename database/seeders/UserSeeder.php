@@ -20,29 +20,29 @@ class UserSeeder extends Seeder
 
         // Seed Admin User
         $admin = User::updateOrCreate(
-            ['whatsapp' => '081111111111'],
+            ['email' => 'admin@sawahpulohub.com'],
             [
-                'name' => 'Admin Sawah Pulo Hub',
-                'email' => 'admin@sawahpulohub.com',
+                'name' => 'Admin Sawah Pulo Farm',
+                'whatsapp' => '081111111111',
                 'password' => Hash::make('password'),
             ]
         );
 
-        if ($adminRole && !$admin->roles()->where('slug', 'admin')->exists()) {
+        if ($adminRole && ! $admin->roles()->where('slug', 'admin')->exists()) {
             $admin->roles()->attach($adminRole);
         }
 
         // Seed Visitor User
         $visitor = User::updateOrCreate(
-            ['whatsapp' => '082222222222'],
+            ['email' => 'wisatawan@sawahpulohub.com'],
             [
                 'name' => 'Wisatawan Contoh',
-                'email' => 'wisatawan@sawahpulohub.com',
+                'whatsapp' => '082222222222',
                 'password' => Hash::make('password'),
             ]
         );
 
-        if ($userRole && !$visitor->roles()->where('slug', 'user')->exists()) {
+        if ($userRole && ! $visitor->roles()->where('slug', 'user')->exists()) {
             $visitor->roles()->attach($userRole);
         }
     }
